@@ -25,6 +25,7 @@
                 if ($this->conexion != null) 
                 {
                     $nombre = $array['nombre'];
+                    $apellidos = $array['apellidos'];
                     $correo = $array['correo'];
                     $contrasenia = $array['contrasenia'];
                     $telefono = $array['telefono'];
@@ -32,10 +33,10 @@
                     $iban = $array['iban'];
                     $titular = $array['titular'];
     
-                    $sql = "INSERT INTO padres(nombreApellidos, correo, contrasenia, telefono, dni, iban, titular) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                    $sql = "INSERT INTO padres(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular) VALUES(?, ?, ?, ?, ?, ?, ?)";
     
                     $consulta = $this->conexion->prepare($sql);
-                    $consulta->bind_param('sssssss', $nombre, $correo, $contrasenia, $telefono, $dni, $iban, $titular);
+                    $consulta->bind_param('ssssssss', $nombre, $apellidos, $correo, $contrasenia, $telefono, $dni, $iban, $titular);
                     $consulta->execute();
     
                     $afectadas = $consulta->affected_rows;

@@ -30,6 +30,7 @@
             else
             {
                 if (isset($array['nombre']) && !empty($array['nombre']) &&
+                isset($array['apellidos']) && !empty($array['apellidos']) &&
                 isset($array['correo']) && !empty($array['correo']) &&
                 isset($array['contrasenia']) && !empty($array['contrasenia']) &&
                 isset($array['telefono']) && !empty($array['telefono']) &&

@@ -45,7 +45,12 @@
         <form action="" method="post">
             <div class="formItem">
                 <label for="nombre">
-                    Nombre y apellidos (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
+                    Nombre (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
+                </label>
+            </div>
+            <div class="formItem">
+                <label for="apellidos">
+                    Apellidos (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
                 </label>
             </div>
             <div class="formItem">
@@ -79,7 +84,7 @@
                 </label>
             </div>
             <div class="formItem">
-                <button type="reset" class="btn btn-danger">Cancelar</button>
+				<button type="reset" class="btn btn-danger"><a href="../../index.html">Cancelar</a></button>
                 <button type="submit" class="btn btn-success">Registrarse</button>
             </div>
         </form>
