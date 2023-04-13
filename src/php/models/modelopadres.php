@@ -33,7 +33,7 @@
                     $iban = $array['iban'];
                     $titular = $array['titular'];
     
-                    $sql = "INSERT INTO padres(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                    $sql = "INSERT INTO padres(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     
                     $consulta = $this->conexion->prepare($sql);
                     $consulta->bind_param('ssssssss', $nombre, $apellidos, $correo, $contrasenia, $telefono, $dni, $iban, $titular);
