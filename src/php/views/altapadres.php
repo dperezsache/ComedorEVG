@@ -55,12 +55,12 @@
             </div>
             <div class="formItem">
                 <label for="correo">
-                    Dirección de email (*) <input type="email" class="form-control" name="correo" maxlength="70" required/>
+                    Dirección de email (*) <input type="email" class="form-control" name="correo" maxlength="90" required/>
                 </label>
             </div>
             <div class="formItem">
                 <label for="contrasenia">
-                    Contraseña (*) <input type="password" class="form-control" name="contrasenia" maxlength="30" required/>
+                    Contraseña (*) <input type="password" class="form-control" name="contrasenia" maxlength="90" required/>
                 </label>
             </div>
             <div class="formItem">
@@ -80,7 +80,7 @@
             </div>
             <div class="formItem">
                 <label for="titular">
-                    Titular de la cuenta (*) <input type="text" class="form-control" name="titular" maxlength="70" required/>
+                    Titular de la cuenta (*) <input type="text" class="form-control" name="titular" maxlength="120" required/>
                 </label>
             </div>
             <div class="formItem">

@@ -23,7 +23,7 @@
          */
         public function altaPadre($array) 
         {
-            if (count($array) < 1)
+            if (count($array) < 1)  // Array vacío
             {
                 return 0;
             }
