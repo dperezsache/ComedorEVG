@@ -1,0 +1,24 @@
+form {
+    width: 398px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 1em;
+    padding: 10px;
+    background-color: aliceblue;
+}
+
+form div.formItem {
+    margin: 10px auto;
+    text-align: center;
+}
+
+div.formItem input {
+    display: block;
+    margin: auto;
+    min-height: 20px;
+    min-width: 198px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+}
