@@ -40,18 +40,20 @@ CREATE TABLE PadreHijos(
     idHijo SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT PK_PadresHijos PRIMARY KEY (idPadre, idHijo),
-    CONSTRAINT FK_idPadre FOREIGN KEY (idPadre) REFERENCES Padres(id),
-    CONSTRAINT FK_idHijo FOREIGN KEY (idHijo) REFERENCES Hijos(id)
+    CONSTRAINT FK_idPadre2 FOREIGN KEY (idPadre) REFERENCES Padres(id),
+    CONSTRAINT FK_idHijo2 FOREIGN KEY (idHijo) REFERENCES Hijos(id)
 );
 
 CREATE TABLE Secretaria(
     id TINYINT UNSIGNED NOT NULL,
     nombre VARCHAR (80) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
-    correo VARCHAR(90) NOT NULL,
-    contrasenia VARCHAR(90) NOT NULL
+    correo VARCHAR(90) NOT NULL unique,
+    contrasenia VARCHAR(90) NOT NULL,
+	CONSTRAINT PK_Secretaria PRIMARY KEY (id)
 );
 
 CREATE TABLE festivosColegio(
-    diaFestivo DATE NOT NULL
+    diaFestivo DATE NOT NULL,
+	CONSTRAINT PK_diaFestivo PRIMARY KEY (diaFestivo)
 );

@@ -1,0 +1,1 @@
+INSERT INTO `padres` (`id`, `nombre`, `apellidos`, `correo`, `contrasenia`, `telefono`, `dni`, `iban`, `titular`) VALUES (NULL, 'sergio', 'rivera', 'sergio@gmail.com', '1', '2', '3', '4', '5');
