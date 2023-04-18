@@ -19,14 +19,14 @@ class ControladorPadres {
      * Lleva a la página de inicio de sesión de padres.
      */
     redireccionLogin() {
-        window.location.href = '';
+        window.location.href = './php/views/padres/loginpadres.php';
     }
 
     /**
      * Lleva a la página de registro de padres.
      */
     redireccionAlta() {
-        window.location.href = './php/views/altapadres.php';
+        window.location.href = './php/views/padres/altapadres.php';
     }
 }
 

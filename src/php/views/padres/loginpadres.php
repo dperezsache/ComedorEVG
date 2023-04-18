@@ -1,12 +1,12 @@
 <?php
-    require_once('../controllers/controladorlogin.php');
+    require_once('../../controllers/controladorlogin.php');
     $controlador = new ControladorLogin();
 
     session_start();
 
-    if (isset($_SESSION['idProfesor']))
+    if (isset($_SESSION['idPadre']))
     {
-        header('Location: ../../../index.php');
+        header('Location: ./dashboard.php');
     }
     else
     {
@@ -30,7 +30,7 @@
                 break;
 
             case 1:
-                header('Location: logueado.php');
+                header('Location: dashboard.php');
                 break;
     
             default:

@@ -2,9 +2,9 @@ form {
     width: 398px;
     border: 1px solid gray;
     border-radius: 5px;
-    margin: auto;
-    margin-top: 1em;
+    margin: 1em auto;
     padding: 10px;
+    color: #014179;
     background-color: aliceblue;
 }
 
@@ -21,4 +21,16 @@ div.formItem input {
     border: 1px solid gray;
     border-radius: 5px;
     background-color: white;
+}
+
+div.formItem input[type="checkbox"] {
+    min-width: 20px;
+    display: inline-block;
+}
+
+@media (max-width:575.98px) {
+    form {
+        width: 82.77777777777778%;
+        padding: 3.355704697986577%;
+    }
 }

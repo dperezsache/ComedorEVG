@@ -48,7 +48,7 @@
    
 						if ($fila['contrasenia'] = $password)
                         {
-                        
+                            $this->generarSesion($fila['id']);
                             return 1;   // Validacion OK.
                         }
                         else
@@ -70,6 +70,29 @@
             {
                 return $e->getCode();   // Devolver código de error.
             }
+        }
+
+        /**
+         * Genera la sesión del usuario.
+         * @param Number $id ID del padre.
+         */
+        public function generarSesion($id)
+        {
+            ini_set('session.use_strict_mode', true);   // Activar modo estricto.
+            ini_set('session.use_only_cookies', 1);     // Forzar las sesiones a usar solo cookies. 
+            session_set_cookie_params(0);               // La sesión del cliente caducará cúando se cierre el navegador.
+            session_start();                            // Iniciar la sesión.
+
+            $_SESSION['idPadre'] = $id;
+        }
+
+        /**
+         * Realizar el cierre de sesión del usuario actual.
+         */
+        public function cerrarSesion()
+        {
+            session_start();   
+            session_destroy();  // Destruye los datos de sesión almacenados (ID de sesión).
         }
 	}
 ?>

@@ -62,5 +62,89 @@
                 return $e->getCode();
             }
         }
+
+        public function modificarPadre($id, $array)
+        {
+            try
+            {
+                $this->obtenerConexion();
+
+                if ($this->conexion != null)
+                {
+                    $nombre = $array['nombre'];
+                    $apellidos = $array['apellidos'];
+                    $correo = $array['correo'];
+                    $telefono = $array['telefono'];
+
+                    $sql = "UPDATE padres SET nombre=?, apellidos=?, correo=?, telefono=? WHERE id=?";
+                    $consulta = $this->conexion->prepare($sql);
+                    $consulta->bind_param('ssssi', $nombre, $apellidos, $correo, $telefono, $id);
+                    $consulta->execute();
+
+                    $this->conexion->close();
+
+                    if ($consulta->affected_rows > 0)
+                    {
+                        $consulta->close();
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch(mysqli_sql_exception $e)
+            {
+                return $e->getCode();
+            }
+        }
+
+        /**
+         * Devuelve los datos del padre.
+         * @param Number $id ID del padre.
+         * @return mixed
+         */
+        public function obtenerDatosPadre($id)
+        {
+            try
+            {
+                $this->obtenerConexion();
+
+                if ($this->conexion != null)
+                {
+                    $sql = "SELECT * FROM padres WHERE id=?";
+
+                    $consulta = $this->conexion->prepare($sql);
+                    $consulta->bind_param('i', $id);
+                    $consulta->execute();
+                    $resultado = $consulta->get_result();
+
+                    $consulta->close();
+
+                    if ($resultado->num_rows > 0)
+                    {
+                        $fila = $resultado->fetch_assoc();
+                        return $fila;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(mysqli_sql_exception $e)
+            {
+                return null;
+            }
+        }
     }
 ?>

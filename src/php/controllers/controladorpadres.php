@@ -29,20 +29,42 @@
             }
             else
             {
-                if (isset($array['nombre']) && !empty($array['nombre']) &&
-                isset($array['apellidos']) && !empty($array['apellidos']) &&
-                isset($array['correo']) && !empty($array['correo']) &&
-                isset($array['contrasenia']) && !empty($array['contrasenia']) &&
-                isset($array['telefono']) && !empty($array['telefono']) &&
-                isset($array['dni']) && !empty($array['dni']) &&
-                isset($array['iban']) && !empty($array['iban']) &&
-                isset($array['titular']) && !empty($array['titular'])) {
-                    return $this->modelo->altaPadre($array);
-                }
-                else 
+                return $this->modelo->altaPadre($array);
+            }
+        }
+
+        public function modificarPadre($array)
+        {
+            if (isset($_SESSION['idPadre']) && isset($array['nombre']) && isset($array['apellidos']) && isset($array['correo']) && isset($array['telefono']))
+            {
+                if (!empty(isset($array['nombre']) && !empty($array['apellidos']) && !empty($array['correo']) && !empty($array['telefono'])))
                 {
-                    return -2;
+                    return $this->modelo->modificarPadre($_SESSION['idPadre'], $array);
                 }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
+        /**
+         * Devuelve los datos del usuario actual.
+         * @return Mixed
+         */
+        public function obtenerDatos() 
+        {
+            if (isset($_SESSION['idPadre']))
+            {
+                return $this->modelo->obtenerDatosPadre($_SESSION['idPadre']);
+            }
+            else
+            {
+                return null;
             }
         }
     }
