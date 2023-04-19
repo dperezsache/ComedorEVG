@@ -20,8 +20,8 @@
 
         /**
          * Iniciar sesión.
-         * @param String $correo Correo del usuario.
-         * @param String $password Contraseña.
+         * @param string $correo Correo del usuario.
+         * @param string $password Contraseña.
          */
         public function inicioSesion($correo, $password)
         {
@@ -74,7 +74,7 @@
 
         /**
          * Genera la sesión del usuario.
-         * @param Number $id ID del padre.
+         * @param int $id ID del padre.
          */
         public function generarSesion($id)
         {

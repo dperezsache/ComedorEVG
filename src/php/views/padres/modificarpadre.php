@@ -20,7 +20,6 @@
         <title>Comedor EVG</title>
     </head>
     <body>
-        <?php echo print_r($datos) ?>
         <form action="" method="post" class="needs-validation" novalidate>
             <div class="formItem">
                 <label for="nombre">
@@ -77,5 +76,5 @@
             }
         ?>
     </body>
-    <script src="../../../js/controllers/controladormodificacionpadres.js"></script>
+    <script src="../../../js/controllers/controladorformularios.js"></script>
 </html>

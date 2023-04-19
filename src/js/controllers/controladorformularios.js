@@ -1,7 +1,7 @@
 /**
- * Controlador principal de registros.
+ * Controlador de formularios de alta/modificación de padres.
  */
-class ControladorRegistros {
+class ControladorFormularios {
     constructor() {
         window.onload = this.iniciar.bind(this);
     }
@@ -15,27 +15,36 @@ class ControladorRegistros {
         this.btnCancelar = document.getElementsByTagName('button')[0];
 
         this.form.addEventListener('submit', this.validarFormulario.bind(this));
-        this.btnCancelar.addEventListener('click', () => window.history.go(-1));
+        this.btnCancelar.addEventListener('click', this.volverAtras.bind(this));
     }
 
     /**
-     * Valida los campos del formulario.
-     * @param {Event} event Evento de submit.
+     * Valida los campos del formulario. Los que no sean válidos tendrán un aviso.
+     * @param {Event} event Evento de submit del formulario.
      */
     validarFormulario(event) {
         let i;
+        let total = this.inputs.length;
 
-        for (i=0; i<this.inputs.length; i++) {
+        for (i=0; i<total; i++) {
             if (!this.inputs[i].checkValidity()) break;
         }
-        console.log('dassadsad')
-        if (i != this.inputs.length) {
+
+        // Si no todos los campos son válidos, parar el submit.
+        if (i != total) {
             event.preventDefault();
             event.stopPropagation();
         }
-
+        
         this.form.classList.add('was-validated');
+    }
+
+    /**
+     * Vuelve a la página anterior.
+     */
+    volverAtras() {
+        window.history.go(-1);
     }
 }
 
-new ControladorRegistros();
+new ControladorFormularios();

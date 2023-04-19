@@ -54,7 +54,7 @@
         
         /**
          * Devuelve los datos del usuario actual.
-         * @return Mixed
+         * @return mixed
          */
         public function obtenerDatos() 
         {

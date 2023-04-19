@@ -20,7 +20,7 @@ export class VistaLoginGoogle extends Vista {
      */
     habilitarLogin(){
 		google.accounts.id.initialize({
-            client_id: "756573648994-cn4uk8gsic003hnotjb9mpt1mjtnqvgm.apps.googleusercontent.com",
+            client_id: "829640902680-48t2uq3us7qit3ehbusp2t6fldfeh6r6.apps.googleusercontent.com",
             callback: this.controlador.loginGoogle.bind(this.controlador)
         });
 

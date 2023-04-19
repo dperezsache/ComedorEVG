@@ -14,7 +14,7 @@
         /**
          * Realiza la inserción de un padre en la BBDD.
          * @param mixed $array Array POST con los datos.
-         * @return void
+         * @return int Nº de resultado del proceso.
          */
         public function altaPadre($array) 
         {
@@ -63,6 +63,11 @@
             }
         }
 
+        /**
+         * Llama al proceso de modificación de padres.
+         * @param int $id ID del padre.
+         * @param mixed $array Array de datos.
+         */
         public function modificarPadre($id, $array)
         {
             try
@@ -106,7 +111,7 @@
 
         /**
          * Devuelve los datos del padre.
-         * @param Number $id ID del padre.
+         * @param int $id ID del padre.
          * @return mixed
          */
         public function obtenerDatosPadre($id)

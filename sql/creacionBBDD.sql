@@ -1,136 +1,59 @@
 CREATE DATABASE Comedor;
 USE Comedor;
 
-CREATE TABLE Usuarios(
+CREATE TABLE Persona(
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
     apellidos VARCHAR(80) NOT NULL,
+    correo VARCHAR(90) NULL,
+    contrasenia VARCHAR(255) NULL,
+    telefono CHAR(9) NULL,
+    dni CHAR(9) NULL,
+    iban CHAR(24) NULL,
+    titular VARCHAR(120) NULL,
 
-    CONSTRAINT PK_Usuario PRIMARY KEY (id)
-);
+    CONSTRAINT PK_idPersona PRIMARY KEY (id),
+    CONSTRAINT UQ_correoPersona UNIQUE (correo),
+    CONSTRAINT UQ_dniPersona UNIQUE (dni),
+    CONSTRAINT UQ_ibanPersona UNIQUE (iban)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE Hijos(
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR (50) NOT NULL,
-    apellidos VARCHAR(80) NOT NULL,
-    curso VARCHAR(10) NOT NULL,
+CREATE TABLE Hijo(
+    id SMALLINT UNSIGNED NOT NULL,
 
-    CONSTRAINT PK_idHijo PRIMARY KEY (id),
-    CONSTRAINT FK_Usuarios_idHijo FOREIGN KEY (id) REFERENCES Usuarios(id)
-);
-
-CREATE TABLE Padres(
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR (50) NOT NULL,
-    apellidos VARCHAR(80) NOT NULL,
-    correo VARCHAR(90) NOT NULL,
-    contrasenia VARCHAR(90) NOT NULL,
-    telefono CHAR(9) NOT NULL,
-    dni CHAR(9) NOT NULL,
-    iban CHAR(24) NOT NULL,
-    titular VARCHAR(120) NOT NULL,
-
-    CONSTRAINT PK_idPadre PRIMARY KEY(id),
-    CONSTRAINT FK_Usuarios_idPadre FOREIGN KEY (id) REFERENCES Usuarios(id),
-    CONSTRAINT UQ_dniPadre UNIQUE(dni),
-    CONSTRAINT UQ_ibanPadre UNIQUE(iban)
-);
+    CONSTRAINT PK_Hijo_id PRIMARY KEY (id),
+    CONSTRAINT FK_Hijo_id FOREIGN KEY (id) REFERENCES Persona(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE Dias(
     idHijo SMALLINT UNSIGNED NOT NULL,
     dia DATE NOT NULL,
     
-    CONSTRAINT PK_DiasIdHijo PRIMARY KEY (idHijo, dia),
-    CONSTRAINT FK_idDiaHijo FOREIGN KEY (idHijo) REFERENCES Hijos(id)
-);
+    CONSTRAINT PK_Dias_id PRIMARY KEY (idHijo, dia),
+    CONSTRAINT FK_Dias_idHijo FOREIGN KEY (idHijo) REFERENCES Hijo(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE PadreHijos(
+CREATE TABLE PadresHijos(
     idPadre SMALLINT UNSIGNED NOT NULL,
     idHijo SMALLINT UNSIGNED NOT NULL,
 
-    CONSTRAINT PK_PadresHijos PRIMARY KEY (idPadre, idHijo),
-    CONSTRAINT FK_idPadre2 FOREIGN KEY (idPadre) REFERENCES Padres(id),
-    CONSTRAINT FK_idHijo2 FOREIGN KEY (idHijo) REFERENCES Hijos(id)
-);
-
-CREATE TABLE Personal(
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR (50) NOT NULL,
-    apellidos VARCHAR(80) NOT NULL,
-    correo VARCHAR(90) NOT NULL,
-    contrasenia VARCHAR(90) NOT NULL,
-    telefono CHAR(9) NOT NULL,
-    dni CHAR(9) NOT NULL,
-    iban CHAR(24) NOT NULL,
-    titular VARCHAR(120) NOT NULL,
-
-    CONSTRAINT PK_idPersonal PRIMARY KEY(id),
-    CONSTRAINT FK_Usuarios_idPersonal FOREIGN KEY (id) REFERENCES (id),
-    CONSTRAINT UQ_dniPadre UNIQUE(dni),
-    CONSTRAINT UQ_ibanPadre UNIQUE(dni)
-);
-
-CREATE TABLE Pas(
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR (50) NOT NULL,
-    apellidos VARCHAR(80) NOT NULL,
-    correo VARCHAR(90) NOT NULL,
-    contrasenia VARCHAR(90) NOT NULL,
-    telefono CHAR(9) NOT NULL,
-    dni CHAR(9) NOT NULL,
-    iban CHAR(24) NOT NULL,
-    titular VARCHAR(120) NOT NULL,
-
-    CONSTRAINT PK_idPas PRIMARY KEY(id),
-    CONSTRAINT FK_Personal_idPas FOREIGN KEY (id) REFERENCES Personal(id),
-    CONSTRAINT UQ_dniPas UNIQUE(dni),
-    CONSTRAINT UQ_ibanPas UNIQUE(iban) 
-);
-
-CREATE TABLE Estudiante(
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR (50) NOT NULL,
-    apellidos VARCHAR(80) NOT NULL,
-    correo VARCHAR(90) NOT NULL,
-    contrasenia VARCHAR(90) NOT NULL,
-    telefono CHAR(9) NOT NULL,
-    dni CHAR(9) NOT NULL,
-    iban CHAR(24) NOT NULL,
-    titular VARCHAR(120) NOT NULL,
-
-    CONSTRAINT PK_idEstudiante PRIMARY KEY(id),
-    CONSTRAINT FK_Personal_idEstudiante FOREIGN KEY (id) REFERENCES Personal(id),
-    CONSTRAINT UQ_dniEstudiante UNIQUE(dni),
-    CONSTRAINT UQ_ibanEstudiante UNIQUE(iban) 
-);
-
-CREATE TABLE Profesor(
-    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR (50) NOT NULL,
-    apellidos VARCHAR(80) NOT NULL,
-    correo VARCHAR(90) NOT NULL,
-    contrasenia VARCHAR(90) NOT NULL,
-    telefono CHAR(9) NOT NULL,
-    dni CHAR(9) NOT NULL,
-    iban CHAR(24) NOT NULL,
-    titular VARCHAR(120) NOT NULL,
-
-    CONSTRAINT PK_idProfesor PRIMARY KEY(id),
-    CONSTRAINT FK_Personal_idProfesor FOREIGN KEY (id) REFERENCES Personal(id),
-    CONSTRAINT UQ_dniProfesor UNIQUE(dni),
-    CONSTRAINT UQ_ibanProfesor UNIQUE(iban) 
-);
+    CONSTRAINT PK_PadresHijos_id PRIMARY KEY (idPadre, idHijo),
+    CONSTRAINT FK_PadresHijos_idPadre FOREIGN KEY (idPadre) REFERENCES Persona(id),
+    CONSTRAINT FK_PadresHijos_idHijo FOREIGN KEY (idHijo) REFERENCES Hijo(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE Secretaria(
     id TINYINT UNSIGNED NOT NULL,
     nombre VARCHAR (80) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
-    correo VARCHAR(90) NOT NULL unique,
-    contrasenia VARCHAR(90) NOT NULL,
-	CONSTRAINT PK_Secretaria PRIMARY KEY (id)
-);
+    correo VARCHAR(90) NOT NULL,
+
+	CONSTRAINT PK_Secretaria_id PRIMARY KEY (id),
+    CONSTRAINT UQ_Secretaria_correo UNIQUE (correo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE festivosColegio(
     diaFestivo DATE NOT NULL,
+
 	CONSTRAINT PK_diaFestivo PRIMARY KEY (diaFestivo)
 );

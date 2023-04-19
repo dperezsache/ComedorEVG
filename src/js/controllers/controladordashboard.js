@@ -25,7 +25,7 @@ class ControladorDashboard {
     }
 
     /**
-     * Lleva a la página de logout.
+     * Lleva al cierre de sesión.
      */
     redireccionLogout() {
         window.location.href = 'logout.php';
