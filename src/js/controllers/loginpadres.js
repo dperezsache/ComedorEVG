@@ -1,9 +1,9 @@
 import { VistaInicio } from "../views/padres/vistainicio.js";
 
 /**
- * Controlador principal de los padres
+ * Controlador de login de padres
  */
-class ControladorPadres {
+class LoginPadres {
     constructor() {
         window.onload = this.iniciar.bind(this);
     }
@@ -30,4 +30,4 @@ class ControladorPadres {
     }
 }
 
-new ControladorPadres();
+new LoginPadres();

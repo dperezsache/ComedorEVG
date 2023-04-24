@@ -5,7 +5,7 @@
     // Comprobar que haya sesión
     session_start();
     if (!isset($_SESSION['idPadre']))
-        header('Location: ../../../index.html');
+        header('Location: ../../../logout.html');
 
     $datos = $controlador->obtenerDatos();
 ?>
@@ -76,5 +76,5 @@
             }
         ?>
     </body>
-    <script src="../../../js/controllers/controladorformularios.js"></script>
+    <script src="../../../js/controllers/formulariospadres.js"></script>
 </html>

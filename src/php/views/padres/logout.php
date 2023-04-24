@@ -6,7 +6,7 @@
     if(isset($_SESSION['idPadre']))
     {
         $controlador->cerrarSesion();
-        header('Location: ../../../index.html');
+        header('Location: ../../../login.html');
     }
     else
     {

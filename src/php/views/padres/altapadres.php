@@ -15,7 +15,7 @@
 
         case 1:
             echo '<div class="p-2 container bg-success text-light">Te has registrado exitosamente. Redirigiendo.</div>';
-            header("Refresh: 3; url=../../../index.html");
+            header("Refresh: 3; url=../../../login.html");
             break;
 
         case 1062:
@@ -102,5 +102,5 @@
             </div>
         </form>
     </body>
-    <script src="../../../js/controllers/controladorformularios.js"></script>
+    <script src="../../../js/controllers/formulariospadres.js"></script>
 </html>

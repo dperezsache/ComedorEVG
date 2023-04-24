@@ -1,7 +1,7 @@
 /**
  * Controlador principal del dashboard de padres
  */
-class ControladorDashboard {
+class DashboardPadres {
     constructor() {
         window.onload = this.iniciar.bind(this);
     }
@@ -32,4 +32,4 @@ class ControladorDashboard {
     }
 }
 
-new ControladorDashboard();
+new DashboardPadres();

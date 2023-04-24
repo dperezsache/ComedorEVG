@@ -18,6 +18,20 @@ CREATE TABLE Persona(
     CONSTRAINT UQ_ibanPersona UNIQUE (iban)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE Usuario(
+    id SMALLINT UNSIGNED NOT NULL,
+
+    CONSTRAINT PK_Usuario_id PRIMARY KEY (id),
+    CONSTRAINT FK_Usuario_id FOREIGN KEY (id) REFERENCES Persona(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE Padre(
+    id SMALLINT UNSIGNED NOT NULL,
+
+    CONSTRAINT PK_Padre_id PRIMARY KEY (id),
+    CONSTRAINT FK_Padre_id FOREIGN KEY (id) REFERENCES Persona(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE Hijo(
     id SMALLINT UNSIGNED NOT NULL,
 
@@ -26,11 +40,13 @@ CREATE TABLE Hijo(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE Dias(
-    idHijo SMALLINT UNSIGNED NOT NULL,
     dia DATE NOT NULL,
+    idUsuario SMALLINT UNSIGNED NOT NULL,
+    idPadre SMALLINT UNSIGNED NOT NULL,
     
-    CONSTRAINT PK_Dias_id PRIMARY KEY (idHijo, dia),
-    CONSTRAINT FK_Dias_idHijo FOREIGN KEY (idHijo) REFERENCES Hijo(id)
+    CONSTRAINT PK_Dias_id PRIMARY KEY (idUsuario, idPadre),
+    CONSTRAINT FK_Dias_idUsuario FOREIGN KEY (idUsuario) REFERENCES Usuario(id),
+    CONSTRAINT FK_Dias_idPadre FOREIGN KEY (idPadre) REFERENCES Padre(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE PadresHijos(

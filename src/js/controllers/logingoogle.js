@@ -1,10 +1,9 @@
 import {VistaLoginGoogle} from '../views/secretaria/vistalogingoogle.js';
-import {VistaSecretaria} from '../views/secretaria/vistasecretaria.js';
 
 /**
  * Controlador principal de secretaría
  */
-class ControladorSecretaria {
+class LoginGoogle {
     constructor() {
         window.onload = this.iniciar.bind(this);
     }
@@ -15,10 +14,7 @@ class ControladorSecretaria {
     iniciar() {
         this.usuarioLogueado = null;
         this.vistaLoginGoogle = new VistaLoginGoogle(this, document.getElementById('divLoginGoogle'));
-        this.vistaSecretaria = new VistaSecretaria(this, document.getElementById('divSecretaria'));
-        
         this.vistaLoginGoogle.mostrar(true);
-        this.vistaSecretaria.mostrar(false);
     }
 
     /**
@@ -28,18 +24,25 @@ class ControladorSecretaria {
     loginGoogle(respuesta) {
         const respuestaPayload = this.decodificarRespuestaJwt(respuesta.credential);
         this.usuarioLogueado = respuestaPayload;
-
-        /*console.log("ID: " + respuestaPayload.sub);
+        this.mandarInformacion();
+        /*
+                    Info que devuelve:
+        console.log("ID: " + respuestaPayload.sub);
         console.log("Nombre y apellidos: " + respuestaPayload.name);
         console.log("Nombre: " + respuestaPayload.given_name);
         console.log("Nombre de familia: " + respuestaPayload.family_name);
         console.log("Imagen URL: " + respuestaPayload.picture);
-        console.log("Email: " + respuestaPayload.email);*/
- 
-        this.vistaSecretaria.encabezado.innerText = 'Bienvenid@ ' + respuestaPayload.given_name;
-        
-        this.vistaLoginGoogle.mostrar(false);
-        this.vistaSecretaria.mostrar(true);
+        console.log("Email: " + respuestaPayload.email);
+        */
+    }
+
+    mandarInformacion() {
+        let fecha = new Date();
+		fecha.setTime(fecha.getTime() + (30 * 24 * 60 * 60 * 1000));
+		const caducidad = 'expires=' + fecha.toUTCString();
+
+		document.cookie = 'datos' + '=' + JSON.stringify(this.usuarioLogueado) + ';' + caducidad + '; path=/' + ';' + 'SameSite=None;' +  'Secure'; 
+        window.location.href = './php/views/secretaria/index.php';
     }
 
     /**
@@ -62,4 +65,4 @@ class ControladorSecretaria {
     }
 }
 
-new ControladorSecretaria();
+new LoginGoogle();

@@ -2,7 +2,7 @@
     // Comprobar que haya sesión
     session_start();
     if (!isset($_SESSION['idPadre']))
-        header('Location: ../../../index.html');
+        header('Location: ../../../logout.html');
 
     require_once('../../controllers/controladorpadres.php');
     $controlador = new ControladorPadres();
@@ -26,5 +26,5 @@
             </div>
         </div>
     </body>
-    <script type="module" src="../../../js/controllers/controladordashboard.js"></script>
+    <script type="module" src="../../../js/controllers/dashboardpadres.js"></script>
 </html>
