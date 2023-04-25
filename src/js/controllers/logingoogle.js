@@ -12,7 +12,6 @@ class LoginGoogle {
      * Inicia la aplicación al cargar la página.
      */
     iniciar() {
-        this.usuarioLogueado = null;
         this.vistaLoginGoogle = new VistaLoginGoogle(this, document.getElementById('divLoginGoogle'));
         this.vistaLoginGoogle.mostrar(true);
     }
@@ -23,8 +22,15 @@ class LoginGoogle {
      */
     loginGoogle(respuesta) {
         const respuestaPayload = this.decodificarRespuestaJwt(respuesta.credential);
-        this.usuarioLogueado = respuestaPayload;
-        this.mandarInformacion();
+
+        // Generar cookie con el objeto de datos de sesión
+        let fecha = new Date();
+		fecha.setTime(fecha.getTime() + (30 * 24 * 60 * 60 * 1000));
+		const caducidad = 'expires=' + fecha.toUTCString();
+
+		document.cookie = 'datos' + '=' + JSON.stringify(respuestaPayload) + ';' + caducidad + '; path=/' + ';' + 'SameSite=None;' +  'Secure'; 
+        window.location.href = './php/views/secretaria/index.php';
+
         /*
                     Info que devuelve:
         console.log("ID: " + respuestaPayload.sub);
@@ -34,15 +40,6 @@ class LoginGoogle {
         console.log("Imagen URL: " + respuestaPayload.picture);
         console.log("Email: " + respuestaPayload.email);
         */
-    }
-
-    mandarInformacion() {
-        let fecha = new Date();
-		fecha.setTime(fecha.getTime() + (30 * 24 * 60 * 60 * 1000));
-		const caducidad = 'expires=' + fecha.toUTCString();
-
-		document.cookie = 'datos' + '=' + JSON.stringify(this.usuarioLogueado) + ';' + caducidad + '; path=/' + ';' + 'SameSite=None;' +  'Secure'; 
-        window.location.href = './php/views/secretaria/index.php';
     }
 
     /**

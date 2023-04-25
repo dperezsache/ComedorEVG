@@ -33,12 +33,18 @@
                     $iban = $array['iban'];
                     $titular = $array['titular'];
     
-                    $sql = "INSERT INTO padres(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-    
+                    $sql = "INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
                     $consulta = $this->conexion->prepare($sql);
                     $consulta->bind_param('ssssssss', $nombre, $apellidos, $correo, $contrasenia, $telefono, $dni, $iban, $titular);
                     $consulta->execute();
     
+                    $id = $consulta->insert_id; 
+
+                    $sql = "INSERT INTO padre(id) VALUES(?)";
+                    $consulta = $this->conexion->prepare($sql);
+                    $consulta->bind_param('i', $id);
+                    $consulta->execute();
+
                     $afectadas = $consulta->affected_rows;
                     $consulta->close();
                     $this->conexion->close();
@@ -81,7 +87,7 @@
                     $correo = $array['correo'];
                     $telefono = $array['telefono'];
 
-                    $sql = "UPDATE padres SET nombre=?, apellidos=?, correo=?, telefono=? WHERE id=?";
+                    $sql = "UPDATE persona SET nombre=?, apellidos=?, correo=?, telefono=? WHERE id=?";
                     $consulta = $this->conexion->prepare($sql);
                     $consulta->bind_param('ssssi', $nombre, $apellidos, $correo, $telefono, $id);
                     $consulta->execute();
