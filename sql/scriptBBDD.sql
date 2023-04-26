@@ -54,7 +54,7 @@ CREATE TABLE PadresHijos(
     idHijo SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT PK_PadresHijos_id PRIMARY KEY (idPadre, idHijo),
-    CONSTRAINT FK_PadresHijos_idPadre FOREIGN KEY (idPadre) REFERENCES Persona(id) ON DELETE CASCADE,
+    CONSTRAINT FK_PadresHijos_idPadre FOREIGN KEY (idPadre) REFERENCES Padre(id) ON DELETE CASCADE,
     CONSTRAINT FK_PadresHijos_idHijo FOREIGN KEY (idHijo) REFERENCES Hijo(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
