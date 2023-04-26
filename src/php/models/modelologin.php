@@ -31,7 +31,7 @@
 
                 if ($this->conexion != null)
                 {
-                    $sql = "SELECT * FROM Padres WHERE correo=?";
+                    $sql = "SELECT * FROM Persona WHERE correo=?";
                     
                     $consulta = $this->conexion->prepare($sql);
                     $consulta->bind_param('s', $correo);

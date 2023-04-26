@@ -128,7 +128,7 @@
 
                 if ($this->conexion != null)
                 {
-                    $sql = "SELECT * FROM padres WHERE id=?";
+                    $sql = "SELECT * FROM persona WHERE id=?";
 
                     $consulta = $this->conexion->prepare($sql);
                     $consulta->bind_param('i', $id);
