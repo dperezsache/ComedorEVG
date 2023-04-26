@@ -16,28 +16,28 @@ CREATE TABLE Persona(
     CONSTRAINT UQ_correoPersona UNIQUE (correo),
     CONSTRAINT UQ_dniPersona UNIQUE (dni),
     CONSTRAINT UQ_ibanPersona UNIQUE (iban)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Usuario(
     id SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT PK_Usuario_id PRIMARY KEY (id),
     CONSTRAINT FK_Usuario_id FOREIGN KEY (id) REFERENCES Persona(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Padre(
     id SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT PK_Padre_id PRIMARY KEY (id),
     CONSTRAINT FK_Padre_id FOREIGN KEY (id) REFERENCES Persona(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Hijo(
     id SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT PK_Hijo_id PRIMARY KEY (id),
     CONSTRAINT FK_Hijo_id FOREIGN KEY (id) REFERENCES Persona(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Dias(
     dia DATE NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE Dias(
     CONSTRAINT PK_Dias_id PRIMARY KEY (idUsuario, idPadre),
     CONSTRAINT FK_Dias_idUsuario FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
     CONSTRAINT FK_Dias_idPadre FOREIGN KEY (idPadre) REFERENCES Padre(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE PadresHijos(
     idPadre SMALLINT UNSIGNED NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE PadresHijos(
     CONSTRAINT PK_PadresHijos_id PRIMARY KEY (idPadre, idHijo),
     CONSTRAINT FK_PadresHijos_idPadre FOREIGN KEY (idPadre) REFERENCES Padre(id) ON DELETE CASCADE,
     CONSTRAINT FK_PadresHijos_idHijo FOREIGN KEY (idHijo) REFERENCES Hijo(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Secretaria(
     id TINYINT UNSIGNED NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE Secretaria(
 
 	CONSTRAINT PK_Secretaria_id PRIMARY KEY (id),
     CONSTRAINT UQ_Secretaria_correo UNIQUE (correo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE festivosColegio(
     diaFestivo DATE NOT NULL,
