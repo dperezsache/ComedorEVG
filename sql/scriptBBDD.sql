@@ -72,4 +72,4 @@ CREATE TABLE festivosColegio(
     diaFestivo DATE NOT NULL,
 
 	CONSTRAINT PK_diaFestivo PRIMARY KEY (diaFestivo)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
