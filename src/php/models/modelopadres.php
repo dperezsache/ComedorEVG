@@ -122,7 +122,7 @@
 
         /**
          * Devuelve los datos del padre.
-         * @param int $id ID del padre.
+         * @param int $id ID del padre
          * @return mixed
          */
         public function obtenerDatosPadre($id)
