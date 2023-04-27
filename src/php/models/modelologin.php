@@ -45,8 +45,10 @@
                     if ($resultado->num_rows > 0)
                     {
                         $fila = $resultado->fetch_array(MYSQLI_ASSOC);
-   
-						if ($fila['contrasenia'] = $password)
+                        
+                        $hash = $fila['contrasenia'];
+
+						if (password_verify($password, $hash))
                         {
                             $this->generarSesion($fila['id']);
                             return 1;   // Validacion OK.

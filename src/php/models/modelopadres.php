@@ -32,10 +32,15 @@
                     $dni = $array['dni'];
                     $iban = $array['iban'];
                     $titular = $array['titular'];
-    
+
+                    //Contraseña haseada
+
+                    $hash = password_hash($contrasenia, PASSWORD_DEFAULT);
+
                     $sql = "INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+    
                     $consulta = $this->conexion->prepare($sql);
-                    $consulta->bind_param('ssssssss', $nombre, $apellidos, $correo, $contrasenia, $telefono, $dni, $iban, $titular);
+                    $consulta->bind_param('ssssssss', $nombre, $apellidos, $correo, $hash, $telefono, $dni, $iban, $titular);
                     $consulta->execute();
     
                     $id = $consulta->insert_id; 

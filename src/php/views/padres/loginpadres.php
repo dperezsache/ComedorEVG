@@ -15,15 +15,15 @@
         switch($resultado)
         {
             case -3:
-                echo '<div class="error">Error: Contraseña incorrecta.</div>';
+                echo '<div class="p-2 container bg-danger text-light">Error: Contraseña incorrecta.</div>';
                 break;
 
             case -2:
-                echo '<div class="error">Error: Los datos introducidos son incorrectos, pruebe de nuevo.</div>';
+                echo '<div class="formItemLoginError">Error: Los datos introducidos son incorrectos, pruebe de nuevo.</div>';
                 break;
             
             case -1:
-                echo '<div class="error">Error: No hay conexión con la base de datos.</div>';
+                echo '<div class="formItemLoginError">Error: No hay conexión con la base de datos.</div>';
                 break;
     
             case 0:
@@ -34,7 +34,7 @@
                 break;
     
             default:
-                echo '<div class="error">Se ha producido un error con código: <b>' . $resultado . '</b>.</div>';
+                echo '<div class="formItemLoginError">Se ha producido un error con código: <b>' . $resultado . '</b>.</div>';
                 break;
         }
     }
@@ -44,22 +44,36 @@
     <head>
         <meta charset="UTF-8"/>
         <meta author="Sergio Rivera Salgado"/>
-        <title>Login Padres</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="../../../css/styles.css"/>
+        <title>Comedor EVG</title>
     </head>
     <body>
-        <h1>Inicio de sesión</h1>
-        <form action="" method="POST">
-            <div >
-                <label for="correo">Correo electrónico</label>
-                <input type="text" name="correo" maxlength="100" required/>
+        <form class="formLogin" action="" method="post">
+			<div id="imgLogin">
+				<img class="imgLogin" src="../../../img/foto.jpg"/>
+			</div>
+			<h3>Bienvenido/a</h3>
+            <div class="formItemLogin">
+                <label for="correo">
+                    Dirección de email (*) <input type="email" class="form-control" name="correo" maxlength="90" required/>
+                </label>
             </div>
-            <div>
-                <label for="password">Contraseña</label>
-                <input type="password" name="password" maxlength="255" required/>
+            <div class="formItemLogin">
+                <label for="contrasenia">
+                    Contraseña (*) <input type="password" class="form-control" name="password" maxlength="90" required/>
+                </label>
             </div>
-            <div>
-                <button type="submit">Entrar</button>
+            <div class="formItemLogin">
+                <button type="submit" class="btn btn-info">Login</button>
+            </div>
+			<div class="formItemLogin">
+                <p>¿No tienes cuenta? Registrate</p>
+            </div>
+            <div class="formItemLogin">
+                <p>Si has olvidado la contraseña. Pulsa aquí</p>
             </div>
         </form>
     </body>

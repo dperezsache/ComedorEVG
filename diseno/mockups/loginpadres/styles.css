@@ -1,4 +1,4 @@
-form {
+.formLogin {
 	font-family:sans serif, Open-sans;
     width: 398px;
     border: 1px solid gray;
@@ -8,11 +8,12 @@ form {
     color: #014179;
     background-color: aliceblue;
 }
-form h3{
+
+.formLogin h3{
 	text-align:center;
 	margin-bottom:30px;
 }
-#img{
+#imgLogin{
 	background-color:red;
 	width:150px;
 	margin-left:auto;
@@ -20,18 +21,28 @@ form h3{
 	margin-top:40px;
 	margin-bottom:20px;
 }
-img{
+
+.imgLogin{
 	width:100%;
 }
-form div.formItem {
+.formLogin div.formItemLogin {
+    cursor: pointer;
     margin: 10px auto;
     text-align: center;
 }
-form div.formItem label{
+
+.formLogin div.formItemLoginError{
+    margin: 10px auto;
+    text-align: center;
+    display:none;
+    color:red;
+}
+
+.formLogin div.formItemLogin label{
 	text-align:left;
 }
 
-div.formItem input {
+div.formItemLogin input {
     display: block;
     margin: auto;
 	margin-top:5px;
@@ -41,16 +52,18 @@ div.formItem input {
     border-radius: 5px;
     background-color: white;
 }
+
 .btn-info{
   min-width: 210px;
 }
-div.formItem input[type="checkbox"] {
+
+div.formItemLogin input[type="checkbox"] {
     min-width: 20px;
     display: inline-block;
 }
 
 @media (max-width:575.98px) {
-    form {
+    .formLogin {
         width: 100%;
 		margin: 0em auto;
 		height:100vh;
