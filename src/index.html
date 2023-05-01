@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="./css/styles.css"/>
+        <title>Panel padres</title>
+    </head>
+    <body>
+        <nav id="menuPadres" class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+            <ul class="navbar-nav">
+                <li class="nav-item nav-link active">Inicio</li>
+                <li class="nav-item nav-link">Gestión de hijos</li>
+                <li class="nav-item nav-link">Modificación datos personales</li>
+                <li class="nav-item nav-link">Cerrar sesión</li>
+            </ul>
+        </nav>
+
+        <div id="inicioPadres">
+            <h1>Bienvenido al panel de padres</h1>
+        </div>
+
+        <div id="gestionHijosPadres">
+            <h1>Gestión de hijos</h1>
+        </div>
+
+        <div id="modificacionPadres">
+            <h3 class="text-center my-4">Modificación de datos personales</h3>
+            <form method="post" class="needs-validation" novalidate>
+                <div class="formItem">
+                    <label for="nombre">
+                        Nuevo nombre (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
+                        <div class="invalid-feedback">Por favor, introduzca su nombre.</div>
+                    </label>
+                </div>
+                <div class="formItem">
+                    <label for="apellidos">
+                        Nuevos apellidos (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
+                        <div class="invalid-feedback">Por favor, introduzca sus apellidos.</div>
+                    </label>
+                </div>
+                <div class="formItem">
+                    <label for="telefono">
+                        Nuevo teléfono (*) <input type="text" class="form-control" name="telefono" maxlength="9" pattern="^[0-9]{9}$" required/>
+                        <div class="invalid-feedback">Por favor, introduzca su nº de teléfono.</div>
+                    </label>
+                </div>
+                <div class="formItem">
+                    <label for="correo">
+                        Nuevo email (*) <input type="email" class="form-control" name="correo" maxlength="90" required/>
+                    </label>
+                </div>
+                <div class="formItem">
+                    <label for="politicaPrivacidad" class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="politicaPrivacidad" required/> Acepto sin reservas la <a href="https://fundacionloyola.com/vguadalupe/politica-de-privacidad/" target="_blank">Política de Privacidad</a>
+                        <div class="invalid-feedback">Acepte la política de privacidad para continuar.</div>
+                     </label>
+                </div>
+                <div class="formItem" id="loadingImg">
+                    <img src="./img/loading.gif"/>
+                </div>
+                <div class="formItem">
+                    <button type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="button" class="btn btn-success">Actualizar datos</button>
+                </div>
+            </form>
+            <div id="divExito" class="p-1 container bg-success text-light text-center rounded">
+                <p>Tus datos han sido actualizados.</p>
+            </div>
+        </div>
+
+        <script type="module" src="./js/controllers/controladorpadres.js"></script>
+    </body>
+</html>

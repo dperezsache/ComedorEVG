@@ -48,7 +48,7 @@ div.formItem input[type="checkbox"] {
     }
 }
 
-                --------------------------LOGIN------------------
+/*-------------------------- LOGIN PADRES ------------------*/
 
 .formLogin {
 	font-family:sans serif, Open-sans;
@@ -114,6 +114,19 @@ div.formItemLogin input[type="checkbox"] {
     display: inline-block;
 }
 
+div#divExito {
+    display: none;
+}
+
+#loadingImg {
+    display: none;
+}
+
+#loadingImg img {
+    width: 32px;
+    height: 32px;
+}
+
 @media (max-width:575.98px) {
     .formLogin {
         width: 100%;
@@ -122,3 +135,9 @@ div.formItemLogin input[type="checkbox"] {
         padding: 3.355704697986577%;
     }
 }
+
+/*----- DASHBOARD PADRES -----*/
+nav#menuPadres ul li {
+    cursor: pointer;
+}
+

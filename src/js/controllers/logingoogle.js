@@ -1,64 +1,44 @@
-import {VistaLoginGoogle} from '../views/secretaria/vistalogingoogle.js';
+import { Rest } from "../services/rest.js";
 
 /**
- * Controlador principal de secretaría
+ * Controlador del login de google.
  */
 class LoginGoogle {
     constructor() {
         window.onload = this.iniciar.bind(this);
+        window.onerror = (error) => console.log('Error capturado. ' + error);
     }
 
     /**
-     * Inicia la aplicación al cargar la página.
+     * Inicia el login al cargar la página.
      */
     iniciar() {
-        this.vistaLoginGoogle = new VistaLoginGoogle(this, document.getElementById('divLoginGoogle'));
-        this.vistaLoginGoogle.mostrar(true);
-    }
-
-    /**
-     * Obtiene los datos del usuario que inicia sesión.
-     * @param {Object} respuesta Token del inicio de sesión.
-     */
-    loginGoogle(respuesta) {
-        const respuestaPayload = this.decodificarRespuestaJwt(respuesta.credential);
-
-        // Generar cookie con el objeto de datos de sesión
-        let fecha = new Date();
-		fecha.setTime(fecha.getTime() + (30 * 24 * 60 * 60 * 1000));
-		const caducidad = 'expires=' + fecha.toUTCString();
-
-		document.cookie = 'datos' + '=' + JSON.stringify(respuestaPayload) + ';' + caducidad + '; path=/' + ';' + 'SameSite=None;' +  'Secure'; 
-        window.location.href = './php/views/secretaria/index.php';
-
-        /*
-                    Info que devuelve:
-        console.log("ID: " + respuestaPayload.sub);
-        console.log("Nombre y apellidos: " + respuestaPayload.name);
-        console.log("Nombre: " + respuestaPayload.given_name);
-        console.log("Nombre de familia: " + respuestaPayload.family_name);
-        console.log("Imagen URL: " + respuestaPayload.picture);
-        console.log("Email: " + respuestaPayload.email);
-        */
-    }
-
-    /**
-     * Decodifica el token en Base64 y lo parsea de vuelta a un objeto de tipo JSON.
-     * @param {Object} token 
-     */
-    decodificarRespuestaJwt(token) {
-        let base64Url = token.split(".")[1];
-        let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        let jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split("")
-            .map(function (c) {
-              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join("")
+        google.accounts.id.initialize({
+            client_id: '829640902680-48t2uq3us7qit3ehbusp2t6fldfeh6r6.apps.googleusercontent.com',
+            callback: this.login.bind(this)
+        });
+        
+        google.accounts.id.renderButton(
+            document.getElementById('divGoogleLogin'),
+            { theme: 'outline', size: 'large', text: "signin_with", shape: 'rectangular' }
         );
+    }
 
-        return JSON.parse(jsonPayload);
+    /**
+     * Recoge los datos y los envía al servidor para identificar al usuario.
+     * Recibe el token del login con Google y lo envía al servidor para identificar al usuario.
+     * @param {token} Object Token de identificación de usuario de Google.
+     */
+    login(token) {
+        Rest.post('login_google', [], token.credential, true)
+         .then(usuario => {
+             alert(usuario);
+             sessionStorage.setItem('usuario', JSON.stringify(usuario));
+             window.location.href = 'index_evg.html';
+         })
+         .catch(e => {
+             console.error(e);
+         })
     }
 }
 

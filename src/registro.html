@@ -1,32 +1,3 @@
-<?php
-    require_once('../../controllers/controladorpadres.php');
-    $controlador = new ControladorPadres();
-
-    $resultado = $controlador->altaPadre($_POST);
-
-    switch($resultado)
-    {
-        case -1:
-            echo '<div class="p-2 container bg-danger text-light">No se puede conectar. Revise su conexión e intente de nuevo.</div>';
-            break;
-
-        case 0:
-            break;
-
-        case 1:
-            echo '<div class="p-2 container bg-success text-light">Te has registrado exitosamente. Redirigiendo.</div>';
-            header("Refresh: 3; url=../../../login.html");
-            break;
-
-        case 1062:
-            echo '<div class="p-2 container bg-danger text-light">Usuario con los mismos datos ya existe en la aplicación.</div>';
-            break;
-
-        default:
-            echo '<div class="p-2 container bg-danger text-light">Error con código ' . $resultado . '</div>';
-            break;
-    }
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,20 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>        
-        <link rel="stylesheet" href="../../../css/styles.css"/>
+        <link rel="stylesheet" href="./css/styles.css"/>
         <title>Comedor EVG</title>
     </head>
     <body>
-        <form action="" method="post" class="needs-validation" novalidate>
+        <form method="post" class="needs-validation" novalidate>
             <div class="formItem">
                 <label for="nombre">
-                    Nombre (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
+                    Nombre padre (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
                     <div class="invalid-feedback">Por favor, introduzca su nombre.</div>
                 </label>
             </div>
             <div class="formItem">
                 <label for="apellidos">
-                    Apellidos (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
+                    Apellidos padre (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
                     <div class="invalid-feedback">Por favor, introduzca sus apellidos.</div>
                 </label>
             </div>
@@ -60,6 +31,12 @@
             <div class="formItem">
                 <label for="contrasenia">
                     Contraseña (*) <input type="password" class="form-control" name="contrasenia" maxlength="90" required/>
+                    <div class="invalid-feedback">Por favor, introduzca una contraseña.</div>
+                </label>
+            </div>
+            <div class="formItem">
+                <label for="contrasenia2">
+                    Repita la contraseña (*) <input type="password" class="form-control" name="contrasenia2" maxlength="90" required/>
                     <div class="invalid-feedback">Por favor, introduzca una contraseña.</div>
                 </label>
             </div>
@@ -96,11 +73,17 @@
             <div class="formItem">
                 <p>Tras realizar el registro podrá dar de alta a sus hijos/as en la aplicación.</p>
             </div>
+            <div class="formItem" id="loadingImg">
+                <img src="./img/loading.gif"/>
+            </div>
             <div class="formItem">
-				<button type="reset" class="btn btn-danger">Cancelar</button>
-                <button type="submit" class="btn btn-success">Registrarse</button>
+				<button type="button" class="btn btn-danger">Cancelar</button>
+                <button type="button" class="btn btn-success">Registrarse</button>
             </div>
         </form>
+        <div id="divExito" class="p-1 container bg-success text-light text-center rounded">
+            <p>Te has registrado exitosamente. Redirigiendo.</p>
+        </div>
     </body>
-    <script src="../../../js/controllers/formulariospadres.js"></script>
+    <script type="module" src="js/controllers/altapadres.js"></script>
 </html>

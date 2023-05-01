@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8"/>
+        <meta author="Sergio Rivera Salgado"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
@@ -9,14 +10,37 @@
         <title>Comedor EVG</title>
     </head>
     <body>
-        <div id="divInicio" class="container mx-auto my-2 bg-dark text-light p-2 rounded w-50">
-            <h3 class="text-center">Bienvenido</h3>
-            <div class="mx-auto text-center">
-                <button type="button" class="btn btn-primary">Iniciar sesión</button>
-                <button type="button" class="btn btn-primary">Registrarse</button>
+        <form class="formLogin needs-validation" method="post" novalidate>
+			<div id="imgLogin">
+				<img class="imgLogin" src="./img/foto.jpg"/>
+			</div>
+			<h3>Bienvenido/a</h3>
+            <div class="formItemLogin">
+                <label for="correo">
+                    Dirección de email (*) <input type="email" class="form-control" name="correo" maxlength="90" required/>
+                    <div class="invalid-feedback">Por favor, indique su email.</div>
+                </label>
             </div>
-        </div>
-    </body>
+            <div class="formItemLogin">
+                <label for="contrasenia">
+                    Contraseña (*) <input type="password" class="form-control" name="password" maxlength="90" required/>
+                    <div class="invalid-feedback">Por favor, introduzca su contraseña.</div>
+                </label>
+            </div>
+            <div class="formItemLogin" id="loadingImg">
+                <img src="./img/loading.gif"/>
+            </div>
+            <div class="formItemLogin">
+                <button type="button" class="btn btn-info">Login</button>
+            </div>
+			<div class="formItemLogin">
+                <p>¿No tienes cuenta? <a href="registro.html">Registrate</a></p>
+            </div>
+            <div class="formItemLogin">
+                <p>Si has olvidado la contraseña. Pulsa aquí</p>
+            </div>
+        </form>
 
-    <script src="js/controllers/loginpadres.js" type="module"></script>
+        <script type="module" src="js/controllers/loginpadres.js"></script>
+    </body>
 </html>

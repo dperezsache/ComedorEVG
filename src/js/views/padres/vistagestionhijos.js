@@ -1,9 +1,9 @@
 import {Vista} from '../vista.js';
 
 /**
- * Contiene la vista del inicio
+ * Contiene la vista de gestión de hijos.
  */
-export class VistaInicioPadres extends Vista {
+export class VistaGestionHijos extends Vista {
     /**
 	 *	Constructor de la clase.
 	 *	@param {Controlador} controlador Controlador de la vista.

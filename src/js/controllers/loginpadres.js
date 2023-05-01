@@ -1,4 +1,4 @@
-import { VistaInicio } from "../views/padres/vistainicio.js";
+import { Rest } from "../services/rest.js";
 
 /**
  * Controlador de login de padres
@@ -6,27 +6,54 @@ import { VistaInicio } from "../views/padres/vistainicio.js";
 class LoginPadres {
     constructor() {
         window.onload = this.iniciar.bind(this);
+        window.onerror = (error) => console.error('Error capturado. ' + error);
     }
 
     /**
-     * Inicia la aplicación al cargar la página.
+     * Inicia el login.
+     * Se llama al cargar la página.
      */
     iniciar() {
-        this.vistaInicio = new VistaInicio(this, document.getElementById('divInicio'));
+        this.form = document.getElementsByTagName('form')[0];
+        this.email = document.getElementsByTagName('input')[0];
+        this.clave = document.getElementsByTagName('input')[1];
+        this.btnAceptar = document.getElementsByTagName('button')[0];
+        this.divCargando = document.getElementById('loadingImg');
+
+        this.btnAceptar.addEventListener('click', this.validarFormulario.bind(this));
     }
 
     /**
-     * Lleva a la página de inicio de sesión de padres.
+     * Comprobar que el campo de correo y contraseña sean válidos.
      */
-    redireccionLogin() {
-        window.location.href = './php/views/padres/loginpadres.php';
+    validarFormulario() {
+        this.form.classList.add('was-validated');
+
+        if (this.email.checkValidity() && this.clave.checkValidity())
+            this.login();
     }
 
     /**
-     * Lleva a la página de registro de padres.
+     * Realiza el proceso de login.
      */
-    redireccionAlta() {
-        window.location.href = './php/views/padres/altapadres.php';
+    login() {
+        this.divCargando.style.display = 'block';
+
+        const login = {
+            usuario: this.email.value,
+            clave: this.clave.value
+        };
+
+        Rest.post('login', [], login, true)
+         .then(usuario => {
+             this.divCargando.style.display = 'none';
+             sessionStorage.setItem('usuario', JSON.stringify(usuario));
+             window.location.href = 'index.html';
+         })
+         .catch(e => {
+             this.divCargando.style.display = 'none';
+             console.error(e);
+         })
     }
 }
 
