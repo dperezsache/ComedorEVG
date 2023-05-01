@@ -57,10 +57,13 @@
         // Autenticación
         $usuario = null;
         require_once('./controllers/login.php');
+        require_once('./controllers/logingoogle.php');
 
         // Inyección de dependencias
         Login::$clave = $config['clave_encriptacion'];
         Login::$algoritmo_encriptacion = $config['algoritmo_encriptacion'];
+        LoginGoogle::$clave = $config['clave_encriptacion'];
+        LoginGoogle::$algoritmo_encriptacion = $config['algoritmo_encriptacion'];
 
         // Utilizamos Authorization2 en lugar de Authorization por un bug de NGINX que no transmite esa cabecera
         if (array_key_exists('Authorization2', apache_request_headers())) {

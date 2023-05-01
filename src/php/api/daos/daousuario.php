@@ -24,7 +24,7 @@
         /**
          * Consulta la base de datos para autenticar al usuario y devolver sus datos.
          * El email ha sido autenticado por Google.
-         * @param object $login Login Modelo de Login.
+         * @param string $email Correo del usuario.
          * @return object|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function autenticarEmail($email) {
@@ -37,7 +37,7 @@
             return DAOUsuario::crearUsuario($resultado);
         }
 
-        public static function altaUsuario($datos) {
+        public static function altaPersona($datos) {
             $sql = 'INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
             $params = array(
@@ -54,6 +54,23 @@
             return BD::insertar($sql, $params);  
         }
 
+        public static function altaUsuarioGoogle($datos) {
+            $sql = 'INSERT INTO persona(nombre, apellidos, correo)';
+            $sql .= ' VALUES(:nombre, :apellidos, :correo)';
+            $params = array(
+                'nombre' => $datos['given_name'],
+                'apellidos' => $datos['family_name'],
+                'correo' => $datos['email']
+            );
+
+            return BD::insertar($sql, $params);  
+        }
+
+        /**
+         * Modifica los datos de una persona.
+         * @param object $datos Datos de la persona.
+         * @return void
+         */
         public static function modificarUsuarioPadre($datos) {
             $sql = 'UPDATE persona';
             $sql .= ' SET nombre=:nombre, apellidos=:apellidos, correo=:correo, telefono=:telefono WHERE id=:id';
@@ -68,6 +85,11 @@
             BD::actualizar($sql, $params);
         }
 
+        /**
+         * Inserta una fila en la tabla padre.
+         * @param int $id ID de la persona.
+         * @return int ID de la inserción.
+         */
         public static function altaPadre($id) {
             $sql = 'INSERT INTO padre(id)';
             $sql .= ' VALUES(:id)';
@@ -76,6 +98,24 @@
             return BD::insertar($sql, $params); 
         }
 
+        /**
+         * Inserta una fila en la tabla usuario.
+         * @param int $id ID de la persona.
+         * @return int ID de la inserción.
+         */
+        public static function altaUsuario($id) {
+            $sql = 'INSERT INTO usuario(id)';
+            $sql .= ' VALUES(:id)';
+            $params = array('id' => $id);
+
+            return BD::insertar($sql, $params); 
+        }
+
+        /**
+         * Genera un objeto de tipo usuario.
+         * @param array $resultSet Array de datos.
+         * @return object Objeto usuario.
+         */
         public static function crearUsuario($resultSet) {
             $usuario = new Usuario();
 

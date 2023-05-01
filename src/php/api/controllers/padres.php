@@ -16,7 +16,7 @@
             global $config;
 
             // Insertar en tabla de personas.
-            $id = DAOUsuario::altaUsuario($datos);
+            $id = DAOUsuario::altaPersona($datos);
             sleep(1);
 
             if (!$id) {

@@ -32,7 +32,6 @@ class LoginGoogle {
     login(token) {
         Rest.post('login_google', [], token.credential, true)
          .then(usuario => {
-             alert(usuario);
              sessionStorage.setItem('usuario', JSON.stringify(usuario));
              window.location.href = 'index_evg.html';
          })

@@ -38,15 +38,25 @@
             //El usuario ha sido identificado por Google
             $usuario = DAOUsuario::autenticarEmail($payload['email']);
             sleep(1);
-            if (!$usuario){
-                header('HTTP/1.1 401 Unauthorized');
-                die();
+
+            if (!$usuario) {
+                $id = DAOUsuario::altaUsuarioGoogle($payload);
+                sleep(1);
+
+                if (!$id) {
+                    header('HTTP/1.1 400 Bad Request');
+                    die();
+                }
+
+                DAOUsuario::altaUsuario($id);
             }
+
             //Completamos los datos del usuario
-            $usuario->email = $payload['email'];
+            $usuario->nombre = $payload['given_name'];
+            $usuario->apellidos = $payload['family_name'];
+            $usuario->correo = $payload['email'];
             $usuario->autorizacion = openssl_encrypt(json_encode($usuario), self::$algoritmo_encriptacion, self::$clave, 0, self::$iv);
-            //print_r(openssl_get_cipher_methods()); //Muestra los algoritmos de encriptación disponibles
-    
+
             header('Content-type: application/json; charset=utf-8');
             header('HTTP/1.1 200 OK');
             echo json_encode($usuario);
