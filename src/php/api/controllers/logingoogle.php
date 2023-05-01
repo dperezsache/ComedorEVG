@@ -49,6 +49,9 @@
                 }
 
                 DAOUsuario::altaUsuario($id);
+                sleep(1);
+
+                $usuario = new Usuario();
             }
 
             //Completamos los datos del usuario
