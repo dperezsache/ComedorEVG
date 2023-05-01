@@ -73,17 +73,14 @@ class ControladorPadres {
     }
 
     /**
-     * Realiza la modificación de los datos del usuario.
-     * @param {Object} datos Nuevos datos del usuario.
+     * Realiza la modificación de los datos del padre.
+     * @param {Object} datos Nuevos datos del padre.
      */
-    modificarUsuario(datos) {
-        Rest.put('padres', [], datos, false)
+    modificarPadre(datos) {
+        this.modelo.modificarPadre(datos)
          .then(() => {
              this.vistaModificacion.exito(true);
              sessionStorage.setItem('usuario', JSON.stringify(datos));
-         })
-         .catch(e => {
-             console.error(e);
          })
     }
 }

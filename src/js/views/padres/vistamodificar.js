@@ -65,7 +65,7 @@ export class VistaModificarPadres extends Vista {
                 'correo': this.inputs[3].value
             };
 
-            this.controlador.modificarUsuario(datos);
+            this.controlador.modificarPadre(datos);
         }
     }
 
