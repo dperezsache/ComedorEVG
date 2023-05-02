@@ -14,4 +14,15 @@ export class Modelo {
     modificarPadre(datos) {
         return Rest.put('padres', [], datos, false);
     }
+
+    altaHijo(datos) {
+        Rest.post('hijos', [], datos, true)
+        .then(id => {
+            console.log("Introducido con exito")
+        })
+        .catch(e => {
+            
+            console.error(e);
+        })
+    }
 }

@@ -97,6 +97,35 @@
 
             return BD::insertar($sql, $params); 
         }
+        /**
+         * Inserta una fila en la tabla hijo.
+         * @param int $id ID de la persona.
+         * @return int ID de la inserción.
+         */
+        public static function altaHijo($id) {
+            $sql = 'INSERT INTO hijo(id)';
+            $sql .= ' VALUES(:id)';
+            $params = array('id' => $id);
+
+            return BD::insertar($sql, $params); 
+        }
+
+        /**
+         * Inserta una fila en la tabla padresHijos.
+         * @param array $datos datos de la persona
+         * @param int $id ID de la persona.
+         * @return int ID de la inserción.
+         */
+        public static function altaPadreHijo($datos, $id) {
+            $sql = 'INSERT INTO padresHijos(idPadre, idHijo)';
+            $sql .= ' VALUES(:idPadre, :idHijo)';
+            $params = array(
+                'idPadre' => $datos->id,
+                'idHijo' => $id
+            );
+
+            return BD::insertar($sql, $params); 
+        }
 
         /**
          * Inserta una fila en la tabla usuario.
