@@ -41,6 +41,7 @@ class LoginGoogle {
              this.redireccionar(usuario.correo);
          })
          .catch(e => {
+             this.divCargando.style.display = 'none';
              console.error(e);
          })
     }
