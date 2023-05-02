@@ -18,7 +18,7 @@ export class VistaModificarPadres extends Vista {
         this.btnActualizar = this.div.getElementsByTagName('button')[1];
         this.divExito = this.div.querySelector('#divExito');
         this.idUsuario = 0;
-
+        this.divCargando = this.div.querySelector('#loadingImg');
         this.btnCancelar.addEventListener('click', this.cancelar.bind(this));
         this.btnActualizar.addEventListener('click', this.validarFormulario.bind(this));
     }
@@ -65,6 +65,7 @@ export class VistaModificarPadres extends Vista {
                 'correo': this.inputs[3].value
             };
 
+            this.divCargando.style.display = 'block';
             this.controlador.modificarPadre(datos);
         }
     }
@@ -74,6 +75,7 @@ export class VistaModificarPadres extends Vista {
      */
     exito(activar) {
         this.form.classList.remove('was-validated');
+        this.divCargando.style.display = 'none';
         
         if (activar) {
             for (let input of this.inputs)

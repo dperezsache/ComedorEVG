@@ -53,14 +53,14 @@ class AltaPadres {
                 };
     
                 Rest.post('padres', [], usuario, true)
-                .then(id => {
-                    this.divCargando.style.display = 'none';
-                    if (id) this.exito();
-                })
-                .catch(e => {
-                    this.divCargando.style.display = 'none';
-                    console.error(e);
-                })
+                 .then(id => {
+                     this.divCargando.style.display = 'none';
+                     if (id) this.exito();
+                 })
+                 .catch(e => {
+                     this.divCargando.style.display = 'none';
+                     console.error(e);
+                 })
             }
         }
     }

@@ -19,43 +19,46 @@
         </nav>
 
         <div id="inicioPadres">
-            <h1>Bienvenido al panel de padres</h1>
+            <h1 class="text-center my-4">Bienvenido al panel de padres</h1>
         </div>
 
         <div id="gestionHijosPadres">
-            <h1>Gestión de hijos</h1>
-            <h2 >Alta de hijos</h2>
+            <h1 class="text-center my-4">Gestión de hijos</h1>
+            <h3 class="text-center my-4">Alta de hijos</h3>
             <form method="POST">
                 <div class="formItem">
                     <label for="nombre">
-                        Nuevo nombre (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
-                        <div class="invalid-feedback">Por favor, introduzca su nombre.</div>
+                        Nombre hijo/a (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
+                        <div class="invalid-feedback">Por favor, introduzca el nombre.</div>
                     </label>
                 </div>
                 <div class="formItem">
                     <label for="apellidos">
-                        Nuevos apellidos (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
-                        <div class="invalid-feedback">Por favor, introduzca sus apellidos.</div>
+                        Apellidos hijo/a (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
+                        <div class="invalid-feedback">Por favor, introduzca los apellidos.</div>
                     </label>
                 </div>
                 <div class="formItem">
-                        <label for="curso">
-                            Curso
-                            <select><option value="-1">Curso</option></select>
-                        </label>
-                    </div>
+                    <label for="curso">
+                        Curso
+                        <select><option value="-1">Curso</option></select>
+                    </label>
+                </div>
                 <div class="formItem" id="loadingImg">
                     <img src="./img/loading.gif"/>
                 </div>
                 <div class="formItem">
-                        <button type="button" class="btn btn-danger">Cancelar</button>
-                        <button type="button" class="btn btn-success">Registrarse</button>
+                    <button type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="button" class="btn btn-success">Dar de alta</button>
                 </div>
             </form>
+            <div id="divExito" class="p-1 container bg-success text-light text-center rounded">
+                <p>Tu hijo/a ha sido dado de alta correctamente.</p>
+            </div>
         </div>
 
         <div id="modificacionPadres">
-            <h3 class="text-center my-4">Modificación de datos personales</h3>
+            <h1 class="text-center my-4">Modificación de datos personales</h1>
             <form method="post" class="needs-validation" novalidate>
                 <div class="formItem">
                     <label for="nombre">

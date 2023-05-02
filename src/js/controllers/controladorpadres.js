@@ -13,7 +13,7 @@ class ControladorPadres {
 
     constructor() {
         window.onload = this.iniciar.bind(this);
-        window.onerror = (error) => console.log('Error capturado. ' + error);
+        window.onerror = (error) => console.error('Error capturado. ' + error);
     }
 
     /**
@@ -63,12 +63,21 @@ class ControladorPadres {
         this.vistaGestionHijos.mostrar(false);
         this.vistaModificacion.mostrar(true);
     }
+
+    /**
+     * Realiza el proceso de dar de alta a un hijo.
+     * @param {Object} datos Datos del hijo.
+     */
     altaHijo(datos) {
-        console.log("estoy en el controlador")
-        console.log(datos)
-        this.modelo.altaHijo(datos)    
-        
+        this.modelo.altaHijo(datos)
+         .then(() => {
+            this.vistaGestionHijos.exito(true);
+         })
+         .catch(e => {
+             console.error(e);
+         })
     }
+
     /**
      * Cierra la sesión del usuario.
      */
@@ -88,6 +97,9 @@ class ControladorPadres {
              this.vistaModificacion.exito(true);
              sessionStorage.setItem('usuario', JSON.stringify(datos));
          })
+         .catch(e => {
+             console.error(e);
+         }) 
     }
 }
 

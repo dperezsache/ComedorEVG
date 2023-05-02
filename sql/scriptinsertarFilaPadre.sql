@@ -1,1 +1,2 @@
-INSERT INTO `persona` (`id`, `nombre`, `apellidos`, `correo`, `contrasenia`, `telefono`, `dni`, `iban`, `titular`) VALUES (NULL, 'sergio', 'rivera', 'sergio@gmail.com', '$2y$10$RxTFn.kpdkCZWpMTIoipJeKQcLxfSsjIJl3csEtbPNBN1m9fD0Krm', '2', '3', '4', '5');
+INSERT INTO `persona` (`nombre`, `apellidos`, `correo`, `contrasenia`, `telefono`, `dni`, `iban`, `titular`) 
+VALUES ('sergio', 'rivera', 'sergio@gmail.com', '1234', '690112233', '80909009A', '4', 'sergio');

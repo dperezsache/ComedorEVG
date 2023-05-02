@@ -97,6 +97,7 @@
 
             return BD::insertar($sql, $params); 
         }
+        
         /**
          * Inserta una fila en la tabla hijo.
          * @param int $id ID de la persona.
@@ -112,7 +113,7 @@
 
         /**
          * Inserta una fila en la tabla padresHijos.
-         * @param array $datos datos de la persona
+         * @param object $datos Datos de la persona.
          * @param int $id ID de la persona.
          * @return int ID de la inserción.
          */

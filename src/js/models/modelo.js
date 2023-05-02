@@ -8,21 +8,19 @@ import { Rest } from "../services/rest.js";
 export class Modelo {
     /**
      * Realiza el proceso de modificación de un padre.
-     * @param {Object} Datos Datos del padre.
+     * @param {Object} datos Datos del padre.
      * @return {Promise} Devuelve la promesa asociada a la petición.
      */
     modificarPadre(datos) {
         return Rest.put('padres', [], datos, false);
     }
 
+    /**
+     * Realiza el proceso de dar de alta a un hijo.
+     * @param {Object} datos Datos del hijo.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
     altaHijo(datos) {
-        Rest.post('hijos', [], datos, true)
-        .then(id => {
-            console.log("Introducido con exito")
-        })
-        .catch(e => {
-            
-            console.error(e);
-        })
+        return Rest.post('hijos', [], datos, false);
     }
 }

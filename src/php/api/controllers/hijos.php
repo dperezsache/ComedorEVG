@@ -3,7 +3,7 @@
     require_once(dirname(__DIR__) . '/models/usuario.php');
 
     /**
-     * Controlador de autenticación.
+     * Controlador de hijos.
      */
     class Hijos {
         /**
@@ -14,6 +14,7 @@
          */
         function post($pathParams, $queryParams, $datos) {
             global $config;
+            
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
@@ -28,26 +29,7 @@
             sleep(1);
             
             //Insertar en tabla de padreshijo
-
             DAOUsuario::altaPadreHijo($datos, $id);
-            sleep(1);
-
-            header('Content-type: application/json; charset=utf-8');
-            header('HTTP/1.1 200 OK');
-            echo json_encode($datos);
-            die();
-        }
-
-        /**
-         * Actualiza los datos de un padre.
-         * @param $pathParams No utilizado.
-         * @param $queryParams No utilizado.
-         * @param $datos Datos del usuario.
-         */
-        function put($pathParams, $queryParams, $datos) {
-            global $config;
-
-            DAOUsuario::modificarUsuarioPadre($datos);
             sleep(1);
 
             header('HTTP/1.1 200 OK');

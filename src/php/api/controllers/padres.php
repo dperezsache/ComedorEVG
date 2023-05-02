@@ -3,7 +3,7 @@
     require_once(dirname(__DIR__) . '/models/usuario.php');
 
     /**
-     * Controlador de autenticación.
+     * Controlador de padres.
      */
     class Padres {
         /**
