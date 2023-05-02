@@ -33,6 +33,7 @@ class ControladorPadres {
         this.vistaModificacion = new VistaModificarPadres(this, document.getElementById('modificacionPadres'));
         
         this.vistaModificacion.actualizarCampos(this.#usuario);
+        this.vistaGestionHijos.actualizarCampos(this.#usuario);
         this.verVistaInicio();
     }
 
@@ -62,7 +63,12 @@ class ControladorPadres {
         this.vistaGestionHijos.mostrar(false);
         this.vistaModificacion.mostrar(true);
     }
-
+    altaHijo(datos) {
+        console.log("estoy en el controlador")
+        console.log(datos)
+        this.modelo.altaHijo(datos)    
+        
+    }
     /**
      * Cierra la sesión del usuario.
      */

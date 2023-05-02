@@ -96,6 +96,10 @@
                 require_once('./controllers/padres.php');
                 $controlador = new Padres();
                 break;
+            case 'hijos':
+                require_once('./controllers/hijos.php');
+                $controlador = new Hijos();
+                break;
             
             default:
                 header('HTTP/1.1 501 Not Implemented');
