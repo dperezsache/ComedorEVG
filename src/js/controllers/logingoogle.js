@@ -13,6 +13,8 @@ class LoginGoogle {
      * Inicia el login al cargar la página.
      */
     iniciar() {
+        this.divCargando = document.getElementById('loadingImg');
+
         google.accounts.id.initialize({
             client_id: '829640902680-48t2uq3us7qit3ehbusp2t6fldfeh6r6.apps.googleusercontent.com',
             callback: this.login.bind(this)
@@ -30,14 +32,33 @@ class LoginGoogle {
      * @param {token} Object Token de identificación de usuario de Google.
      */
     login(token) {
+        this.divCargando.style.display = 'block';
+
         Rest.post('login_google', [], token.credential, true)
          .then(usuario => {
              sessionStorage.setItem('usuario', JSON.stringify(usuario));
-             window.location.href = 'index_evg.html';
+             this.divCargando.style.display = 'none';
+             this.redireccionar(usuario.correo);
          })
          .catch(e => {
              console.error(e);
          })
+    }
+
+    /**
+     * Redirecciona dependiendo del tipo de usuario que sea.
+     * @param {String} correo Email del usuario.
+     */
+    redireccionar(correo) {
+        if (correo.includes('@alumnado.fundacionloyola.net')) {
+            window.location.href = 'index_alumnos.html';    // Alumno
+        }
+        else if (correo.includes('@fundacionloyola.es')) {
+            window.location.href = 'index_evg.html';        // Secretaría
+        }
+        else {
+            window.location.href = 'index_personal.html';   // PAS o trabajadores
+        }
     }
 }
 

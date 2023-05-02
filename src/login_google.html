@@ -9,6 +9,15 @@
         <title>Comedor EVG</title>
     </head>
     <body>
-        <h1>Página de secretaría</h1>
+        <div class="container my-2 bg-dark text-light p-2 rounded">
+            <h3 class="text-center">Iniciar sesión con Google</h3>
+            <div id="loadingImg" class="mx-auto text-center my-2">
+                <img src="./img/loading.gif"/>
+            </div>
+            <div id="divGoogleLogin"></div>
+        </div>
     </body>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module" src="js/controllers/logingoogle.js"></script>
 </html>
