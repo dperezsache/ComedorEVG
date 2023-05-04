@@ -16,10 +16,7 @@ class AltaPadres {
         this.form = document.getElementsByTagName('form')[0];
         this.inputs = document.getElementsByTagName('input');
         this.divExito = document.getElementById('divExito');
-<<<<<<< HEAD
-=======
         this.divError = document.getElementById('divError');
->>>>>>> 336e743745b8009bf68d7dd9ae329b601307f5bf
         this.divCargando = document.getElementById('loadingImg');
         this.btnCancelar = document.getElementsByTagName('button')[0];
         this.btnRegistrar = document.getElementsByTagName('button')[1];

@@ -6,15 +6,17 @@ export class VistaMenuPadres {
         this.controlador = controlador;
         this.nav = nav;
 
-        this.linkInicio = this.nav.getElementsByTagName('li')[0];
-        this.linkGestionHijos = this.nav.getElementsByTagName('li')[1];
-        this.linkModificacion = this.nav.getElementsByTagName('li')[2];
-        this.linkCerrarSesion = this.nav.getElementsByTagName('li')[3];
+        this.liHamburger = this.nav.getElementsByTagName('li')[0];
+        this.liInicio = this.nav.getElementsByTagName('li')[1];
+        this.liGestionHijos = this.nav.getElementsByTagName('li')[2];
+        this.liModificacion = this.nav.getElementsByTagName('li')[3];
+        this.liCerrarSesion = this.nav.getElementsByTagName('li')[4];
         
-        this.linkInicio.onclick = this.inicio.bind(this);
-        this.linkGestionHijos.onclick = this.gestionHijos.bind(this);
-        this.linkModificacion.onclick = this.modificacion.bind(this);
-        this.linkCerrarSesion.onclick = this.cerrarSesion.bind(this);
+        this.liHamburger.onclick = this.toggleMenu.bind(this);
+        this.liInicio.onclick = this.inicio.bind(this);
+        this.liGestionHijos.onclick = this.gestionHijos.bind(this);
+        this.liModificacion.onclick = this.modificacion.bind(this);
+        this.liCerrarSesion.onclick = this.cerrarSesion.bind(this);
     }
 
     /**
@@ -23,9 +25,16 @@ export class VistaMenuPadres {
     inicio() {
         this.controlador.verVistaInicio();
 
-        this.linkInicio.classList.add('active');
-        this.linkGestionHijos.classList.remove('active');
-        this.linkModificacion.classList.remove('active');
+        this.liInicio.classList.add('active');
+        this.liGestionHijos.classList.remove('active');
+        this.liModificacion.classList.remove('active');
+    }
+
+    /**
+     * Muestra/oculta menú de navegación.
+     */
+    toggleMenu() {
+        this.nav.classList.toggle('responsive');
     }
 
     /**
@@ -34,9 +43,9 @@ export class VistaMenuPadres {
     gestionHijos() {
         this.controlador.verVistaGestionHijos();
 
-        this.linkInicio.classList.remove('active');
-        this.linkGestionHijos.classList.add('active');
-        this.linkModificacion.classList.remove('active');
+        this.liInicio.classList.remove('active');
+        this.liGestionHijos.classList.add('active');
+        this.liModificacion.classList.remove('active');
     }
 
     /**
@@ -45,9 +54,9 @@ export class VistaMenuPadres {
     modificacion() {
         this.controlador.verVistaModificacion();
 
-        this.linkInicio.classList.remove('active');
-        this.linkGestionHijos.classList.remove('active');
-        this.linkModificacion.classList.add('active');
+        this.liInicio.classList.remove('active');
+        this.liGestionHijos.classList.remove('active');
+        this.liModificacion.classList.add('active');
     }
 
     /**
