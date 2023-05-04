@@ -135,7 +135,16 @@
         }
     }
     catch (Throwable $excepcion) { // Throwable (interfaz) incluye Error y Exception
-        header('HTTP/1.1 500 Internal Server Error 1');
+        switch ($excepcion->getCode()) {
+            case 23000:     // Integrity constraint violation: 1062
+                header('HTTP/1.1 500 Internal Server Error 1');
+                break;
+
+            default:
+                header('HTTP/1.1 500 Internal Server Error');
+                break;
+        }
+
         echo $excepcion;
         die();
     }

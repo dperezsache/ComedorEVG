@@ -10,36 +10,39 @@
         <title>Comedor EVG</title>
     </head>
     <body>
-        <form class="formLogin needs-validation" method="post" novalidate>
+        <form class="needs-validation" method="post" novalidate>
 			<div id="imgLogin">
-				<img class="imgLogin" src="./img/foto.jpg"/>
+				<img class="imgLogin" src="./img/foto.jpg" draggable="false"/>
 			</div>
-			<h3>Bienvenido/a</h3>
-            <div class="formItemLogin">
+			<div class="formItem">
+                <h3>Bienvenido/a</h3>
+            </div>
+            <div class="formItem">
                 <label for="correo">
                     Dirección de email (*) <input type="email" class="form-control" name="correo" maxlength="90" required/>
                     <div class="invalid-feedback">Por favor, indique su email.</div>
                 </label>
             </div>
-            <div class="formItemLogin">
+            <div class="formItem">
                 <label for="contrasenia">
                     Contraseña (*) <input type="password" class="form-control" name="password" maxlength="90" required/>
                     <div class="invalid-feedback">Por favor, introduzca su contraseña.</div>
                 </label>
             </div>
-            <div class="formItemLogin" id="loadingImg">
+            <div class="formItem" id="loadingImg">
                 <img src="./img/loading.gif"/>
             </div>
-            <div class="formItemLogin">
+            <div class="formItem">
                 <button type="button" class="btn btn-info">Login</button>
             </div>
-			<div class="formItemLogin">
+			<div class="formItem">
                 <p>¿No tienes cuenta? <a href="registro.html">Registrate</a></p>
             </div>
-            <div class="formItemLogin">
+            <div class="formItem">
                 <p>Si has olvidado la contraseña. Pulsa aquí</p>
             </div>
         </form>
+        <div id="divError" class="w-50 p-1 container bg-danger text-light text-center rounded my-2"></div>
         <script type="module" src="js/controllers/loginpadres.js"></script>
     </body>
 </html>

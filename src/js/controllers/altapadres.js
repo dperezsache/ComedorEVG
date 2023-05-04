@@ -16,6 +16,10 @@ class AltaPadres {
         this.form = document.getElementsByTagName('form')[0];
         this.inputs = document.getElementsByTagName('input');
         this.divExito = document.getElementById('divExito');
+<<<<<<< HEAD
+=======
+        this.divError = document.getElementById('divError');
+>>>>>>> 336e743745b8009bf68d7dd9ae329b601307f5bf
         this.divCargando = document.getElementById('loadingImg');
         this.btnCancelar = document.getElementsByTagName('button')[0];
         this.btnRegistrar = document.getElementsByTagName('button')[1];
@@ -40,6 +44,9 @@ class AltaPadres {
         if (cont == total) {
             if (this.inputs[3].value === this.inputs[4].value) {
                 this.divCargando.style.display = 'block';
+                
+                if (this.divError.style.display == 'block')
+                    this.divError.style.display = 'none';
 
                 const usuario = {
                     nombre: this.inputs[0].value,
@@ -55,20 +62,50 @@ class AltaPadres {
                 Rest.post('padres', [], usuario, true)
                  .then(id => {
                      this.divCargando.style.display = 'none';
-                     if (id) this.exito();
+                     if (id) this.exito(usuario);
                  })
                  .catch(e => {
                      this.divCargando.style.display = 'none';
-                     console.error(e);
+                     this.error(e);
                  })
+            }
+            else {
+                this.inputs[4].setCustomValidity('Las contraseñas no coindicen.');
+                this.inputs[4].reportValidity();
             }
         }
     }
 
     /**
-     * Informar al usuario del alta exitosa, y redirigir a página de login.
+     * Aviso de errores al usuario.
+     * @param {Object} e Error.
      */
-    exito() {
+    error(e) {
+        if (e != null) {
+            if(e == 'Error: 500 - Internal Server Error 1') {
+                this.divError.innerHTML = '<p>Ya existe una cuenta con esos datos.</p>';
+            }
+            else {
+                this.divError.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divError.style.display = 'block';
+            this.form.classList.remove('was-validated');
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divError.style.display = 'none';
+        }
+    }
+
+    /**
+     * Informar al usuario del alta exitosa, y redirigir a página de padres.
+     * @param {Object} datos Datos del usuario.
+     */
+    exito(datos) {
+        if (this.divError.style.display == 'block')
+            this.divError.style.display = 'none';
+
         for (let input of this.inputs)
             input.disabled = true;
 
@@ -76,7 +113,8 @@ class AltaPadres {
         this.btnCancelar.disabled = true;
         this.divExito.style.display = 'block';
 
-        setTimeout(this.redireccion.bind(this), 3000);
+        window.scrollTo(0, document.body.scrollHeight);
+        this.redireccion(datos);
     }
 
     /**
@@ -87,10 +125,23 @@ class AltaPadres {
     }
 
     /**
-     * Redirección a página de login de padres.
+     * Loguear usuario y redireccionarlo a la página de padres.
+     * @param {Object} datos Datos del usuario.
      */
-    redireccion() {
-        window.location.href = 'login.html';
+    redireccion(datos) {
+        const login = {
+            usuario: datos.correo,
+            clave: datos.contrasenia
+        };
+
+        Rest.post('login', [], login, true)
+         .then(usuario => {
+             sessionStorage.setItem('usuario', JSON.stringify(usuario));
+             window.location.href = 'index.html';
+         })
+         .catch(e => {
+             this.error(e);
+         })
     }
 }
 

@@ -19,6 +19,7 @@ class LoginPadres {
         this.clave = document.getElementsByTagName('input')[1];
         this.btnAceptar = document.getElementsByTagName('button')[0];
         this.divCargando = document.getElementById('loadingImg');
+        this.divError = document.getElementById('divError');
 
         this.btnAceptar.addEventListener('click', this.validarFormulario.bind(this));
     }
@@ -39,6 +40,9 @@ class LoginPadres {
     login() {
         this.divCargando.style.display = 'block';
 
+        if (this.divError.style.display == 'block')
+            this.divError.style.display = 'none';
+
         const login = {
             usuario: this.email.value,
             clave: this.clave.value
@@ -52,8 +56,30 @@ class LoginPadres {
          })
          .catch(e => {
              this.divCargando.style.display = 'none';
-             console.error(e);
+             this.error(e);
          })
+    }
+
+    /**
+     * Aviso de errores al usuario.
+     * @param {Object} e Error.
+     */
+    error(e) {
+        if (e != null) {
+            if (e == 'Error: 401 - Unauthorized') {
+                this.divError.innerHTML = '<p>Los datos introducidos no son correctos.</p>';
+            }
+            else {
+                this.divError.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divError.style.display = 'block';
+            this.form.classList.remove('was-validated');
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divError.style.display = 'none';
+        }
     }
 }
 

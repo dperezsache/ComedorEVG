@@ -49,6 +49,7 @@ div.formItem input[type="checkbox"] {
 }
 
 /*-------------------------- LOGIN PADRES ------------------*/
+<<<<<<< HEAD
 
 .formLogin {
 	font-family:sans serif, Open-sans;
@@ -60,13 +61,15 @@ div.formItem input[type="checkbox"] {
     color: #014179;
     background-color: aliceblue;
 }
+=======
+>>>>>>> 336e743745b8009bf68d7dd9ae329b601307f5bf
 
 .formLogin h3{
 	text-align:center;
 	margin-bottom:30px;
 }
+
 #imgLogin{
-	background-color:red;
 	width:150px;
 	margin-left:auto;
 	margin-right:auto;
@@ -77,43 +80,35 @@ div.formItem input[type="checkbox"] {
 .imgLogin{
 	width:100%;
 }
-.formLogin div.formItemLogin {
-    cursor: pointer;
-    margin: 10px auto;
-    text-align: center;
-}
-
-.formLogin div.formItemLoginError{
-    margin: 10px auto;
-    text-align: center;
-    display:none;
-    color:red;
-}
-
-.formLogin div.formItemLogin label{
-	text-align:left;
-}
-
-div.formItemLogin input {
-    display: block;
-    margin: auto;
-	margin-top:5px;
-    min-height: 20px;
-    min-width: 198px;
-    border: 1px solid gray;
-    border-radius: 5px;
-    background-color: white;
-}
 
 .btn-info{
   min-width: 210px;
 }
 
-div.formItemLogin input[type="checkbox"] {
-    min-width: 20px;
-    display: inline-block;
+div#divExito,
+div#divError {
+    display: none;
 }
 
+#loadingImg {
+    display: none;
+}
+
+#loadingImg img {
+    width: 32px;
+    height: 32px;
+}
+
+@media (max-width:575.98px) {
+
+}
+
+/*----- DASHBOARD PADRES -----*/
+nav#menuPadres ul li {
+    cursor: pointer;
+}
+
+<<<<<<< HEAD
 div#divExito {
     display: none;
 }
@@ -141,3 +136,5 @@ nav#menuPadres ul li {
     cursor: pointer;
 }
 
+=======
+>>>>>>> 336e743745b8009bf68d7dd9ae329b601307f5bf

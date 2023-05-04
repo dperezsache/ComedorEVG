@@ -12,13 +12,13 @@
         <form method="post" class="needs-validation" novalidate>
             <div class="formItem">
                 <label for="nombre">
-                    Nombre padre (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
+                    Nombre padre/madre (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
                     <div class="invalid-feedback">Por favor, introduzca su nombre.</div>
                 </label>
             </div>
             <div class="formItem">
                 <label for="apellidos">
-                    Apellidos padre (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
+                    Apellidos padre/madre (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
                     <div class="invalid-feedback">Por favor, introduzca sus apellidos.</div>
                 </label>
             </div>
@@ -37,7 +37,7 @@
             <div class="formItem">
                 <label for="contrasenia2">
                     Repita la contraseña (*) <input type="password" class="form-control" name="contrasenia2" maxlength="90" required/>
-                    <div class="invalid-feedback">Por favor, introduzca una contraseña.</div>
+                    <div class="invalid-feedback">Por favor, repita la misma contraseña.</div>
                 </label>
             </div>
             <div class="formItem">
@@ -48,7 +48,7 @@
             </div>
             <div class="formItem">
                 <label for="dni">
-                    DNI (*) <input type="text" class="form-control" name="dni" maxlength="9" pattern="(\d{8})([A-Z])$" required/>
+                    DNI/NIE/Pasaporte (*) <input type="text" class="form-control" name="dni" maxlength="9" required/>
                     <div class="invalid-feedback">Por favor, introduzca un DNI válido.</div>
                 </label>
             </div>
@@ -81,9 +81,10 @@
                 <button type="button" class="btn btn-success">Registrarse</button>
             </div>
         </form>
-        <div id="divExito" class="p-1 container bg-success text-light text-center rounded">
+        <div id="divExito" class="w-50 p-1 container bg-success text-light text-center rounded my-2">
             <p>Te has registrado exitosamente. Redirigiendo.</p>
         </div>
+        <div id="divError" class="w-50 p-1 container bg-danger text-light text-center rounded my-2"></div>
     </body>
     <script type="module" src="js/controllers/altapadres.js"></script>
 </html>
