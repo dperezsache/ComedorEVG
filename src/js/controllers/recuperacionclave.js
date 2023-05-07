@@ -73,7 +73,10 @@ class RecuperacionClave {
         this.divCargando.style.display = 'none';
 
         if (e != null) {
-            if (e == 'Error: 404 - Not Found') {
+            if (e == 'Error: 403 - Forbidden') {
+                this.divError.innerHTML = '<p>No se pudo realizar el proceso.</p>';
+            }
+            else if (e == 'Error: 404 - Not Found') {
                 this.divError.innerHTML = '<p>No existe una cuenta con esa dirección de correo.</p>';
             }
             else if (e == 'Error: 500 - Internal Server Error 1') {

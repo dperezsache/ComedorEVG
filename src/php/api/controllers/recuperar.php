@@ -4,10 +4,6 @@
 
     /**
      * Controlador de recuperación de contraseñas.
-     * 
-     * TO DO: 
-     * COMPROBAR SI EXISTE UNA RECUPERACION PENDIENTE QUE ESTÉ CADUCADA, SI ES ASÍ, CANCELARLA
-     * GENERAR UNA NUEVA.
      */
     class Recuperar {
         /**
