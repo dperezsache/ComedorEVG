@@ -3,7 +3,7 @@ import { Rest } from "../services/rest.js";
 /**
  * Controlador de login de padres
  */
-class LoginPadres {
+class Login {
     constructor() {
         window.onload = this.iniciar.bind(this);
         window.onerror = (error) => console.error('Error capturado. ' + error);
@@ -83,4 +83,4 @@ class LoginPadres {
     }
 }
 
-new LoginPadres();
+new Login();

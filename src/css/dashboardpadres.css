@@ -56,3 +56,10 @@ nav#menuPadres ul li {
         text-align: left;
     }
 }
+
+/* Al iniciar los div de las vistas no se verán durante la carga de DOM */
+div#inicioPadres,
+div#gestionHijosPadres,
+div#modificacionPadres {
+    display: none;
+}
