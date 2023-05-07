@@ -43,7 +43,7 @@
         function put($pathParams, $queryParams, $datos) {
             global $config;
 
-            DAOUsuario::modificarUsuarioPadre($datos);
+            DAOUsuario::modificarPersona($datos);
             sleep(1);
 
             header('HTTP/1.1 200 OK');

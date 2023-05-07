@@ -1,5 +1,4 @@
 CREATE DATABASE Comedor;
-USE Comedor;
 
 CREATE TABLE persona(
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -73,3 +72,12 @@ CREATE TABLE festivosColegio(
 
 	CONSTRAINT PK_diaFestivo PRIMARY KEY (diaFestivo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE recuperacionClaves(
+    id SMALLINT UNSIGNED NOT NULL,
+    fechaLimite DATETIME NOT NULL,
+    codigo VARCHAR(16) NOT NULL,
+
+    CONSTRAINT PK_RecuperacionClaves_id PRIMARY KEY (id),
+    CONSTRAINT UQ_RecuperacionClaves_Codigo UNIQUE (codigo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci

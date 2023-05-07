@@ -24,19 +24,19 @@
             </div>
             <div class="formItem">
                 <label for="correo">
-                    Dirección de email (*) <input type="email" class="form-control" name="correo" maxlength="90" required/>
+                    Dirección de email (*) <input type="email" class="form-control" name="correo" minlength="8"maxlength="90" required/>
                     <div class="invalid-feedback">Por favor, introduzca su email.</div>
                 </label>
             </div>
             <div class="formItem">
                 <label for="contrasenia">
-                    Contraseña (*) <input type="password" class="form-control" name="contrasenia" maxlength="90" required/>
-                    <div class="invalid-feedback">Por favor, introduzca una contraseña.</div>
+                    Contraseña (*) <input type="password" class="form-control" name="contrasenia" minlength="8" maxlength="90" required/>
+                    <div class="invalid-feedback">Por favor, introduzca una contraseña de<br> 8 caracteres mínimo.</div>
                 </label>
             </div>
             <div class="formItem">
                 <label for="contrasenia2">
-                    Repita la contraseña (*) <input type="password" class="form-control" name="contrasenia2" maxlength="90" required/>
+                    Repita la contraseña (*) <input type="password" class="form-control" name="contrasenia2" minlength="8" maxlength="90" required/>
                     <div class="invalid-feedback">Por favor, repita la misma contraseña.</div>
                 </label>
             </div>
@@ -81,10 +81,10 @@
                 <button type="button" class="btn btn-success">Registrarse</button>
             </div>
         </form>
-        <div id="divExito" class="w-50 p-1 container bg-success text-light text-center rounded my-2">
+        <div id="divExito" class="w-75 p-1 container bg-success text-light text-center rounded my-2">
             <p>Te has registrado exitosamente. Redirigiendo.</p>
         </div>
-        <div id="divError" class="w-50 p-1 container bg-danger text-light text-center rounded my-2"></div>
+        <div id="divError" class="w-75 p-1 container bg-danger text-light text-center rounded my-2"></div>
     </body>
     <script type="module" src="js/controllers/altapadres.js"></script>
 </html>

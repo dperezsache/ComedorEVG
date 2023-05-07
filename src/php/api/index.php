@@ -102,6 +102,16 @@
                 $controlador = new Hijos();
                 break;
             
+            case 'recuperar':
+                require_once('./controllers/recuperar.php');
+                $controlador = new Recuperar();
+                break;
+
+            case 'restaurar':
+                require_once('./controllers/restaurar.php');
+                $controlador = new Restaurar();
+                break;
+
             default:
                 header('HTTP/1.1 501 Not Implemented');
                 die();

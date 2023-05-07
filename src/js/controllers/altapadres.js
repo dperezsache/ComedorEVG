@@ -80,7 +80,7 @@ class AltaPadres {
     error(e) {
         if (e != null) {
             if(e == 'Error: 500 - Internal Server Error 1') {
-                this.divError.innerHTML = '<p>Ya existe una cuenta con esos datos.</p>';
+                this.divError.innerHTML = '<p>Ya existe una cuenta con esa dirección de correo o IBAN.</p>';
             }
             else {
                 this.divError.innerHTML = '<p>' + e + '</p>';
