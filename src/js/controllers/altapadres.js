@@ -36,6 +36,7 @@ class AltaPadres {
             if (!this.inputs[cont].checkValidity()) break;
         }
         
+        this.inputs[4].setCustomValidity('');
         this.form.classList.add('was-validated');
 
         if (cont == total) {

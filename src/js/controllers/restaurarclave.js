@@ -14,6 +14,8 @@ class RestaurarClave {
      * Inicia al cargar la página.
      */
     iniciar() {
+        this.idUsuario = null;
+
         this.form = document.getElementsByTagName('form')[0];
         this.campo1 = document.getElementsByTagName('input')[0];
         this.campo2 = document.getElementsByTagName('input')[1];
@@ -25,28 +27,35 @@ class RestaurarClave {
 
         this.btnCancelar.addEventListener('click', this.redireccionar.bind(this));
         this.btnAceptar.addEventListener('click', this.validar.bind(this));
+        this.validarCodigo();
+    }
+
+    validarCodigo() {
+        let path = window.location.search.substring(1, 7);  // Obtener el nombre solamente (codigo)
+        let query = window.location.search.substring(8);   // Obtener el ID sin la parte de "?codigo="
+
+        Rest.get('restaurar', [path], [query])
+         .then(id => {
+             this.idUsuario = id;
+             this.btnAceptar.disabled = false;
+         })
+         .catch(e => {
+             this.error(e, true);
+         })
     }
 
     /**
      * Comprueba que las contraseñas sean correctas y comienza el proceso.
      */
     validar() {
+        this.campo2.setCustomValidity('');
         this.form.classList.add('was-validated');
 
         if (this.campo1.checkValidity() && this.campo2.checkValidity()) {
-            if (this.campo1.value === this.campo2.value) {
+            if (this.campo1.value == this.campo2.value) {
+                
                 this.divCargando.style.display = 'block';
-
-                let path = window.location.search.substring(1, 7);  // Obtener el nombre solamente (codigo)
-                let query = window.location.search.substring(8);   // Obtener el ID sin la parte de "?codigo="
-
-                Rest.get('restaurar', [path], [query])
-                 .then(id => {
-                     if (id) this.actualizarClave(id);
-                 })
-                 .catch(e => {
-                     this.error(e);
-                 })
+                this.actualizarClave(this.idUsuario);
             }
             else {
                 this.campo2.setCustomValidity('Las contraseñas no coindicen.');
@@ -70,7 +79,7 @@ class RestaurarClave {
              this.exito();
          })
          .catch(e => {
-             this.error(e);
+             this.error(e, false);
          })
     }
 
@@ -78,16 +87,11 @@ class RestaurarClave {
      * Informa al usuario del éxito del proceso y redirige.
      */
     exito() {
-        if (this.divCargando.style.display == 'block')
-            this.divCargando.style.display = 'none';
-
-        if (this.divError.style.display == 'block')
-            this.divError.style.display = 'none';
-
-        this.campo1.disabled = true;
-        this.campo2.disabled = true;
-        this.btnAceptar.disabled = true;
+        this.divCargando.style.display = 'none';
+        this.divError.style.display = 'none';
         this.divExito.style.display = 'block';
+
+        this.bloquearForm();
 
         window.scrollTo(0, document.body.scrollHeight);
         setTimeout(this.redireccionar.bind(this), 3000);
@@ -103,23 +107,26 @@ class RestaurarClave {
     /**
      * Informa al usuario del error que ha ocurrido.
      * @param {Object} e Error.
+     * @param {Boolean} bloquear Si es true, bloqueará los campos y el botón de enviar.
      */
-    error(e) {
-        if (this.divCargando.style.display == 'block')
-            this.divCargando.style.display = 'none';
+    error(e, bloquear) {
+        this.divCargando.style.display = 'none';
+
+        if (bloquear)
+            this.bloquearForm();
 
         if (e != null) {
             if (e == 'Error: 400 - Bad Request 1') {
                 this.divError.innerHTML = '<p>No has solicitado un cambio de contraseña.</p>';
             }
             else if (e == 'Error: 400 - Bad Request 2') {
-                this.divError.innerHTML = '<p>No se encuentra su solicitud de cambio de contraseña. Solicite un nuevo <a class="text-warning" href="recuperar.html">cambio de contraseña</a>.</p>';
+                this.divError.innerHTML = '<p>No se encuentra su solicitud de cambio de contraseña. Solicite un nuevo <a href="recuperar.html" class="link-light">cambio de contraseña</a>.</p>';
             }
             else if (e == 'Error: 400 - Bad Request 3') {
-                this.divError.innerHTML = '<p>Su solicitud de cambio de contraseña no es válida. Solicite un nuevo <a class="text-warning" href="recuperar.html">cambio de contraseña</a>.</p>';
+                this.divError.innerHTML = '<p>Su solicitud de cambio de contraseña no es válida. Solicite un nuevo <a href="recuperar.html" class="link-light">cambio de contraseña</a>.</p>';
             }
             else if (e == 'Error: 400 - Bad Request 4') {
-                this.divError.innerHTML = '<p>Su solicitud de cambio de contraseña ha expirado. Solicite un nuevo <a class="text-warning" href="recuperar.html">cambio de contraseña</a>.</p>';
+                this.divError.innerHTML = '<p>Su solicitud de cambio de contraseña ha expirado. Solicite un nuevo <a href="recuperar.html" class="link-light">cambio de contraseña</a>.</p>';
             }
             else {
                 this.divError.innerHTML = '<p>' + e + '</p>';
@@ -132,6 +139,15 @@ class RestaurarClave {
         else {
             this.divError.style.display = 'none';
         }
+    }
+
+    /**
+     * Desactiva los campos y botones del formulario.
+     */
+    bloquearForm() {
+        this.campo1.disabled = true;
+        this.campo2.disabled = true;
+        this.btnAceptar.disabled = true;
     }
 }
 

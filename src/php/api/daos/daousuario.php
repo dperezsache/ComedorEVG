@@ -26,7 +26,7 @@
          * Consulta la base de datos para autenticar al usuario y devolver sus datos.
          * El email ha sido autenticado por Google.
          * @param string $email Correo del usuario.
-         * @return object|boolean Devuelve los datos del usuario o false si no existe el usuario.
+         * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function autenticarEmail($email) {
             $sql = 'SELECT * FROM persona';
@@ -41,7 +41,7 @@
         /**
          * Consulta la base de datos para ver si existe el correo del usuario.
          * @param string $email Correo del usuario.
-         * @return object Devuelve los datos del usuario en un objeto.
+         * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function existeCorreo($datos) {
             $sql = 'SELECT * FROM persona';
@@ -80,7 +80,7 @@
         /**
          * Obtiene fila de la tabla recuparacionClaves.
          * @param string $codigo Código único.
-         * @return object Objeto con la información.
+         * @return Recuperacion Objeto con la información.
          */
         public static function obtenerRecuperacionPorCodigo($codigo) {
             $sql = 'SELECT * FROM recuperacionClaves';
@@ -276,7 +276,7 @@
         /**
          * Genera un objeto de tipo usuario.
          * @param array $resultSet Array de datos.
-         * @return object|boolean Objeto usuario o False si no se pudo crear.
+         * @return Usuario|boolean Objeto creado o False si no se pudo crear.
          */
         public static function crearUsuario($resultSet) {
             $usuario = new Usuario();
@@ -298,7 +298,7 @@
         /**
          * Genera un objeto de tipo recuperacion de claves.
          * @param array $resultSet Array de datos.
-         * @return object|boolean Objeto creado o False si no se pudo crear.
+         * @return Recuperacion|boolean Objeto creado o False si no se pudo crear.
          */
         public static function crearRecuperacionClave($resultSet) {
             $recuperacion = new Recuperacion();
