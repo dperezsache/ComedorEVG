@@ -3,9 +3,9 @@
     require_once(dirname(__DIR__) . '/models/usuario.php');
 
     /**
-     * Controlador de padres.
+     * Controlador de registro de padres.
      */
-    class Padres {
+    class Registro {
         /**
          * Inserta al padre con sus datos en la base datos.
          * @param $pathParams No utilizado.
@@ -13,8 +13,6 @@
          * @param $datos Datos del usuario.
          */
         function post($pathParams, $queryParams, $datos) {
-            global $config;
-
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
@@ -28,9 +26,7 @@
             DAOUsuario::altaPadre($id);
             sleep(1);
 
-            header('Content-type: application/json; charset=utf-8');
             header('HTTP/1.1 200 OK');
-            echo json_encode($id);
             die();
         }
 
@@ -41,8 +37,6 @@
          * @param $datos Datos del usuario.
          */
         function put($pathParams, $queryParams, $datos) {
-            global $config;
-
             DAOUsuario::modificarPersona($datos);
             sleep(1);
 

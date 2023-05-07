@@ -13,7 +13,7 @@
          * @return object|boolean Devuelve los datos del usuario o false si no existe el usuario. 
          */
         public static function autenticarLogin($login) {
-            $sql = 'SELECT * FROM persona';
+            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM persona';
             $sql .= ' WHERE correo = :usuario AND contrasenia = :clave';
 
             $params = array('usuario' => $login->usuario, 'clave' => $login->clave);
@@ -29,7 +29,7 @@
          * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function autenticarEmail($email) {
-            $sql = 'SELECT * FROM persona';
+            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM persona';
             $sql .= ' WHERE correo = :email';
 
             $params = array('email' => $email);
@@ -39,12 +39,12 @@
         }
 
         /**
-         * Consulta la base de datos para ver si existe el correo del usuario.
+         * Consulta la base de datos para ver si existe usuario con el correo electrónico pasado.
          * @param string $email Correo del usuario.
          * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function existeCorreo($datos) {
-            $sql = 'SELECT * FROM persona';
+            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM persona';
             $sql .= ' WHERE correo = :email';
 
             $params = array('email' => $datos->correo);
@@ -83,7 +83,7 @@
          * @return Recuperacion Objeto con la información.
          */
         public static function obtenerRecuperacionPorCodigo($codigo) {
-            $sql = 'SELECT * FROM recuperacionClaves';
+            $sql = 'SELECT id, fechaLimite, codigo FROM recuperacionClaves';
             $sql .= ' WHERE codigo=:codigo';
 
             $params = array('codigo' => $codigo);
@@ -99,7 +99,7 @@
          * @return object Objeto con la información.
          */
         public static function obtenerRecuperacionPorID($datos) {
-            $sql = 'SELECT * FROM recuperacionClaves';
+            $sql = 'SELECT id, fechaLimite, codigo FROM recuperacionClaves';
             $sql .= ' WHERE id=:id';
 
             $params = array('id' => $datos->id);
@@ -153,6 +153,11 @@
             return strtoupper(bin2hex(openssl_random_pseudo_bytes(8)));
         }
 
+        /**
+         * Añade fila a tabla 'persona'
+         * @param object $datos Datos de la persona.
+         * @return int ID de la fila insertada.
+         */
         public static function altaPersona($datos) {
             $sql = 'INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
@@ -183,7 +188,7 @@
         }
 
         /**
-         * Modifica los datos de una persona.
+         * Modifica fila de la tabla 'persona'.
          * @param object $datos Datos de la persona.
          * @return void
          */
@@ -202,7 +207,7 @@
         }
 
         /**
-         * Modifica únicamente la contraseña de la persona.
+         * Modifica campo contraseña de una fila de la tabla 'persona'.
          * @param object $datos Datos de la persona.
          * @return void
          */
@@ -218,7 +223,7 @@
         }
 
         /**
-         * Inserta una fila en la tabla padre.
+         * Inserta fila en la tabla 'padre'.
          * @param int $id ID de la persona.
          * @return int ID de la inserción.
          */
@@ -231,7 +236,7 @@
         }
         
         /**
-         * Inserta una fila en la tabla hijo.
+         * Inserta fila en la tabla 'hijo'.
          * @param int $id ID de la persona.
          * @return int ID de la inserción.
          */
@@ -244,7 +249,7 @@
         }
 
         /**
-         * Inserta una fila en la tabla padresHijos.
+         * Inserta fila en la tabla 'padresHijos'.
          * @param object $datos Datos de la persona.
          * @param int $id ID de la persona.
          * @return int ID de la inserción.
@@ -261,7 +266,7 @@
         }
 
         /**
-         * Inserta una fila en la tabla usuario.
+         * Inserta fila en la tabla 'usuario'.
          * @param int $id ID de la persona.
          * @return int ID de la inserción.
          */
@@ -287,6 +292,9 @@
                 $usuario->nombre = $resultSet[0]['nombre'];
                 $usuario->apellidos = $resultSet[0]['apellidos'];
                 $usuario->telefono = $resultSet[0]['telefono'];
+                $usuario->dni = $resultSet[0]['dni'];
+                $usuario->iban = $resultSet[0]['iban'];
+                $usuario->titular = $resultSet[0]['titular'];
             }
             else {
                 $usuario = false;

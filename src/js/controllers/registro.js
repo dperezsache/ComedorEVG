@@ -3,7 +3,7 @@ import { Rest } from "../services/rest.js";
 /**
  * Controlador del registro de padres.
  */
-class AltaPadres {
+class Registro {
     constructor() {
         window.onload = this.iniciar.bind(this);
         window.onerror = (error) => console.log('Error capturado. ' + error);
@@ -57,10 +57,10 @@ class AltaPadres {
                     titular: this.inputs[8].value
                 };
     
-                Rest.post('padres', [], usuario, true)
-                 .then(id => {
+                Rest.post('registro', [], usuario, false)
+                 .then(() => {
                      this.divCargando.style.display = 'none';
-                     if (id) this.exito(usuario);
+                     this.exito(usuario);
                  })
                  .catch(e => {
                      this.divCargando.style.display = 'none';
@@ -143,4 +143,4 @@ class AltaPadres {
     }
 }
 
-new AltaPadres();
+new Registro();

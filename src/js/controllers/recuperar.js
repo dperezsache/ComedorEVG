@@ -3,7 +3,7 @@ import { Rest } from "../services/rest.js";
 /**
  * Controlador del proceso de generar solicitudes de recuperación de contraseñas de padres.
  */
-class RecuperacionClave {
+class Recuperar {
     constructor() {
         window.onload = this.iniciar.bind(this);
         window.onerror = (error) => console.error('Error capturado. ' + error);
@@ -24,7 +24,7 @@ class RecuperacionClave {
     }
 
     /**
-     * Validar que el correo esté relleno y exista en la BD.
+     * Validar que el correo esté relleno y exista alguien con el en la BBDD.
      */
     validar() {
         this.form.classList.add('was-validated');
@@ -96,4 +96,4 @@ class RecuperacionClave {
     }
 }
 
-new RecuperacionClave();
+new Recuperar();

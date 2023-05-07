@@ -92,9 +92,9 @@
                 $controlador = new LoginGoogle();
                 break;
 
-            case 'padres':
-                require_once('./controllers/padres.php');
-                $controlador = new Padres();
+            case 'registro':
+                require_once('./controllers/registro.php');
+                $controlador = new Registro();
                 break;
                 
             case 'hijos':

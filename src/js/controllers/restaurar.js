@@ -4,7 +4,7 @@ import { Rest } from "../services/rest.js";
  * Se encarga de gestionar que se pueda dar de alta una nueva contraseña.
  * Y de darla de alta de ser así. 
  */
-class RestaurarClave {
+class Restaurar {
     constructor() {
         window.onload = this.iniciar.bind(this);
         window.onerror = (error) => console.error('Error capturado. ' + error);
@@ -30,6 +30,9 @@ class RestaurarClave {
         this.validarCodigo();
     }
 
+    /**
+     * Comprobar si se puede restaurar la contraseña o no.
+     */
     validarCodigo() {
         let path = window.location.search.substring(1, 7);  // Obtener el nombre solamente (codigo)
         let query = window.location.search.substring(8);   // Obtener el ID sin la parte de "?codigo="
@@ -151,4 +154,4 @@ class RestaurarClave {
     }
 }
 
-new RestaurarClave();
+new Restaurar();
