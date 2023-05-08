@@ -69,6 +69,9 @@ class Login {
             if (e == 'Error: 401 - Unauthorized') {
                 this.divError.innerHTML = '<p>Los datos introducidos no son correctos.</p>';
             }
+            else if (e == 'Error: 408 - Request Timeout') {
+                this.divError.innerHTML = '<p>No hay conexión con la base de datos. Intente de nuevo más tarde.</p>';
+            }
             else {
                 this.divError.innerHTML = '<p>' + e + '</p>';
             }

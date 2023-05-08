@@ -146,6 +146,10 @@
     }
     catch (Throwable $excepcion) { // Throwable (interfaz) incluye Error y Exception
         switch ($excepcion->getCode()) {
+            case 2002:      // No hay conexión BBDD.
+                header('HTTP/1.1 408 Request Timeout');
+                break;
+
             case 23000:     // Integrity constraint violation: 1062
                 header('HTTP/1.1 500 Internal Server Error 1');
                 break;

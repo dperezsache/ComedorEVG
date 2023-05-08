@@ -83,6 +83,9 @@ class Registro {
             if(e == 'Error: 500 - Internal Server Error 1') {
                 this.divError.innerHTML = '<p>Ya existe una cuenta con esa dirección de correo o IBAN.</p>';
             }
+            else if (e == 'Error: 408 - Request Timeout') {
+                this.divError.innerHTML = '<p>No hay conexión con la base de datos. Intente de nuevo más tarde.</p>';
+            }
             else {
                 this.divError.innerHTML = '<p>' + e + '</p>';
             }

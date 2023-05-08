@@ -1,5 +1,10 @@
 import { Rest } from "../services/rest.js";
 
+// Direcciones de correo posibles.
+const PILAR = 'pvillalon@fundacionloyola.es';
+const ALUMNADO = '@alumnado.fundacionloyola.net';
+const PERSONAL = '@fundacionloyola.es';
+
 /**
  * Controlador del login de google.
  */
@@ -14,6 +19,7 @@ class LoginGoogle {
      */
     iniciar() {
         this.divCargando = document.getElementById('loadingImg');
+        this.divError = document.getElementById('divError');
 
         google.accounts.id.initialize({
             client_id: '829640902680-48t2uq3us7qit3ehbusp2t6fldfeh6r6.apps.googleusercontent.com',
@@ -33,6 +39,7 @@ class LoginGoogle {
      */
     login(token) {
         this.divCargando.style.display = 'block';
+        this.divError.style.display = 'none';
 
         Rest.post('login_google', [], token.credential, true)
          .then(usuario => {
@@ -42,7 +49,7 @@ class LoginGoogle {
          })
          .catch(e => {
              this.divCargando.style.display = 'none';
-             console.error(e);
+             this.error(e);
          })
     }
 
@@ -51,14 +58,37 @@ class LoginGoogle {
      * @param {String} correo Email del usuario.
      */
     redireccionar(correo) {
-        if (correo.includes('@alumnado.fundacionloyola.net')) {
-            window.location.href = 'index_alumnos.html';    // Alumno
-        }
-        else if (correo.includes('@fundacionloyola.es')) {
+        if (correo == PILAR) {
             window.location.href = 'index_evg.html';        // Secretaría
         }
-        else {
+        else if (correo.includes(PERSONAL)) {
             window.location.href = 'index_personal.html';   // PAS o trabajadores
+        }
+        else if (correo.includes(ALUMNADO)) {
+            window.location.href = 'index_alumnos.html';    // Alumno
+        }
+    }
+
+    /**
+     * Informa al usuario del error que ha ocurrido.
+     * @param {Object} e Error.
+     */
+    error(e) {
+        this.divCargando.style.display = 'none';
+
+        if (e != null) {
+            if (e == 'Error: 408 - Request Timeout') {
+                this.divError.innerHTML = '<p>No hay conexión con la base de datos. Intente de nuevo más tarde.</p>';
+            }
+            else {
+                this.divError.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divError.style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divError.style.display = 'none';
         }
     }
 }
