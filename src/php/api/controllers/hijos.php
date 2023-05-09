@@ -35,5 +35,17 @@
             header('HTTP/1.1 200 OK');
             die();
         }
+        
+        function get($pathParams, $queryParams){
+            global $config;
+
+            $hijos = DAOUsuario::dameHijos($queryParams -> $id);
+            var_dump($queryParams);
+            $json = json_encode($hijos);
+            header('Content-type: application/json; charset=utf-8');
+            header('HTTP/1.1 200 OK');
+            echo $json;
+            die();
+        }
     }
 ?>

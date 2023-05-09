@@ -101,6 +101,16 @@ class ControladorPadres {
              console.error(e);
          }) 
     }
+    dameHijos(id){
+        console.log(id)
+    const hola=this.modelo.dameHijos(id)
+        .then(() => {
+            return hola
+        })
+       .catch(e => {
+           console.error(e)
+       })
+    }
 }
 
 new ControladorPadres();

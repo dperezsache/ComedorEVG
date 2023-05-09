@@ -54,7 +54,7 @@
             </div>
             <div class="formItem">
                 <label for="iban">
-                    IBAN (*) <input type="text" class="form-control" name="iban" maxlength="24" required/>
+                    IBAN (*) <input type="text" class="form-control" name="iban" maxlength="24" pattern="ES\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}|ES\d{22}" required />
                     <div class="invalid-feedback">Por favor, indique su IBAN.</div>
                 </label>
             </div>

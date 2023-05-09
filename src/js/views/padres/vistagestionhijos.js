@@ -11,23 +11,78 @@ export class VistaGestionHijos extends Vista {
 	 */
     constructor(controlador, div) {
         super(controlador, div);
+    
         this.form = this.div.getElementsByTagName('form')[0];
+        this.table = this.div.getElementsByTagName('table')[0];
+        this.tbody = this.div.getElementsByTagName('tbody')[0];
         this.inputs = this.div.getElementsByTagName('input');
         this.select = this.div.getElementsByTagName('select')[0];
         this.divExito = this.div.querySelector('#divExito');
+        this.btnAnadir = this.div.querySelector('#btnAnadir');
         this.divCargando = this.div.querySelector('#loadingImg');
         this.btnCancelar = this.div.getElementsByTagName('button')[0];
         this.btnRegistrar = this.div.getElementsByTagName('button')[1];
         this.idUsuario = 0;
 
+        this.btnAnadir.addEventListener('click', this.anadir.bind(this));
+        
         this.btnRegistrar.addEventListener('click', this.validarFormulario.bind(this));
         this.btnCancelar.addEventListener('click', this.cancelar.bind(this));
 
+        this.ocultarCrud();
+        this.table.style.display = '';
+
         this.rellenarSelectCurso();
+    }
+
+    ocultarCrud(){
+        this.form.style.display = 'none';
+        this.table.style.display = 'none';
     }
    
     actualizarCampos(datos) {
         this.idUsuario = datos.id;
+        console.log("HOla estoy en la vista")
+       let hijos = this.controlador.dameHijos(this.idUsuario)
+
+
+       if(hijos != null){
+        console.log(hijos)
+        for (let hijo of hijos){
+
+            let tr = document.createElement('tr');
+            this.tbody.appendChild('tr');
+            
+            let td1 = document.createElement('td');
+            tr.appendChild(td1);
+            td1.textContent = hijo.nombre
+
+            let td2 = document.createElement('td');
+            tr.appendChild(td2);
+            
+            let i1 = document.createElement('i');
+            td2.appendChild(i1);
+            i1.setAttribute('title', 'Modificar');
+            i1.setAttribute('class', 'fa-solid fa-pen-to-square fa-xl');
+            i1.setAttribute('style', 'color: #014179;')
+
+            let td3 = document.createElement('td');
+            tr.appendChild(td2);
+            
+            let i2 = document.createElement('i');
+            td2.appendChild(i2);
+            i1.setAttribute('title', 'Eliminar');
+            i1.setAttribute('class', 'fa-solid fa-user-xmark fa-xl');
+            i1.setAttribute('style', 'color: #014179;')
+
+
+            //luego ponerle los eventos a cada boton
+        }
+       }
+
+
+
+
     }
 
     rellenarSelectCurso() {
@@ -67,8 +122,16 @@ export class VistaGestionHijos extends Vista {
      * Limpia los campos del formulario.
      */
     cancelar() {
+        this.ocultarCrud();
+        this.table.style.display = "";
         for (let input of this.inputs)
             input.value = '';
+    }
+
+    /**Muestra el formulario */
+    anadir() {
+        this.ocultarCrud();
+        this.form.style.display = 'block';
     }
 
     /**

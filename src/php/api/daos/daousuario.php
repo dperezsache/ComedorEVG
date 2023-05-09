@@ -12,13 +12,18 @@
          * @return object|boolean Devuelve los datos del usuario o false si no existe el usuario. 
          */
         public static function autenticarLogin($login) {
+            $clave = $login->clave;
             $sql = 'SELECT * FROM persona';
-            $sql .= ' WHERE correo = :usuario AND contrasenia = :clave';
-
-            $params = array('usuario' => $login->usuario, 'clave' => $login->clave);
+            $sql .= ' WHERE correo = :usuario';
+            $params = array('usuario' => $login->usuario);
             $resultado = BD::seleccionar($sql, $params);
 
-            return DAOUsuario::crearUsuario($resultado);
+            if (password_verify($clave, $resultado[0]['contrasenia'])){
+            
+                return DAOUsuario::crearUsuario($resultado, true);
+            }
+            
+            return DAOUsuario::crearUsuario($resultado, false);
         }
         
         /**
@@ -40,17 +45,31 @@
         public static function altaPersona($datos) {
             $sql = 'INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
-            $params = array(
-                'nombre' => $datos->nombre,
-                'apellidos' => $datos->apellidos,
-                'correo' => $datos->correo,
-                'contrasenia' => $datos->contrasenia,
-                'telefono' => $datos->telefono,
-                'dni' => $datos->dni,
-                'iban' => $datos->iban,
-                'titular' => $datos->titular
-            );
-
+            if ($datos->contrasenia == null){
+                $params = array(
+                    'nombre' => $datos->nombre,
+                    'apellidos' => $datos->apellidos,
+                    'correo' => $datos->correo,
+                    'contrasenia' => $datos->contrasenia,
+                    'telefono' => $datos->telefono,
+                    'dni' => $datos->dni,
+                    'iban' => $datos->iban,
+                    'titular' => $datos->titular
+                );  
+            }
+            else{
+                $params = array(
+                    'nombre' => $datos->nombre,
+                    'apellidos' => $datos->apellidos,
+                    'correo' => $datos->correo,
+                    'contrasenia' => password_hash( $datos->contrasenia, PASSWORD_DEFAULT),
+                    'telefono' => $datos->telefono,
+                    'dni' => $datos->dni,
+                    'iban' => $datos->iban,
+                    'titular' => $datos->titular
+                );
+            }
+            
             return BD::insertar($sql, $params);  
         }
 
@@ -111,6 +130,26 @@
             return BD::insertar($sql, $params); 
         }
 
+         /**
+         * Muestra todos los hijos asociados a un padre.
+         * @param int $id ID de la persona.
+         * @return  object|boolean Devuelve los datos de los hijos asociados al usuario o false si no existe el usuario.
+         */
+
+        public static function dameHijos($id){
+           
+            $sql = 'SELECT nombre, apellidos FROM persona';
+            $sql .= ' INNER JOIN padresHijos';
+            $sql .= ' ON persona.id = padresHijos.idHijo';
+            $sql .= ' WHERE padresHijos.idPadre = :id';
+
+            $params = array('id' => $id);
+
+            $hijos = BD::seleccionar($sql, $params);
+          
+            return $hijos;
+        }
+
         /**
          * Inserta una fila en la tabla padresHijos.
          * @param object $datos Datos de la persona.
@@ -146,10 +185,10 @@
          * @param array $resultSet Array de datos.
          * @return object Objeto usuario.
          */
-        public static function crearUsuario($resultSet) {
+        public static function crearUsuario($resultSet, $valido) {
             $usuario = new Usuario();
-
-            if (count($resultSet) == 1) {
+           
+            if (count($resultSet) == 1 and $valido == true) {
                 $usuario->id = $resultSet[0]['id'];
                 $usuario->correo = $resultSet[0]['correo'];
                 $usuario->nombre = $resultSet[0]['nombre'];
