@@ -21,14 +21,17 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     altaHijo(datos) {
-        return Rest.post('hijos', ['alta'], datos, false);
+        return Rest.post('hijos', [], datos, false);
     }
 
     dameHijos(id){
+        const queryParams = new Map()
+        queryParams.set('id', id)
+        return Rest.get('hijos', [], queryParams)
+    }
 
-        const idPadre = {
-            "id":id
-        }
-        return Rest.post('hijos', ['lista'], idPadre, false)
+    eliminarHijo(id){
+        console.log(id)
+        return Rest.delete('hijos', [id] )
     }
 }

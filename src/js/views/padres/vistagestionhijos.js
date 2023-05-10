@@ -18,20 +18,20 @@ export class VistaGestionHijos extends Vista {
         this.inputs = this.div.getElementsByTagName('input');
         this.select = this.div.getElementsByTagName('select')[0];
         this.divExito = this.div.querySelector('#divExito');
-        this.btnAnadir = this.div.querySelector('#btnAnadir');
+      //  this.btnAnadir = this.div.querySelector('#btnAnadir');
         this.divCargando = this.div.querySelector('#loadingImg');
         this.btnCancelar = this.div.getElementsByTagName('button')[0];
         this.btnRegistrar = this.div.getElementsByTagName('button')[1];
         this.idUsuario = 0;
 
-        this.btnAnadir.addEventListener('click', this.anadir.bind(this));
+       // this.btnAnadir.addEventListener('click', this.anadir.bind(this));
         
         this.btnRegistrar.addEventListener('click', this.validarFormulario.bind(this));
         this.btnCancelar.addEventListener('click', this.cancelar.bind(this));
 
         this.ocultarCrud();
         this.table.style.display = '';
-
+       
         this.rellenarSelectCurso();
     }
 
@@ -42,47 +42,70 @@ export class VistaGestionHijos extends Vista {
    
     actualizarCampos(datos) {
         this.idUsuario = datos.id;
-        console.log("HOla estoy en la vista")
-       let hijos = this.controlador.dameHijos(this.idUsuario)
-
-
-       if(hijos != null){
+        this.controlador.dameHijos(this.idUsuario)
+    }
+    
+    cargarHijos(hijos) {
+      
         console.log(hijos)
-        for (let hijo of hijos){
+        this.pintar(hijos);
+    }
 
-            let tr = document.createElement('tr');
-            this.tbody.appendChild('tr');
+    pintar(hijos){
+           
+        if(hijos != null){
+               console.log(hijos)
+            for (let hijo of hijos){
+   
+               let tr = document.createElement('tr');
+               this.tbody.appendChild(tr);
+               
+               let td1 = document.createElement('td');
+               tr.appendChild(td1);
+               td1.textContent = hijo.nombre
+   
+               let td2 = document.createElement('td');
+               tr.appendChild(td2);
+               
+               let i2 = document.createElement('i');
+               td2.appendChild(i2);
+               i2.setAttribute('title', 'Modificar');
+               i2.setAttribute('class', 'fa-solid fa-pen-to-square fa-xl');
+               i2.setAttribute('style', 'color: #014179;')
+   
+               let td3 = document.createElement('td');
+               tr.appendChild(td3);
+               
+               let i3 = document.createElement('i');
+               td3.appendChild(i3);
+               i3.setAttribute('title', 'Eliminar');
+               i3.setAttribute('class', 'fa-solid fa-user-xmark fa-xl');
+               i3.setAttribute('style', 'color: #014179;');
+               i3.onclick = this.eliminar.bind(this, hijo.id);
+               console.log(hijo.id)
+   
+               //luego ponerle los eventos a cada boton
+               console.log(hijo)
+           }
+           
+           let trAnadir = document.createElement('tr');
+           trAnadir.setAttribute('id', 'añadir');
+           trAnadir.setAttribute('colspan', '3');
+           this.tbody.appendChild(trAnadir);
+
+        
+
+           let iAnadir = document.createElement('i');
+           
+           iAnadir.setAttribute('id', 'btnAnadir');
+           iAnadir.setAttribute('title', 'Añadir');
+           iAnadir.setAttribute('class', 'fa-solid fa-circle-plus fa-2xl');
+           iAnadir.setAttribute('style', 'color: #2ae52d;');
             
-            let td1 = document.createElement('td');
-            tr.appendChild(td1);
-            td1.textContent = hijo.nombre
+           iAnadir.onclick = this.anadir.bind(this);
+           trAnadir.appendChild(iAnadir);
 
-            let td2 = document.createElement('td');
-            tr.appendChild(td2);
-            
-            let i1 = document.createElement('i');
-            td2.appendChild(i1);
-            i1.setAttribute('title', 'Modificar');
-            i1.setAttribute('class', 'fa-solid fa-pen-to-square fa-xl');
-            i1.setAttribute('style', 'color: #014179;')
-
-            let td3 = document.createElement('td');
-            tr.appendChild(td2);
-            
-            let i2 = document.createElement('i');
-            td2.appendChild(i2);
-            i1.setAttribute('title', 'Eliminar');
-            i1.setAttribute('class', 'fa-solid fa-user-xmark fa-xl');
-            i1.setAttribute('style', 'color: #014179;')
-
-
-            //luego ponerle los eventos a cada boton
-        }
-       }
-
-
-
-
+          }
     }
 
     rellenarSelectCurso() {
@@ -134,6 +157,16 @@ export class VistaGestionHijos extends Vista {
         this.form.style.display = 'block';
     }
 
+    /*Elimina un hijo de la lista*/
+    eliminar(id){
+
+        let confirmacion = confirm("Estas seguro de eliminar a tu hijo?");
+   
+        if (confirmacion) {
+            this.controlador.eliminarHijo(id)
+        }
+    }
+
     /**
      * Informar al usuario del alta exitosa.
      */
@@ -158,6 +191,7 @@ export class VistaGestionHijos extends Vista {
             this.btnCancelar.disabled = false;
             this.select.disabled = false;
             this.divExito.style.display = 'none';
+
         }
     }
 

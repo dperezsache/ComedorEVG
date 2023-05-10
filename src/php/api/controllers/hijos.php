@@ -38,13 +38,23 @@
         
         function get($pathParams, $queryParams){
             global $config;
-
-            $hijos = DAOUsuario::dameHijos($queryParams -> $id);
-            var_dump($queryParams);
+        
+            $hijos = DAOUsuario::dameHijos($queryParams['id']);
+            
             $json = json_encode($hijos);
             header('Content-type: application/json; charset=utf-8');
             header('HTTP/1.1 200 OK');
             echo $json;
+            die();
+        }
+
+        function delete($pathParams, $queryParams){
+            global $config;
+            var_dump($pathParams);
+            $id = DAOUsuario::eliminaHijo($pathParams[0]);
+
+            //Respuesta a un DELETE
+            header('HTTP/1.1 200 Ok');
             die();
         }
     }

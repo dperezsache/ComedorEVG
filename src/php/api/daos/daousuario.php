@@ -138,7 +138,7 @@
 
         public static function dameHijos($id){
            
-            $sql = 'SELECT nombre, apellidos FROM persona';
+            $sql = 'SELECT id, nombre, apellidos FROM persona';
             $sql .= ' INNER JOIN padresHijos';
             $sql .= ' ON persona.id = padresHijos.idHijo';
             $sql .= ' WHERE padresHijos.idPadre = :id';
@@ -148,6 +148,15 @@
             $hijos = BD::seleccionar($sql, $params);
           
             return $hijos;
+        }
+
+        public static function eliminaHijo($id){
+            $sql = 'DELETE FROM persona';
+            $sql .= ' WHERE id = :id';
+
+            $params = array('id' => $id);
+
+            return BD::borrar($sql, $params);
         }
 
         /**
