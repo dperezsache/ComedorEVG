@@ -13,6 +13,8 @@ export class VistaGestionHijos extends Vista {
         super(controlador, div);
     
         this.form = this.div.getElementsByTagName('form')[0];
+        this.formModificar = this.div.getElementsByTagName('form')[1];
+        console.log(this.formModificar)
         this.table = this.div.getElementsByTagName('table')[0];
         this.tbody = this.div.getElementsByTagName('tbody')[0];
         this.inputs = this.div.getElementsByTagName('input');
@@ -22,21 +24,31 @@ export class VistaGestionHijos extends Vista {
         this.divCargando = this.div.querySelector('#loadingImg');
         this.btnCancelar = this.div.getElementsByTagName('button')[0];
         this.btnRegistrar = this.div.getElementsByTagName('button')[1];
+        this.btnActualizar = this.div.getElementsByTagName('button')[3];
         this.idUsuario = 0;
 
        // this.btnAnadir.addEventListener('click', this.anadir.bind(this));
         
         this.btnRegistrar.addEventListener('click', this.validarFormulario.bind(this));
         this.btnCancelar.addEventListener('click', this.cancelar.bind(this));
+        this.btnActualizar.addEventListener('click', this.enviarModificar.bind(this));
 
         this.ocultarCrud();
         this.table.style.display = '';
        
+
+        //inputs del modificar 
+
+        this.nombreModificar = this.formModificar.getElementsByTagName('input')[0]
+        this.apellidosModificar = this.formModificar.getElementsByTagName('input')[1]
+
+
         this.rellenarSelectCurso();
     }
 
     ocultarCrud(){
         this.form.style.display = 'none';
+        this.formModificar.style.display = 'none';
         this.table.style.display = 'none';
     }
    
@@ -52,7 +64,7 @@ export class VistaGestionHijos extends Vista {
     }
 
     pintar(hijos){
-           
+    
         if(hijos != null){
                console.log(hijos)
             for (let hijo of hijos){
@@ -72,6 +84,7 @@ export class VistaGestionHijos extends Vista {
                i2.setAttribute('title', 'Modificar');
                i2.setAttribute('class', 'fa-solid fa-pen-to-square fa-xl');
                i2.setAttribute('style', 'color: #014179;')
+               i2.onclick = this.editar.bind(this, hijo);
    
                let td3 = document.createElement('td');
                tr.appendChild(td3);
@@ -135,10 +148,21 @@ export class VistaGestionHijos extends Vista {
                 'apellidos': this.inputs[1].value
                // 'curso': this.inputs[2].value
             };
-    
             this.divCargando.style.display = 'block';
+            
             this.controlador.altaHijo(datos);
+
         }
+    }
+
+    //Provisional hasta que se meta en validarFormulario :)))
+    enviarModificar(){
+        const datos ={
+            'id' : this.idUsuario,
+            'nombre': this.nombreModificar.value,
+            'apellidos': this.apellidosModificar.value
+        }
+        this.controlador.modificarHijo(datos)
     }
 
     /**
@@ -157,6 +181,14 @@ export class VistaGestionHijos extends Vista {
         this.form.style.display = 'block';
     }
 
+    editar(hijo) {
+        this.ocultarCrud();
+        this.formModificar.style.display = "block";
+
+        this.idUsuario = hijo.id
+        this.nombreModificar.value = hijo.nombre
+        this.apellidosModificar.value = hijo.apellidos  
+    }
     /*Elimina un hijo de la lista*/
     eliminar(id){
 

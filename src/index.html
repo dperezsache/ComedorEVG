@@ -67,6 +67,33 @@
                     <button type="button" class="btn btn-success">Dar de alta</button>
                 </div>
             </form>
+            <form method="POST">
+                <div class="formItem">
+                    <label for="nombre">
+                        Nombre hijo/a (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
+                        <div class="invalid-feedback">Por favor, introduzca el nombre.</div>
+                    </label>
+                </div>
+                <div class="formItem">
+                    <label for="apellidos">
+                        Apellidos hijo/a (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
+                        <div class="invalid-feedback">Por favor, introduzca los apellidos.</div>
+                    </label>
+                </div>
+                <div class="formItem">
+                    <label for="curso">
+                        Curso
+                        <select><option value="-1">Curso</option></select>
+                    </label>
+                </div>
+                <div class="formItem" id="loadingImg">
+                    <img src="./img/loading.gif"/>
+                </div>
+                <div class="formItem">
+                    <button type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="button" class="btn btn-success">Actualizar</button>
+                </div>
+            </form>
             <div id="divExito" class="p-1 container bg-success text-light text-center rounded">
                 <p>Tu hijo/a ha sido dado de alta correctamente.</p>
             </div>

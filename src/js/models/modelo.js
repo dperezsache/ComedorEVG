@@ -34,4 +34,8 @@ export class Modelo {
         console.log(id)
         return Rest.delete('hijos', [id] )
     }
+
+    modificarHijo(datos){
+        return Rest.put('hijos', [], datos, false);
+    }
 }

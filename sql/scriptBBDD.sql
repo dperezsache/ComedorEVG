@@ -1,5 +1,10 @@
-CREATE DATABASE Comedor;
-USE Comedor;
+CREATE DATABASE Comedor1;
+USE Comedor1;
+CREATE TABLE cursos(
+    id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(30) NOT NULL,
+    CONSTRAINT PK_idCursos PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE persona(
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -11,11 +16,13 @@ CREATE TABLE persona(
     dni CHAR(9) NULL,
     iban CHAR(24) NULL,
     titular VARCHAR(120) NULL,
+    idCurso TINYINT UNSIGNED NOT NULL
 
     CONSTRAINT PK_idPersona PRIMARY KEY (id),
     CONSTRAINT UQ_correoPersona UNIQUE (correo),
     CONSTRAINT UQ_dniPersona UNIQUE (dni),
-    CONSTRAINT UQ_ibanPersona UNIQUE (iban)
+    CONSTRAINT UQ_ibanPersona UNIQUE (iban),
+    CONSTRAINT FK_Curso_id FOREIGN KEY (idCurso) REFERENCES cursos(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE usuario(

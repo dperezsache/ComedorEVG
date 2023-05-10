@@ -159,6 +159,17 @@
             return BD::borrar($sql, $params);
         }
 
+        public static function modificarHijo($datos){
+            $sql = 'UPDATE persona';
+            $sql .= ' SET nombre=:nombre, apellidos=:apellidos WHERE id=:id';
+            $params = array(
+                'nombre' => $datos->nombre,
+                'apellidos' => $datos->apellidos,
+                'id' => $datos->id
+            );
+
+            BD::actualizar($sql, $params);
+        }
         /**
          * Inserta una fila en la tabla padresHijos.
          * @param object $datos Datos de la persona.

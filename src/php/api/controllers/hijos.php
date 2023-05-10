@@ -57,5 +57,15 @@
             header('HTTP/1.1 200 Ok');
             die();
         }
+        
+        function put($pathParams, $queryParams, $datos){
+            global $config;
+            var_dump($datos);
+            DAOUsuario::modificarHijo($datos);
+            sleep(1);
+
+            header('HTTP/1.1 200 OK');
+            die();
+        }
     }
 ?>
