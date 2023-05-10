@@ -46,32 +46,55 @@ class Registro {
                 if (this.divError.style.display == 'block')
                     this.divError.style.display = 'none';
 
-                const usuario = {
-                    nombre: this.inputs[0].value,
-                    apellidos: this.inputs[1].value,
-                    correo: this.inputs[2].value,
-                    contrasenia: this.inputs[3].value,
-                    telefono: this.inputs[5].value,
-                    dni: this.inputs[6].value,
-                    iban: this.inputs[7].value,
-                    titular: this.inputs[8].value
-                };
-    
-                Rest.post('registro', [], usuario, false)
-                 .then(() => {
-                     this.divCargando.style.display = 'none';
-                     this.exito(usuario);
-                 })
-                 .catch(e => {
-                     this.divCargando.style.display = 'none';
-                     this.error(e);
-                 })
+                this.insertarPersona();
             }
             else {
                 this.inputs[4].setCustomValidity('Las contraseñas no coindicen.');
                 this.inputs[4].reportValidity();
             }
         }
+    }
+
+    /**
+     * Llamada al servidor para añadir a persona a la BBDD.
+     */
+    insertarPersona() {
+        const usuario = {
+            nombre: this.inputs[0].value,
+            apellidos: this.inputs[1].value,
+            correo: this.inputs[2].value,
+            contrasenia: this.inputs[3].value,
+            telefono: this.inputs[5].value,
+            dni: this.inputs[6].value,
+            iban: this.inputs[7].value,
+            titular: this.inputs[8].value
+        };
+
+        Rest.post('persona', [], usuario, true)
+         .then(id => {
+             this.insertarPadre(id, usuario);
+         })
+         .catch(e => {
+             this.divCargando.style.display = 'none';
+             this.error(e);
+         })
+    }
+
+    /**
+     * Llamada al servidor para añadir padre a la BBDD.
+     * @param {Number} id ID de la persona.
+     * @param {Object} usuario Datos de la persona.
+     */
+    insertarPadre(id, usuario) {
+        Rest.post('padres', [], id, false)
+        .then(() => {
+            this.divCargando.style.display = 'none';
+            this.exito(usuario);
+        })
+        .catch(e => {
+            this.divCargando.style.display = 'none';
+            this.error(e);
+        })
     }
 
     /**

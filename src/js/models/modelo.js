@@ -12,7 +12,7 @@ export class Modelo {
      * @return {Promise} Devuelve la promesa asociada a la petición.
      */
     modificarPadre(datos) {
-        return Rest.put('padres', [], datos, false);
+        return Rest.put('persona', [], datos, false);
     }
 
     /**
@@ -22,5 +22,20 @@ export class Modelo {
      */
     altaHijo(datos) {
         return Rest.post('hijos', [], datos, false);
+    }
+
+    dameHijos(id){
+        const queryParams = new Map()
+        queryParams.set('id', id)
+        return Rest.get('hijos', [], queryParams)
+    }
+
+    eliminarHijo(id){
+        console.log(id)
+        return Rest.delete('hijos', [id] )
+    }
+
+    modificarHijo(datos){
+        return Rest.put('hijos', [], datos, false);
     }
 }

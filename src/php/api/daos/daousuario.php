@@ -17,9 +17,18 @@
             $sql .= ' WHERE correo = :usuario AND contrasenia = :clave';
 
             $params = array('usuario' => $login->usuario, 'clave' => $login->clave);
+            $clave = $login->clave;
+            $sql = 'SELECT * FROM persona';
+            $sql .= ' WHERE correo = :usuario';
+            $params = array('usuario' => $login->usuario);
             $resultado = BD::seleccionar($sql, $params);
 
-            return DAOUsuario::crearUsuario($resultado);
+            if (password_verify($clave, $resultado[0]['contrasenia'])){
+            
+                return DAOUsuario::crearUsuario($resultado, true);
+            }
+            
+            return DAOUsuario::crearUsuario($resultado, false);
         }
         
         /**
@@ -35,7 +44,7 @@
             $params = array('email' => $email);
             $resultado = BD::seleccionar($sql, $params);
 
-            return DAOUsuario::crearUsuario($resultado);
+            return DAOUsuario::crearUsuario($resultado, true);
         }
 
         /**
@@ -50,7 +59,7 @@
             $params = array('email' => $datos->correo);
             $resultado = BD::seleccionar($sql, $params);
 
-            return DAOUsuario::crearUsuario($resultado);
+            return DAOUsuario::crearUsuario($resultado, true);
         }
 
         /**
@@ -161,17 +170,24 @@
         public static function altaPersona($datos) {
             $sql = 'INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
+
+            $clave = NULL;
+
+            if ($datos->contrasenia != null) {
+                $clave = password_hash($datos->contrasenia, PASSWORD_DEFAULT, ['cost' => 15]);
+            }
+
             $params = array(
                 'nombre' => $datos->nombre,
                 'apellidos' => $datos->apellidos,
                 'correo' => $datos->correo,
-                'contrasenia' => $datos->contrasenia,
+                'contrasenia' => $clave,
                 'telefono' => $datos->telefono,
                 'dni' => $datos->dni,
                 'iban' => $datos->iban,
                 'titular' => $datos->titular
             );
-
+            
             return BD::insertar($sql, $params);  
         }
 
@@ -216,7 +232,7 @@
             $sql .= ' SET contrasenia=:contrasenia WHERE id=:id';
             $params = array(
                 'id' => $datos->id,
-                'contrasenia' => $datos->contrasenia
+                'contrasenia' => password_hash($datos->contrasenia, PASSWORD_DEFAULT, ['cost' => 15])
             );
 
             BD::actualizar($sql, $params);
@@ -248,6 +264,46 @@
             return BD::insertar($sql, $params); 
         }
 
+         /**
+         * Muestra todos los hijos asociados a un padre.
+         * @param int $id ID de la persona.
+         * @return  object|boolean Devuelve los datos de los hijos asociados al usuario o false si no existe el usuario.
+         */
+
+        public static function dameHijos($id){
+           
+            $sql = 'SELECT id, nombre, apellidos FROM persona';
+            $sql .= ' INNER JOIN padresHijos';
+            $sql .= ' ON persona.id = padresHijos.idHijo';
+            $sql .= ' WHERE padresHijos.idPadre = :id';
+
+            $params = array('id' => $id);
+
+            $hijos = BD::seleccionar($sql, $params);
+          
+            return $hijos;
+        }
+
+        public static function eliminaHijo($id){
+            $sql = 'DELETE FROM persona';
+            $sql .= ' WHERE id = :id';
+
+            $params = array('id' => $id);
+
+            return BD::borrar($sql, $params);
+        }
+
+        public static function modificarHijo($datos){
+            $sql = 'UPDATE persona';
+            $sql .= ' SET nombre=:nombre, apellidos=:apellidos WHERE id=:id';
+            $params = array(
+                'nombre' => $datos->nombre,
+                'apellidos' => $datos->apellidos,
+                'id' => $datos->id
+            );
+
+            BD::actualizar($sql, $params);
+        }
         /**
          * Inserta fila en la tabla 'padresHijos'.
          * @param object $datos Datos de la persona.
@@ -283,10 +339,10 @@
          * @param array $resultSet Array de datos.
          * @return Usuario|boolean Objeto creado o False si no se pudo crear.
          */
-        public static function crearUsuario($resultSet) {
+        public static function crearUsuario($resultSet, $valido) {
             $usuario = new Usuario();
-
-            if (count($resultSet) == 1) {
+           
+            if (count($resultSet) == 1 and $valido == true) {
                 $usuario->id = $resultSet[0]['id'];
                 $usuario->correo = $resultSet[0]['correo'];
                 $usuario->nombre = $resultSet[0]['nombre'];

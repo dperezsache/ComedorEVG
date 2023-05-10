@@ -35,5 +35,37 @@
             header('HTTP/1.1 200 OK');
             die();
         }
+        
+        function get($pathParams, $queryParams){
+            global $config;
+        
+            $hijos = DAOUsuario::dameHijos($queryParams['id']);
+            
+            $json = json_encode($hijos);
+            header('Content-type: application/json; charset=utf-8');
+            header('HTTP/1.1 200 OK');
+            echo $json;
+            die();
+        }
+
+        function delete($pathParams, $queryParams){
+            global $config;
+            var_dump($pathParams);
+            $id = DAOUsuario::eliminaHijo($pathParams[0]);
+
+            //Respuesta a un DELETE
+            header('HTTP/1.1 200 Ok');
+            die();
+        }
+        
+        function put($pathParams, $queryParams, $datos){
+            global $config;
+            var_dump($datos);
+            DAOUsuario::modificarHijo($datos);
+            sleep(1);
+
+            header('HTTP/1.1 200 OK');
+            die();
+        }
     }
 ?>

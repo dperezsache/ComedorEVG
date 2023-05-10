@@ -3,11 +3,11 @@
     require_once(dirname(__DIR__) . '/models/usuario.php');
 
     /**
-     * Controlador de registro de padres.
+     * Controlador de registro de personas.
      */
-    class Registro {
+    class Persona {
         /**
-         * Inserta al padre con sus datos en la base datos.
+         * Inserta fila a la tabla persona.
          * @param $pathParams No utilizado.
          * @param $queryParams No utilizado.
          * @param $datos Datos del usuario.
@@ -17,21 +17,14 @@
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
 
-            if (!$id) {
-                header('HTTP/1.1 400 Bad Request');
-                die();
-            }
-
-            // Insertar en tabla de padres.
-            DAOUsuario::altaPadre($id);
-            sleep(1);
-
+            header('Content-type: application/json; charset=utf-8');
             header('HTTP/1.1 200 OK');
+            echo json_encode($id);
             die();
         }
 
         /**
-         * Actualiza los datos de un padre.
+         * Actualiza fila tabla persona.
          * @param $pathParams No utilizado.
          * @param $queryParams No utilizado.
          * @param $datos Datos del usuario.

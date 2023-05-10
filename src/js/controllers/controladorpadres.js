@@ -50,6 +50,7 @@ class ControladorPadres {
      * Cambia a la vista de gestión de hijos.
      */
     verVistaGestionHijos() {
+    
         this.vistaInicio.mostrar(false);
         this.vistaGestionHijos.mostrar(true);
         this.vistaModificacion.mostrar(false);
@@ -72,12 +73,37 @@ class ControladorPadres {
         this.modelo.altaHijo(datos)
          .then(() => {
             this.vistaGestionHijos.exito(true);
+            
          })
          .catch(e => {
              console.error(e);
          })
     }
 
+    modificarHijo(datos){
+        console.log(datos)
+        this.modelo.modificarHijo(datos)
+        .then(() => {
+          console.log("Has modificado un hijo")
+        })
+        .catch(e => {
+            console.error(e);
+        }) 
+    }
+    /**
+     * Realiza la eliminacion del registro de un 
+     * @param {int} id Identificador del hijo
+     */
+    eliminarHijo(id){
+        console.log(id)
+        this.modelo.eliminarHijo(id)
+            .then(() => {
+                console.log("Eliminaste a un hijo")
+            })
+            .catch(e => {
+                console.error(e);
+            })
+        }
     /**
      * Cierra la sesión del usuario.
      */
@@ -100,6 +126,17 @@ class ControladorPadres {
          .catch(e => {
              console.error(e);
          }) 
+    }
+    dameHijos(id){
+        console.log(id)
+        this.modelo.dameHijos(id)
+            .then((hijos) => {
+                console.log(hijos)
+            this.vistaGestionHijos.cargarHijos(hijos)
+            })
+            .catch(e => {
+             console.error(e)
+       })
     }
 }
 
