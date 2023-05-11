@@ -171,10 +171,11 @@
             $sql = 'INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
 
-            $clave = NULL;
-
             if ($datos->contrasenia != null) {
                 $clave = password_hash($datos->contrasenia, PASSWORD_DEFAULT, ['cost' => 15]);
+            }
+            else {
+                $clave = NULL;
             }
 
             $params = array(

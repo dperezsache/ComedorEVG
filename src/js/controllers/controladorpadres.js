@@ -51,6 +51,7 @@ class ControladorPadres {
      */
     verVistaGestionHijos() {
     
+    
         this.vistaInicio.mostrar(false);
         this.vistaGestionHijos.mostrar(true);
         this.vistaModificacion.mostrar(false);
@@ -72,8 +73,7 @@ class ControladorPadres {
     altaHijo(datos) {
         this.modelo.altaHijo(datos)
          .then(() => {
-            this.vistaGestionHijos.exito(true);
-            
+            this.vistaGestionHijos.exitoAlta(true);
          })
          .catch(e => {
              console.error(e);
@@ -83,7 +83,6 @@ class ControladorPadres {
     modificarHijo(datos){
         this.modelo.modificarHijo(datos)
          .then(() => {
-            console.log('😈😈😈😈🤙🤙🤙🤙')
            this.vistaGestionHijos.exitoModificacion(true);
          })
          .catch(e => {
@@ -127,6 +126,17 @@ class ControladorPadres {
          .catch(e => {
              console.error(e);
          }) 
+    }
+    dameHijos(id){
+        console.log(id)
+        this.modelo.dameHijos(id)
+            .then((hijos) => {
+                console.log(hijos)
+            this.vistaGestionHijos.cargarHijos(hijos)
+            })
+            .catch(e => {
+             console.error(e)
+       })
     }
     dameHijos(id){
         console.log(id)

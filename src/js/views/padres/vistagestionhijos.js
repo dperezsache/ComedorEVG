@@ -22,7 +22,7 @@ export class VistaGestionHijos extends Vista {
         // Alta
         this.formAlta = this.div.querySelector('#formAltaHijos');
         this.inputsAlta = this.formAlta.getElementsByTagName('input');
-        this.select = this.div.getElementsByTagName('select')[0];
+        this.selectAlta = this.div.getElementsByTagName('select')[0];
         this.btnCancelarAlta = this.div.getElementsByTagName('button')[0];
         this.btnRegistrar = this.div.getElementsByTagName('button')[1];
         this.divExitoAlta = this.div.querySelector('#divExitoAlta');
@@ -33,6 +33,7 @@ export class VistaGestionHijos extends Vista {
         // Modificar
         this.formModificar = this.div.querySelector('#formModificacionHijos');
         this.inputsModificar = this.formModificar.getElementsByTagName('input');
+        this.selectModificacion = this.div.getElementsByTagName('select')[1];
         this.btnCancelarMod = this.div.getElementsByTagName('button')[2];
         this.btnActualizar = this.div.getElementsByTagName('button')[3];
         this.divExitoModificar = this.div.querySelector('#divExitoModificacion');
@@ -132,7 +133,7 @@ export class VistaGestionHijos extends Vista {
             let opt = document.createElement("option");
             opt.textContent = opc;
             opt.value = opc;
-            this.select.appendChild(opt); 
+            this.selectAlta.appendChild(opt); 
         }
     }
 
@@ -150,7 +151,7 @@ export class VistaGestionHijos extends Vista {
                // 'curso': this.inputs[2].value
             };
 
-            this.divCargando.style.display = 'block';
+            this.divCargandoAlta.style.display = 'block';
             this.controlador.altaHijo(datos);
         }
     }
@@ -163,6 +164,7 @@ export class VistaGestionHijos extends Vista {
             'apellidos': this.inputsModificar[1].value
         }
 
+        this.divCargandoModificar.style.display = 'block';
         this.controlador.modificarHijo(datos);
     }
 
@@ -170,10 +172,44 @@ export class VistaGestionHijos extends Vista {
      * Limpia los campos del formulario alta.
      */
     cancelarAlta() {
-        this.mostrarOcultarCrud(true, false, false);
-
         for (let input of this.inputsAlta)
             input.value = '';
+
+        this.mostrarOcultarCrud(true, false, false);
+    }
+
+    /**
+     * Limpia los campos del formulario modificación.
+     */
+    cancelarModificacion() {
+        for (let input of this.inputsModificar)
+            input.value = '';
+
+        this.mostrarOcultarCrud(true, false, false);
+    }
+
+    /**
+     * Muestra el formulario de alta
+     */
+    anadir() {
+        this.mostrarOcultarCrud(false, true, false);
+    }
+
+    editar(hijo) {
+        this.mostrarOcultarCrud(false, false, true);
+
+        this.idUsuario = hijo.id;
+        this.inputsModificar[0].value = hijo.nombre;
+        this.inputsModificar[1].value = hijo.apellidos;
+    }
+
+    /**
+     * Elimina un hijo de la lista.
+     */
+    eliminar(id) {
+        if (confirm("¿Estas seguro de que deseas eliminar a tu hijo/a?")) {
+            this.controlador.eliminarHijo(id);
+        }
     }
 
     /**
@@ -223,7 +259,7 @@ export class VistaGestionHijos extends Vista {
                 input.disabled = true;
 
             this.btnRegistrar.disabled = true;
-            this.select.disabled = true;
+            this.selectAlta.disabled = true;
             this.divExitoAlta.style.display = 'block';
         }
         else {
@@ -231,7 +267,7 @@ export class VistaGestionHijos extends Vista {
                 input.disabled = false;
 
             this.btnRegistrar.disabled = false;
-            this.select.disabled = false;
+            this.selectAlta.disabled = false;
             this.divExitoAlta.style.display = 'none';
         }
     }
@@ -249,7 +285,7 @@ export class VistaGestionHijos extends Vista {
                 input.disabled = true;
 
             this.btnActualizar.disabled = true;
-            this.select.disabled = true;
+            this.selectModificacion.disabled = true;
             this.divExitoModificar.style.display = 'block';
         }
         else {
@@ -257,7 +293,7 @@ export class VistaGestionHijos extends Vista {
                 input.disabled = false;
 
             this.btnActualizar.disabled = false;
-            this.select.disabled = false;
+            this.selectModificacion.disabled = false;
             this.divExitoModificar.style.display = 'none';
         }
     }
