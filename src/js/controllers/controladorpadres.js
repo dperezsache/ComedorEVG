@@ -81,15 +81,16 @@ class ControladorPadres {
     }
 
     modificarHijo(datos){
-        console.log(datos)
         this.modelo.modificarHijo(datos)
-        .then(() => {
-          console.log("Has modificado un hijo")
-        })
-        .catch(e => {
-            console.error(e);
-        }) 
+         .then(() => {
+            console.log('😈😈😈😈🤙🤙🤙🤙')
+           this.vistaGestionHijos.exitoModificacion(true);
+         })
+         .catch(e => {
+             console.error(e);
+         }) 
     }
+
     /**
      * Realiza la eliminacion del registro de un 
      * @param {int} id Identificador del hijo

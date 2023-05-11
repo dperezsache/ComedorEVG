@@ -11,45 +11,52 @@ export class VistaGestionHijos extends Vista {
 	 */
     constructor(controlador, div) {
         super(controlador, div);
-    
-        this.form = this.div.getElementsByTagName('form')[0];
-        this.formModificar = this.div.getElementsByTagName('form')[1];
-        console.log(this.formModificar)
-        this.table = this.div.getElementsByTagName('table')[0];
-        this.tbody = this.div.getElementsByTagName('tbody')[0];
-        this.inputs = this.div.getElementsByTagName('input');
-        this.select = this.div.getElementsByTagName('select')[0];
-        this.divExito = this.div.querySelector('#divExito');
-      //  this.btnAnadir = this.div.querySelector('#btnAnadir');
-        this.divCargando = this.div.querySelector('#loadingImg');
-        this.btnCancelar = this.div.getElementsByTagName('button')[0];
-        this.btnRegistrar = this.div.getElementsByTagName('button')[1];
-        this.btnActualizar = this.div.getElementsByTagName('button')[3];
+
         this.idUsuario = 0;
 
-       // this.btnAnadir.addEventListener('click', this.anadir.bind(this));
-        
+        // Secciones de la vista
+        this.divListadoHijos = this.div.querySelector('#divListadoHijos');
+        this.divAltaHijos = this.div.querySelector('#divAltaHijos');
+        this.divModificacionHijos = this.div.querySelector('#divModificacionHijos');
+
+        // Alta
+        this.formAlta = this.div.querySelector('#formAltaHijos');
+        this.inputsAlta = this.formAlta.getElementsByTagName('input');
+        this.select = this.div.getElementsByTagName('select')[0];
+        this.btnCancelarAlta = this.div.getElementsByTagName('button')[0];
+        this.btnRegistrar = this.div.getElementsByTagName('button')[1];
+        this.divExitoAlta = this.div.querySelector('#divExitoAlta');
+        this.divCargandoAlta = this.div.querySelector('#loadingImgAlta');
         this.btnRegistrar.addEventListener('click', this.validarFormulario.bind(this));
-        this.btnCancelar.addEventListener('click', this.cancelar.bind(this));
+        this.btnCancelarAlta.addEventListener('click', this.cancelarAlta.bind(this));
+
+        // Modificar
+        this.formModificar = this.div.querySelector('#formModificacionHijos');
+        this.inputsModificar = this.formModificar.getElementsByTagName('input');
+        this.btnCancelarMod = this.div.getElementsByTagName('button')[2];
+        this.btnActualizar = this.div.getElementsByTagName('button')[3];
+        this.divExitoModificar = this.div.querySelector('#divExitoModificacion');
+        this.divCargandoModificar = this.div.querySelector('#loadingImgModificacion');
         this.btnActualizar.addEventListener('click', this.enviarModificar.bind(this));
+        this.btnCancelarMod.addEventListener('click', this.cancelarModificacion.bind(this));
 
-        this.ocultarCrud();
-        this.table.style.display = '';
-       
+        // Listado
+        this.tbody = this.div.getElementsByTagName('tbody')[0];
 
-        //inputs del modificar 
-
-        this.nombreModificar = this.formModificar.getElementsByTagName('input')[0]
-        this.apellidosModificar = this.formModificar.getElementsByTagName('input')[1]
-
-
+        this.mostrarOcultarCrud(true, false, false);
         this.rellenarSelectCurso();
     }
 
-    ocultarCrud(){
-        this.form.style.display = 'none';
-        this.formModificar.style.display = 'none';
-        this.table.style.display = 'none';
+    /**
+     * Mostrar/Ocultar crud hijos.
+     * @param {Boolean} listado Mostrar o no listado de hijos.
+     * @param {Boolean} alta Mostrar o no alta de hijos.
+     * @param {Boolean} modificacion Mostrar o no modificación de hijos.
+     */
+    mostrarOcultarCrud(listado, alta, modificacion) {
+        this.divAltaHijos.style.display = alta ? 'block' : 'none';
+        this.divListadoHijos.style.display = listado ? 'block' : 'none';
+        this.divModificacionHijos.style.display = modificacion ? 'block' : 'none';
     }
    
     actualizarCampos(datos) {
@@ -58,17 +65,12 @@ export class VistaGestionHijos extends Vista {
     }
     
     cargarHijos(hijos) {
-      
-        console.log(hijos)
         this.pintar(hijos);
     }
 
-    pintar(hijos){
-    
-        if(hijos != null){
-               console.log(hijos)
-            for (let hijo of hijos){
-   
+    pintar(hijos) {
+        if (hijos != null) {
+            for (let hijo of hijos) {
                let tr = document.createElement('tr');
                this.tbody.appendChild(tr);
                
@@ -102,23 +104,22 @@ export class VistaGestionHijos extends Vista {
            }
            
            let trAnadir = document.createElement('tr');
-           trAnadir.setAttribute('id', 'añadir');
-           trAnadir.setAttribute('colspan', '3');
            this.tbody.appendChild(trAnadir);
 
-        
+           let tdAnadir = document.createElement('td');
+           tdAnadir.setAttribute('id', 'añadir');
+           tdAnadir.setAttribute('colspan', '3');
+           trAnadir.appendChild(tdAnadir);
 
            let iAnadir = document.createElement('i');
-           
            iAnadir.setAttribute('id', 'btnAnadir');
            iAnadir.setAttribute('title', 'Añadir');
            iAnadir.setAttribute('class', 'fa-solid fa-circle-plus fa-2xl');
            iAnadir.setAttribute('style', 'color: #2ae52d;');
             
            iAnadir.onclick = this.anadir.bind(this);
-           trAnadir.appendChild(iAnadir);
-
-          }
+           tdAnadir.appendChild(iAnadir);
+        }
     }
 
     rellenarSelectCurso() {
@@ -139,98 +140,137 @@ export class VistaGestionHijos extends Vista {
      * Valida formulario y realiza proceso en caso de que los campos sean válidos.
      */
     validarFormulario() {
-        this.form.classList.add('was-validated');
+        this.formAlta.classList.add('was-validated');
 
-        if (this.inputs[0].checkValidity() && this.inputs[1].checkValidity()) {
+        if (this.inputsAlta[0].checkValidity() && this.inputsAlta[1].checkValidity()) {
             const datos = {
                 'id': this.idUsuario,
-                'nombre': this.inputs[0].value,
-                'apellidos': this.inputs[1].value
+                'nombre': this.inputsAlta[0].value,
+                'apellidos': this.inputsAlta[1].value
                // 'curso': this.inputs[2].value
             };
-            this.divCargando.style.display = 'block';
-            
-            this.controlador.altaHijo(datos);
 
+            this.divCargando.style.display = 'block';
+            this.controlador.altaHijo(datos);
         }
     }
 
-    //Provisional hasta que se meta en validarFormulario :)))
-    enviarModificar(){
-        const datos ={
-            'id' : this.idUsuario,
-            'nombre': this.nombreModificar.value,
-            'apellidos': this.apellidosModificar.value
+    //Provisional hasta que se meta en validarFormulario :))) 
+    enviarModificar() {
+        const datos = {
+            'id': this.idUsuario,
+            'nombre': this.inputsModificar[0].value,
+            'apellidos': this.inputsModificar[1].value
         }
-        this.controlador.modificarHijo(datos)
+
+        this.controlador.modificarHijo(datos);
     }
 
     /**
-     * Limpia los campos del formulario.
+     * Limpia los campos del formulario alta.
      */
-    cancelar() {
-        this.ocultarCrud();
-        this.table.style.display = "";
-        for (let input of this.inputs)
+    cancelarAlta() {
+        this.mostrarOcultarCrud(true, false, false);
+
+        for (let input of this.inputsAlta)
             input.value = '';
     }
 
-    /**Muestra el formulario */
+    /**
+     * Limpia los campos del formulario modificación.
+     */
+    cancelarModificacion() {
+        for (let input of this.inputsModificar)
+            input.value = '';
+
+        this.mostrarOcultarCrud(true, false, false);
+    }
+
+    /**
+     * Muestra el formulario de alta
+     */
     anadir() {
-        this.ocultarCrud();
-        this.form.style.display = 'block';
+        this.mostrarOcultarCrud(false, true, false);
     }
 
     editar(hijo) {
-        this.ocultarCrud();
-        this.formModificar.style.display = "block";
+        this.mostrarOcultarCrud(false, false, true);
 
-        this.idUsuario = hijo.id
-        this.nombreModificar.value = hijo.nombre
-        this.apellidosModificar.value = hijo.apellidos  
+        this.idUsuario = hijo.id;
+        this.inputsModificar[0].value = hijo.nombre;
+        this.inputsModificar[1].value = hijo.apellidos;
     }
-    /*Elimina un hijo de la lista*/
-    eliminar(id){
 
-        let confirmacion = confirm("Estas seguro de eliminar a tu hijo?");
-   
-        if (confirmacion) {
-            this.controlador.eliminarHijo(id)
+    /**
+     * Elimina un hijo de la lista.
+     */
+    eliminar(id) {
+        if (confirm("¿Estas seguro de que deseas eliminar a tu hijo/a?")) {
+            this.controlador.eliminarHijo(id);
         }
     }
 
     /**
      * Informar al usuario del alta exitosa.
+     * @param {Boolean} activar Activa o no los inputs y botones.
      */
-    exito(activar) {
-        this.form.classList.remove('was-validated');
-        this.divCargando.style.display = 'none';
+    exitoAlta(activar) {
+        this.formAlta.classList.remove('was-validated');
+        this.divCargandoAlta.style.display = 'none';
         
         if (activar) {
-            for (let input of this.inputs)
+            for (let input of this.inputsAlta)
                 input.disabled = true;
 
             this.btnRegistrar.disabled = true;
-            this.btnCancelar.disabled = true;
             this.select.disabled = true;
-            this.divExito.style.display = 'block';
+            this.divExitoAlta.style.display = 'block';
         }
         else {
-            for (let input of this.inputs)
+            for (let input of this.inputsAlta)
                 input.disabled = false;
 
             this.btnRegistrar.disabled = false;
-            this.btnCancelar.disabled = false;
             this.select.disabled = false;
-            this.divExito.style.display = 'none';
-
+            this.divExitoAlta.style.display = 'none';
         }
     }
 
+    /**
+     * Informar al usuario de la modificación exitosa.
+     * @param {Boolean} activar Activa o no los inputs y botones.
+     */
+    exitoModificacion(activar) {
+        this.formModificar.classList.remove('was-validated');
+        this.divCargandoModificar.style.display = 'none';
+        
+        if (activar) {
+            for (let input of this.inputsModificar)
+                input.disabled = true;
+
+            this.btnActualizar.disabled = true;
+            this.select.disabled = true;
+            this.divExitoModificar.style.display = 'block';
+        }
+        else {
+            for (let input of this.inputsModificar)
+                input.disabled = false;
+
+            this.btnActualizar.disabled = false;
+            this.select.disabled = false;
+            this.divExitoModificar.style.display = 'none';
+        }
+    }
+    
     mostrar(ver) {
         super.mostrar(ver);
         
-        if (this.divExito.style.display == 'block')
-            this.exito(false);
+        if (ver) this.mostrarOcultarCrud(true, false, false);
+
+        if (this.divExitoAlta.style.display == 'block')
+            this.exitoAlta(false);
+
+        if (this.divExitoModificar.style.display == 'block')
+            this.exitoModificacion(false);
     }
 }
