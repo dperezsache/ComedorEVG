@@ -65,7 +65,7 @@
                     </div>
                     <div class="formItem">
                         <label for="cursoAlta">
-                            Curso <select name="cursoAlta"><option value="-1">Curso</option></select>
+                            Curso <select id="selectCursoAlta" class="form-control" name="cursoAlta"><option value="-1" selected>Elija curso</option></select>
                         </label>
                     </div>
                     <div class="formItem" id="loadingImgAlta">
@@ -98,7 +98,8 @@
                     </div>
                     <div class="formItem">
                         <label for="cursoModificacion">
-                            Curso <select name="cursoModificacion"><option value="-1">Curso</option></select>
+                            Curso <select id="selectCursoModificacion" class="form-control" name="cursoModificacion"><option value="-1" selected>Elija curso</option></select>
+                            <div class="invalid-feedback">Por favor, seleccione un curso.</div>
                         </label>
                     </div>
                     <div class="formItem" id="loadingImgModificacion">
@@ -152,7 +153,7 @@
                 </div>
                 <div class="formItem">
                     <label for="politicaPrivacidad" class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="politicaPrivacidad" required/> Acepto sin reservas la <a href="https://fundacionloyola.com/vguadalupe/politica-de-privacidad/" target="_blank">Política de Privacidad</a>
+                        <input type="checkbox" class="form-check-input form-control" name="politicaPrivacidad" required/> Acepto sin reservas la <a href="https://fundacionloyola.com/vguadalupe/politica-de-privacidad/" target="_blank">Política de Privacidad</a>
                         <div class="invalid-feedback">Acepte la política de privacidad para continuar.</div>
                      </label>
                 </div>

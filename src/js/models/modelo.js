@@ -24,6 +24,14 @@ export class Modelo {
         return Rest.post('hijos', [], datos, false);
     }
 
+    /**
+     * Realiza el proceso de obtener todas las filas de la tabla curso.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    obtenerCursos() {
+        return Rest.post('cursos', [], null, true);
+    }
+
     dameHijos(id){
         const queryParams = new Map()
         queryParams.set('id', id)

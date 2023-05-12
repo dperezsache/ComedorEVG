@@ -21,9 +21,9 @@ CREATE TABLE Curso(
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     nombre varchar(50) NOT NULL,
 
-    CONSTRAINT PK_idPersona PRIMARY KEY (id)
+    CONSTRAINT PK_idCurso PRIMARY KEY (id)
      
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Usuario(
     id SMALLINT UNSIGNED NOT NULL,
@@ -82,11 +82,33 @@ CREATE TABLE Festivo(
 	CONSTRAINT PK_Festivo PRIMARY KEY (diaFestivo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-CREATE TABLE recuperacionClaves(
+CREATE TABLE RecuperacionClaves(
     id SMALLINT UNSIGNED NOT NULL,
     fechaLimite DATETIME NOT NULL,
     codigo VARCHAR(16) NOT NULL,
 
     CONSTRAINT PK_RecuperacionClaves_id PRIMARY KEY (id),
     CONSTRAINT UQ_RecuperacionClaves_Codigo UNIQUE (codigo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- ////////////////////////////////
+-- // INSERCIÓN MASIVA DE CURSOS //
+-- ////////////////////////////////
+INSERT INTO Curso (nombre) 
+VALUES ('1º Infantil'),
+        ('2º Infantil'),
+        ('1º Primaria'),
+        ('2º Primaria'),
+        ('3º Primaria'),
+        ('4º Primaria'),
+        ('5º Primaria'),
+        ('6º Primaria'),
+        ('1º ESO'),
+        ('2º ESO'),
+        ('3º ESO'),
+        ('4º ESO'),
+        ('1º BACH'),
+        ('2º BACH'),
+        ('1º CFGM'),
+        ('2º CFGM'),
+        ('1º CFGS')

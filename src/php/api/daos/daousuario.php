@@ -24,11 +24,11 @@
             $resultado = BD::seleccionar($sql, $params);
 
             if (password_verify($clave, $resultado[0]['contrasenia'])){
-            
-                return DAOUsuario::crearUsuario($resultado, true);
+                return DAOUsuario::crearUsuario($resultado);
             }
-            
-            return DAOUsuario::crearUsuario($resultado, false);
+            else {
+                return false;
+            }
         }
         
         /**
@@ -192,6 +192,11 @@
             return BD::insertar($sql, $params);  
         }
 
+        /**
+         * Inserta fila en la tabla 'persona' solo de varios campos.
+         * @param object $datos Datos del usuario.
+         * @return void
+         */
         public static function altaUsuarioGoogle($datos) {
             $sql = 'INSERT INTO persona(nombre, apellidos, correo)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo)';
@@ -257,43 +262,51 @@
          * @param int $id ID de la persona.
          * @return int ID de la inserción.
          */
-        public static function altaHijo($id) {
-            $sql = 'INSERT INTO hijo(id)';
-            $sql .= ' VALUES(:id)';
-            $params = array('id' => $id);
+        public static function altaHijo($datos, $id) {
+            $sql = 'INSERT INTO hijo(id, idCurso)';
+            $sql .= ' VALUES(:id, :idCurso)';
+            $params = array(
+                'id' => $id,
+                'idCurso' => $datos->idCurso
+            );
 
             return BD::insertar($sql, $params); 
         }
 
-         /**
+        /**
          * Muestra todos los hijos asociados a un padre.
          * @param int $id ID de la persona.
-         * @return  object|boolean Devuelve los datos de los hijos asociados al usuario o false si no existe el usuario.
+         * @return object|boolean Devuelve los datos de los hijos asociados al usuario o false si no existe el usuario.
          */
-
-        public static function dameHijos($id){
-           
+        public static function dameHijos($id) {
             $sql = 'SELECT id, nombre, apellidos FROM persona';
             $sql .= ' INNER JOIN Hijo_Padre';
             $sql .= ' ON persona.id = Hijo_Padre.idHijo';
             $sql .= ' WHERE Hijo_Padre.idPadre = :id';
 
             $params = array('id' => $id);
-
             $hijos = BD::seleccionar($sql, $params);
-          
+
             return $hijos;
         }
 
+        /**
+         * Elimina fila de la tabla 'hijos'
+         * @param int $id ID de la fila a eliminar.
+         */
         public static function eliminaHijo($id){
             $sql = 'DELETE FROM persona';
             $sql .= ' WHERE id = :id';
 
             $params = array('id' => $id);
-
             return BD::borrar($sql, $params);
         }
 
+        /**
+         * Modifica fila de la tabla 'persona'
+         * @param object $datos Datos de la persona.
+         * @return void
+         */
         public static function modificarHijo($datos){
             $sql = 'UPDATE persona';
             $sql .= ' SET nombre=:nombre, apellidos=:apellidos WHERE id=:id';
@@ -305,6 +318,7 @@
 
             BD::actualizar($sql, $params);
         }
+
         /**
          * Inserta fila en la tabla 'padresHijos'.
          * @param object $datos Datos de la persona.
@@ -312,7 +326,7 @@
          * @return int ID de la inserción.
          */
         public static function altaPadreHijo($datos, $id) {
-            $sql = 'INSERT INTO padresHijos(idPadre, idHijo)';
+            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
             $sql .= ' VALUES(:idPadre, :idHijo)';
             $params = array(
                 'idPadre' => $datos->id,
@@ -340,10 +354,10 @@
          * @param array $resultSet Array de datos.
          * @return Usuario|boolean Objeto creado o False si no se pudo crear.
          */
-        public static function crearUsuario($resultSet, $valido) {
+        public static function crearUsuario($resultSet) {
             $usuario = new Usuario();
            
-            if (count($resultSet) == 1 and $valido == true) {
+            if (count($resultSet) == 1) {
                 $usuario->id = $resultSet[0]['id'];
                 $usuario->correo = $resultSet[0]['correo'];
                 $usuario->nombre = $resultSet[0]['nombre'];

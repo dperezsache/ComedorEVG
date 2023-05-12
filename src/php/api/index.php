@@ -117,6 +117,11 @@
                 $controlador = new Restaurar();
                 break;
 
+            case 'cursos':
+                require_once('./controllers/cursos.php');
+                $controlador = new Cursos();
+                break;
+
             default:
                 header('HTTP/1.1 501 Not Implemented');
                 die();

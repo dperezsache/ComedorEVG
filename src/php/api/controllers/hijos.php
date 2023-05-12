@@ -25,7 +25,7 @@
             }
 
             // Insertar en tabla de hijos.
-            DAOUsuario::altaHijo($id);
+            DAOUsuario::altaHijo($datos, $id);
             sleep(1);
             
             //Insertar en tabla de padreshijo
