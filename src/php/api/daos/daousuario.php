@@ -273,9 +273,9 @@
         public static function dameHijos($id){
            
             $sql = 'SELECT id, nombre, apellidos FROM persona';
-            $sql .= ' INNER JOIN padresHijos';
-            $sql .= ' ON persona.id = padresHijos.idHijo';
-            $sql .= ' WHERE padresHijos.idPadre = :id';
+            $sql .= ' INNER JOIN Hijo_Padre';
+            $sql .= ' ON persona.id = Hijo_Padre.idHijo';
+            $sql .= ' WHERE Hijo_Padre.idPadre = :id';
 
             $params = array('id' => $id);
 
