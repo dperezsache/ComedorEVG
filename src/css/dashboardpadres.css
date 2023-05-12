@@ -6,8 +6,9 @@ table{
     border:1px #014179 solid;
     border-collapse: collapse;
     margin:auto;  
-	margin-top:100px;
+	margin-top:20px;
 	width:30%;
+    min-width: 250px;
 }
 table thead tr td{
     text-align: center;
@@ -24,8 +25,7 @@ tbody{
 	width:100%;
 }
 table tbody tr td{
-	padding-top:20px;
-	padding-bottom:20px;
+	padding:20px;
 
 }
 table tbody tr td:nth-child(2), table tr td:nth-child(3) {
@@ -36,12 +36,11 @@ table tbody tr td:nth-child(1){
     font-size:20px;
     padding-left:10%;
 }
-#añadir{
+#añadir {
     text-align:center;
 	background-color:white;
     border-top:1px #014179 solid;
-    padding-left:0px;
-	padding-right:0px;
+	padding:10px 0 !important;
     
 }
 table tbody tr:nth-child(odd){
@@ -110,6 +109,16 @@ nav#menuPadres ul li {
 /* Al iniciar los div de las vistas no se verán durante la carga de DOM */
 div#inicioPadres,
 div#gestionHijosPadres,
-div#modificacionPadres {
+div#modificacionPadres,
+div#divExitoAlta,
+div#divExitoModificacion,
+div#loadingImgAlta,
+div#loadingImgModificacion {
     display: none;
+}
+
+#loadingImgAlta img,
+#loadingImgModificacion img {
+    width: 32px;
+    height: 32px;
 }

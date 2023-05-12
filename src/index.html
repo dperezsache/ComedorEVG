@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="./css/styles.css"/>
         <link rel="stylesheet" href="./css/dashboardpadres.css"/>
         <title>Panel de gestión</title>
+        <link rel="stylesheet" href="./css/dashboardpadres.css"/>
+        <title>Panel de gestión</title>
     </head>
     <body>
         <nav id="menuPadres" class="topnav">
@@ -45,74 +47,81 @@
 
         <div id="gestionHijosPadres">
             <h1 class="text-center my-4">Gestión de hijos</h1>
-            <h3 style="display:none;" class="text-center my-4">Alta de hijos</h3>
-            <form method="POST">
-                <div class="formItem">
-                    <label for="nombre">
-                        Nombre hijo/a (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
-                        <div class="invalid-feedback">Por favor, introduzca el nombre.</div>
-                    </label>
+            
+            <div id="divAltaHijos">
+                <h3 class="text-center my-4">Dar de alta a tu hijo/a</h3>
+                <form method="POST" id="formAltaHijos" class="needs-validation" novalidate>
+                    <div class="formItem">
+                        <label for="nombreAlta">
+                            Nombre hijo/a (*) <input type="text" class="form-control" name="nombreAlta" maxlength="30" required/>
+                            <div class="invalid-feedback">Por favor, introduzca el nombre.</div>
+                        </label>
+                    </div>
+                    <div class="formItem">
+                        <label for="apellidosAlta">
+                            Apellidos hijo/a (*) <input type="text" class="form-control" name="apellidosAlta" maxlength="90" required/>
+                            <div class="invalid-feedback">Por favor, introduzca los apellidos.</div>
+                        </label>
+                    </div>
+                    <div class="formItem">
+                        <label for="cursoAlta">
+                            Curso <select name="cursoAlta"><option value="-1">Curso</option></select>
+                        </label>
+                    </div>
+                    <div class="formItem" id="loadingImgAlta">
+                        <img src="./img/loading.gif"/>
+                    </div>
+                    <div class="formItem">
+                        <button type="button" class="btn btn-danger">Cancelar</button>
+                        <button type="button" class="btn btn-success">Dar de alta</button>
+                    </div>
+                </form>
+                <div id="divExitoAlta" class="p-1 container bg-success text-light text-center rounded">
+                    <p>Tu hijo/a ha sido dado de alta correctamente.</p>
                 </div>
-                <div class="formItem">
-                    <label for="apellidos">
-                        Apellidos hijo/a (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
-                        <div class="invalid-feedback">Por favor, introduzca los apellidos.</div>
-                    </label>
-                </div>
-                <div class="formItem">
-                    <label for="curso">
-                        Curso
-                        <select><option value="-1">Curso</option></select>
-                    </label>
-                </div>
-                <div class="formItem" id="loadingImg">
-                    <img src="./img/loading.gif"/>
-                </div>
-                <div class="formItem">
-                    <button type="button" class="btn btn-danger">Cancelar</button>
-                    <button type="button" class="btn btn-success">Dar de alta</button>
-                </div>
-            </form>
-            <form method="POST">
-                <div class="formItem">
-                    <label for="nombre">
-                        Nombre hijo/a (*) <input type="text" class="form-control" name="nombre" maxlength="30" required/>
-                        <div class="invalid-feedback">Por favor, introduzca el nombre.</div>
-                    </label>
-                </div>
-                <div class="formItem">
-                    <label for="apellidos">
-                        Apellidos hijo/a (*) <input type="text" class="form-control" name="apellidos" maxlength="90" required/>
-                        <div class="invalid-feedback">Por favor, introduzca los apellidos.</div>
-                    </label>
-                </div>
-                <div class="formItem">
-                    <label for="curso">
-                        Curso
-                        <select><option value="-1">Curso</option></select>
-                    </label>
-                </div>
-                <div class="formItem" id="loadingImg">
-                    <img src="./img/loading.gif"/>
-                </div>
-                <div class="formItem">
-                    <button type="button" class="btn btn-danger">Cancelar</button>
-                    <button type="button" class="btn btn-success">Actualizar</button>
-                </div>
-            </form>
-            <div id="divExito" class="p-1 container bg-success text-light text-center rounded">
-                <p>Tu hijo/a ha sido dado de alta correctamente.</p>
             </div>
-            <table>
-				<thead>
-					<tr>
-						<td colspan="3">Tus hijos</td>
-					</tr>
-				</thead>
-				<tbody>
+            
+            <div id="divModificacionHijos">
+                <h3 class="text-center my-4">Modificación de datos de tu hijo/a</h3>
+                <form method="POST" id="formModificacionHijos" class="needs-validation" novalidate>
+                    <div class="formItem">
+                        <label for="nombreModificacion">
+                            Nombre hijo/a (*) <input type="text" class="form-control" name="nombreModificacion" maxlength="30" required/>
+                            <div class="invalid-feedback">Por favor, introduzca el nombre.</div>
+                        </label>
+                    </div>
+                    <div class="formItem">
+                        <label for="apellidosModificacion">
+                            Apellidos hijo/a (*) <input type="text" class="form-control" name="apellidosModificacion" maxlength="90" required/>
+                            <div class="invalid-feedback">Por favor, introduzca los apellidos.</div>
+                        </label>
+                    </div>
+                    <div class="formItem">
+                        <label for="cursoModificacion">
+                            Curso <select name="cursoModificacion"><option value="-1">Curso</option></select>
+                        </label>
+                    </div>
+                    <div class="formItem" id="loadingImgModificacion">
+                        <img src="./img/loading.gif"/>
+                    </div>
+                    <div class="formItem">
+                        <button type="button" class="btn btn-danger">Cancelar</button>
+                        <button type="button" class="btn btn-success">Actualizar</button>
+                    </div>
+                </form>
+                <div id="divExitoModificacion" class="p-1 container bg-success text-light text-center rounded">
+                    <p>Tu hijo/a ha sido actualizado correctamente.</p>
+                </div>
+            </div>
 
-				</tbody>
-			</table>
+            <div id="divListadoHijos">
+                <table id="tablaHijos">
+                    <thead>
+                        <tr><td colspan="3">Tus hijos</td></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
 
         <div id="modificacionPadres">

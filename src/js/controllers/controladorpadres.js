@@ -51,6 +51,7 @@ class ControladorPadres {
      */
     verVistaGestionHijos() {
     
+    
         this.vistaInicio.mostrar(false);
         this.vistaGestionHijos.mostrar(true);
         this.vistaModificacion.mostrar(false);
@@ -72,8 +73,7 @@ class ControladorPadres {
     altaHijo(datos) {
         this.modelo.altaHijo(datos)
          .then(() => {
-            this.vistaGestionHijos.exito(true);
-            
+            this.vistaGestionHijos.exitoAlta(true);
          })
          .catch(e => {
              console.error(e);
@@ -81,15 +81,15 @@ class ControladorPadres {
     }
 
     modificarHijo(datos){
-        console.log(datos)
         this.modelo.modificarHijo(datos)
-        .then(() => {
-          console.log("Has modificado un hijo")
-        })
-        .catch(e => {
-            console.error(e);
-        }) 
+         .then(() => {
+           this.vistaGestionHijos.exitoModificacion(true);
+         })
+         .catch(e => {
+             console.error(e);
+         }) 
     }
+
     /**
      * Realiza la eliminacion del registro de un 
      * @param {int} id Identificador del hijo
@@ -137,6 +137,26 @@ class ControladorPadres {
             .catch(e => {
              console.error(e)
        })
+    }
+    dameHijos(id){
+        this.modelo.dameHijos(id)
+            .then((hijos) => {
+                this.vistaGestionHijos.cargarHijos(hijos)
+            })
+            .catch(e => {
+             console.error(e)
+       })
+    }
+    dameCursos(){
+        console.log("damecursos")
+        this.modelo.dameCursos()
+            .then((cursos) => {
+                console.log('cursos cargados')
+                this.vistaGestionHijos.rellenarSelectCurso(cursos)
+            })
+            .catch(e => {
+                console.error(e)
+            })
     }
 }
 

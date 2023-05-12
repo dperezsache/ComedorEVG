@@ -14,7 +14,7 @@
          */
         function post($pathParams, $queryParams, $datos) {
             global $config;
-            
+            var_dump($datos);
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
@@ -25,7 +25,7 @@
             }
 
             // Insertar en tabla de hijos.
-            DAOUsuario::altaHijo($id);
+            DAOUsuario::altaHijo($datos, $id);
             sleep(1);
             
             //Insertar en tabla de padreshijo

@@ -21,7 +21,7 @@ CREATE TABLE Curso(
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     nombre varchar(50) NOT NULL,
 
-    CONSTRAINT PK_idPersona PRIMARY KEY (id)
+    CONSTRAINT PK_idCurso PRIMARY KEY (id)
      
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

@@ -38,4 +38,10 @@ export class Modelo {
     modificarHijo(datos){
         return Rest.put('hijos', [], datos, false);
     }
+
+    dameCursos(){
+        console.log("modelo cursos")
+     
+        return Rest.get('curso', [], false)
+    }
 }

@@ -171,10 +171,11 @@
             $sql = 'INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
 
-            $clave = NULL;
-
             if ($datos->contrasenia != null) {
                 $clave = password_hash($datos->contrasenia, PASSWORD_DEFAULT, ['cost' => 15]);
+            }
+            else {
+                $clave = NULL;
             }
 
             $params = array(
@@ -256,10 +257,16 @@
          * @param int $id ID de la persona.
          * @return int ID de la inserción.
          */
-        public static function altaHijo($id) {
-            $sql = 'INSERT INTO hijo(id)';
-            $sql .= ' VALUES(:id)';
-            $params = array('id' => $id);
+        public static function altaHijo($datos, $id) {
+            var_dump($datos);
+            var_dump($id);
+            $sql = 'INSERT INTO hijo(id, idCurso)';
+            $sql .= ' VALUES(:id, :idCurso)';
+            echo ($sql);
+            $params = array(
+                'id' => $id,
+                'idCurso' => $datos->idCurso
+                );
 
             return BD::insertar($sql, $params); 
         }
@@ -311,7 +318,7 @@
          * @return int ID de la inserción.
          */
         public static function altaPadreHijo($datos, $id) {
-            $sql = 'INSERT INTO padresHijos(idPadre, idHijo)';
+            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
             $sql .= ' VALUES(:idPadre, :idHijo)';
             $params = array(
                 'idPadre' => $datos->id,
@@ -377,6 +384,13 @@
             }
 
             return $recuperacion;
+        }
+
+        public static function dameCursos() {
+
+            $sql = 'SELECT id, nombre FROM curso';
+          
+            return BD::seleccionar($sql, null);
         }
     }
 ?>
