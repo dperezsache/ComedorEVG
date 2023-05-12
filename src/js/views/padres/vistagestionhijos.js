@@ -50,10 +50,6 @@ export class VistaGestionHijos extends Vista {
         this.mostrarOcultarCrud(true, false, false);    // Iniciar mostrando el listado de hijos.
     }
 
-    actualizar() {
-
-    }
-
     /**
      * Mostrar/Ocultar crud hijos.
      * @param {Boolean} listado Mostrar o no listado de hijos.
@@ -215,16 +211,6 @@ export class VistaGestionHijos extends Vista {
     }
 
     /**
-     * Limpia los campos del formulario modificación.
-     */
-    cancelarModificacion() {
-        for (let input of this.inputsModificar)
-            input.value = '';
-
-        this.mostrarOcultarCrud(true, false, false);
-    }
-
-    /**
      * Muestra el formulario de alta
      */
     anadir() {
@@ -265,6 +251,10 @@ export class VistaGestionHijos extends Vista {
         this.mostrarOcultarCrud(false, true, false);
     }
 
+    /**
+     * Mostrar formulario de edición de hijos.
+     * @param {Object} hijo Datos hijo.
+     */
     editar(hijo) {
         this.mostrarOcultarCrud(false, false, true);
 
@@ -333,6 +323,7 @@ export class VistaGestionHijos extends Vista {
             this.divExitoModificar.style.display = 'none';
         }
     }
+    
     
     mostrar(ver) {
         super.mostrar(ver);

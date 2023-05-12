@@ -146,7 +146,7 @@ class ControladorPadres {
     }
 
     /**
-     * Devuelve el hijo o los hijos de un padre.
+     * Devuelve los hijos de un padre a la vista de gestión de hijos.
      * @param {Number} id ID del padre. 
      */
     dameHijos(id) {

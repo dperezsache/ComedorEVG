@@ -327,6 +327,7 @@
          */
         public static function altaPadreHijo($datos, $id) {
             $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
+            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
             $sql .= ' VALUES(:idPadre, :idHijo)';
             $params = array(
                 'idPadre' => $datos->id,

@@ -14,7 +14,7 @@
          */
         function post($pathParams, $queryParams, $datos) {
             global $config;
-            
+            var_dump($datos);
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
