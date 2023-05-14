@@ -34,6 +34,7 @@ class ControladorPadres {
         
         this.vistaModificacion.actualizarCampos(this.#usuario);
         this.vistaGestionHijos.actualizar(this.#usuario);
+        this.vistaInicio.obtenerPadre(this.#usuario);
         this.verVistaInicio();
     }
 
@@ -122,6 +123,42 @@ class ControladorPadres {
     }
 
     /**
+     * Marca día del comedor.
+     * @param {Object} datos Datos del día a marcar.
+     */
+    marcarDiaComedor(datos) {
+        this.modelo.marcarDiaComedor(datos)
+         .catch(e => {
+             console.error(e)
+         })
+    }
+
+    /**
+     * Obtiene los días de comedor de los hijos.
+     * @param {Array} idHijos Array con los IDs de los hijos.
+     */
+    obtenerDiasComedor(idHijos) {
+        this.modelo.obtenerDiasComedor(idHijos)
+         .then(dias => {
+            this.vistaInicio.montarCalendario(dias);
+         })
+         .catch(e => {
+             console.error(e);
+         })
+    }
+
+    /**
+     * Desmarcar día del comedor.
+     * @param {Object} datos Datos del día.
+     */
+    desmarcarDiaComedor(datos) {
+        this.modelo.desmarcarDiaComedor(datos)
+         .catch(e => {
+             console.error(e)
+         })
+    }
+
+    /**
      * Cierra la sesión del usuario.
      */
     cerrarSesion() {
@@ -143,6 +180,20 @@ class ControladorPadres {
          .catch(e => {
              console.error(e);
          }) 
+    }
+
+    /**
+     * Devuelve los hijos de un padre a la vista de inicio.
+     * @param {Number} id ID del padre. 
+     */
+    dameHijosCalendario(id) {
+        this.modelo.dameHijos(id)
+         .then(hijos => {
+             this.vistaInicio.inicializar(hijos);
+         })
+         .catch(e => {
+             console.error(e)
+         })
     }
 
     /**

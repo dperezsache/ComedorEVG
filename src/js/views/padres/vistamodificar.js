@@ -14,21 +14,11 @@ export class VistaModificarPadres extends Vista {
 
         this.form = this.div.getElementsByTagName('form')[0];
         this.inputs = this.div.getElementsByTagName('input');
-        this.btnCancelar = this.div.getElementsByTagName('button')[0];
-        this.btnActualizar = this.div.getElementsByTagName('button')[1];
+        this.btnActualizar = this.div.getElementsByTagName('button')[0];
         this.divExito = this.div.querySelector('#divExito');
         this.idUsuario = 0;
         this.divCargando = this.div.querySelector('#loadingImg');
-        this.btnCancelar.addEventListener('click', this.cancelar.bind(this));
         this.btnActualizar.addEventListener('click', this.validarFormulario.bind(this));
-    }
-
-    /**
-     * Limpia los campos del formulario.
-     */
-    cancelar() {
-        for (let input of this.inputs)
-            input.value = '';
     }
 
     /**
@@ -82,7 +72,6 @@ export class VistaModificarPadres extends Vista {
                 input.disabled = true;
 
             this.btnActualizar.disabled = true;
-            this.btnCancelar.disabled = true;
             this.divExito.style.display = 'block';
         }
         else {
@@ -90,7 +79,6 @@ export class VistaModificarPadres extends Vista {
                 input.disabled = false;
 
             this.btnActualizar.disabled = false;
-            this.btnCancelar.disabled = false;
             this.divExito.style.display = 'none';
         }
     }

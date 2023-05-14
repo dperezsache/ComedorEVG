@@ -2,7 +2,7 @@
 .fa-solid{
 	cursor:pointer;
 }
-table{
+#tablaHijos{
     border:1px #014179 solid;
     border-collapse: collapse;
     margin:auto;  
@@ -10,7 +10,7 @@ table{
 	width:30%;
     min-width: 250px;
 }
-table thead tr td{
+#tablaHijos thead tr td{
     text-align: center;
     font-size:40px;
     background-color:#014179;
@@ -18,20 +18,21 @@ table thead tr td{
     padding:10px;
     
 }
-thead{	
+#tablaHijos thead{	
 	width:100%;
 }
-tbody{
+#tablaHijos tbody{
 	width:100%;
 }
-table tbody tr td{
+#tablaHijos tbody tr td{
 	padding:20px;
 
 }
-table tbody tr td:nth-child(2), table tr td:nth-child(3) {
+#tablaHijos tbody tr td:nth-child(2), 
+#tablaHijos table tr td:nth-child(3) {
 	width:20%;
 }
-table tbody tr td:nth-child(1){
+#tablaHijos tbody tr td:nth-child(1){
     width:70%;
     font-size:20px;
     padding-left:10%;
@@ -43,9 +44,11 @@ table tbody tr td:nth-child(1){
 	padding:10px 0 !important;
     
 }
-table tbody tr:nth-child(odd){
+#tablaHijos tbody tr:nth-child(odd){
     background-color:rgb(219, 219, 219);
 }
+
+/* ----- MENÚ DE NAVEGACIÓN -----*/
 
 nav#menuPadres ul li {
     cursor: pointer;
@@ -121,4 +124,91 @@ div#loadingImgModificacion {
 #loadingImgModificacion img {
     width: 32px;
     height: 32px;
+}
+
+/* ----- CALENDARIO HIJOS ----- */
+table#menuHijos {
+	margin: 50px auto;
+	width: 60%;
+    max-width: 1000px;
+    min-width: 320px;
+	border-collapse: collapse;
+	border: 1px black solid;
+	font-size: 18px;
+	font-weight: bold;
+    text-align: center;
+}
+
+#menuHijos thead {
+    background-color: #014179;
+    color: white;
+}
+
+#menuHijos thead th {
+    width: 11.4%;
+    border-right: 1px solid black;
+    padding: 10px;
+}
+
+#menuHijos #thMes {
+    width: 20%;
+    font-size: 0.85em;
+}
+
+#menuHijos .semanaEntera,
+#menuHijos .mesEntero {
+    font-size: 0.8em;
+}
+
+#menuHijos .mesEntero {
+    border: 0;
+}
+
+#menuHijos td {
+    border-bottom: 1px solid black;
+}
+
+#menuHijos .tdHijos {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    word-break: break-all;
+    padding: 0 5px;
+}
+
+#menuHijos td input[type="checkbox"] {
+    width: 30px;
+    height: 25px;
+    margin: 5px 0;
+}
+
+#menuHijos .tdBotones {
+    border-top: 1px solid black;
+}
+
+#menuHijos .diaSemana {
+    min-width: 15px;
+}
+
+#menuHijos button {
+    width: 50px;
+    height: 50px;
+    margin: 5px 10%;
+    border: 0;
+    border-radius: 5px;
+    background-color: #408CCE;
+}
+
+#menuHijos button i {
+    color: white;
+}
+
+#menuHijos button:active {
+    background-color: #459ce9;
+}
+
+@media screen and (max-width: 400px) {
+    #menuHijos th,
+    #menuHijos td {
+        font-size: 0.75em;
+    }
 }

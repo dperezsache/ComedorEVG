@@ -14,7 +14,6 @@
          */
         function post($pathParams, $queryParams, $datos) {
             global $config;
-            var_dump($datos);
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
@@ -30,6 +29,10 @@
             
             //Insertar en tabla de padreshijo
             DAOUsuario::altaPadreHijo($datos, $id);
+            sleep(1);
+
+            // Insertar en tabla de usuarios.
+            DAOUsuario::altaUsuario($id);
             sleep(1);
 
             header('HTTP/1.1 200 OK');
@@ -50,7 +53,6 @@
 
         function delete($pathParams, $queryParams){
             global $config;
-            var_dump($pathParams);
             $id = DAOUsuario::eliminaHijo($pathParams[0]);
 
             //Respuesta a un DELETE
@@ -60,7 +62,6 @@
         
         function put($pathParams, $queryParams, $datos){
             global $config;
-            var_dump($datos);
             DAOUsuario::modificarHijo($datos);
             sleep(1);
 

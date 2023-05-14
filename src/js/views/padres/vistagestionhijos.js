@@ -42,7 +42,6 @@ export class VistaGestionHijos extends Vista {
         this.btnActualizar.addEventListener('click', this.validarFormularioModificacion.bind(this));
         this.btnCancelarMod.addEventListener('click', this.cancelarModificacion.bind(this));
 
-        
         this.selectAlta = this.div.getElementsByTagName('select')[0];
         this.selectModificacion = this.div.getElementsByTagName('select')[1];
 
@@ -274,28 +273,12 @@ export class VistaGestionHijos extends Vista {
 
     /**
      * Informar al usuario del alta exitosa.
-     * @param {Boolean} activar Activa o no los inputs y botones.
+     * @param {Boolean} activar Activa o no mensaje éxito.
      */
     exitoAlta(activar) {
         this.formAlta.classList.remove('was-validated');
         this.divCargandoAlta.style.display = 'none';
-        
-        if (activar) {
-            for (let input of this.inputsAlta)
-                input.disabled = true;
-
-            this.btnRegistrar.disabled = true;
-            this.selectAlta.disabled = true;
-            this.divExitoAlta.style.display = 'block';
-        }
-        else {
-            for (let input of this.inputsAlta)
-                input.disabled = false;
-
-            this.btnRegistrar.disabled = false;
-            this.selectAlta.disabled = false;
-            this.divExitoAlta.style.display = 'none';
-        }
+        this.divExitoAlta.style.display = activar ? 'block' : 'none';
     }
 
     /**

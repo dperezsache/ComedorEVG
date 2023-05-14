@@ -127,6 +127,11 @@
                 $controlador = new Cursos();
                 break;
 
+            case 'dias':
+                require_once('./controllers/dias.php');
+                $controlador = new Dias();
+                break;
+
             default:
                 header('HTTP/1.1 501 Not Implemented');
                 die();

@@ -1,6 +1,7 @@
 <?php
     require_once(dirname(__DIR__) . '/models/usuario.php');
     require_once(dirname(__DIR__) . '/models/recuperacion.php');
+    require_once(dirname(__DIR__) . '/models/dia.php');
 
     /**
      * DAO de Usuario.
@@ -32,19 +33,63 @@
         }
         
         /**
+         * Obtener filas de la tabla días de los usuarios cuyo IDs estén en la lista.
+         * @param array $idUsuarios Lista con los IDs de los usuarios.
+         * @return array Array con los días de todos los usuarios.
+         */
+        public static function obtenerDias($idUsuarios) {
+            $sql = 'SELECT dia, idUsuario, idPadre FROM Dias';
+            $sql .= ' WHERE idUsuario IN (';
+
+            foreach ($idUsuarios as $id)
+                $sql .= $id . ',';
+
+            $sql = substr_replace($sql, ")", -1);
+            $resultado = BD::seleccionar($sql, null);
+
+            return DAOUsuario::crearDias($resultado);
+        }
+
+        public static function altaDia($datos) {
+            $sql = 'INSERT INTO Dias(dia, idUsuario, idPadre)';
+            $sql .= ' VALUES(:dia, :idUsuario, :idPadre)';
+
+            $params = array(
+                'dia' => $datos->dia,
+                'idUsuario' => $datos->idUsuario,
+                'idPadre' => $datos->idPadre
+            );
+
+            BD::insertar($sql, $params);
+        }
+
+        public static function eliminarDia($dia, $idUsuario, $idPadre) {
+            $sql = 'DELETE FROM Dias';
+            $sql .= ' WHERE dia=:dia AND idUsuario=:idUsuario AND idPadre=:idPadre';
+
+            $params = array(
+                'dia' => $dia,
+                'idUsuario' => $idUsuario,
+                'idPadre' => $idPadre
+            );
+
+            BD::borrar($sql, $params);
+        } 
+
+        /**
          * Consulta la base de datos para autenticar al usuario y devolver sus datos.
          * El email ha sido autenticado por Google.
          * @param string $email Correo del usuario.
          * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function autenticarEmail($email) {
-            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM persona';
+            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM Persona';
             $sql .= ' WHERE correo = :email';
 
             $params = array('email' => $email);
             $resultado = BD::seleccionar($sql, $params);
 
-            return DAOUsuario::crearUsuario($resultado, true);
+            return DAOUsuario::crearUsuario($resultado);
         }
 
         /**
@@ -53,13 +98,13 @@
          * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function existeCorreo($datos) {
-            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM persona';
+            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM Persona';
             $sql .= ' WHERE correo = :email';
 
             $params = array('email' => $datos->correo);
             $resultado = BD::seleccionar($sql, $params);
 
-            return DAOUsuario::crearUsuario($resultado, true);
+            return DAOUsuario::crearUsuario($resultado);
         }
 
         /**
@@ -68,7 +113,7 @@
          * @return string Devuelve código único de la solicitud.
          */
         public static function insertarRecuperacionClave($datos) {
-            $sql = 'INSERT INTO recuperacionClaves(id, fechaLimite, codigo)';
+            $sql = 'INSERT INTO RecuperacionClaves(id, fechaLimite, codigo)';
             $sql .= ' VALUES(:id, :fechaLimite, :codigo)';
 
             $fecha = new DateTime('now');
@@ -92,7 +137,7 @@
          * @return Recuperacion Objeto con la información.
          */
         public static function obtenerRecuperacionPorCodigo($codigo) {
-            $sql = 'SELECT id, fechaLimite, codigo FROM recuperacionClaves';
+            $sql = 'SELECT id, fechaLimite, codigo FROM RecuperacionClaves';
             $sql .= ' WHERE codigo=:codigo';
 
             $params = array('codigo' => $codigo);
@@ -108,7 +153,7 @@
          * @return object Objeto con la información.
          */
         public static function obtenerRecuperacionPorID($datos) {
-            $sql = 'SELECT id, fechaLimite, codigo FROM recuperacionClaves';
+            $sql = 'SELECT id, fechaLimite, codigo FROM RecuperacionClaves';
             $sql .= ' WHERE id=:id';
 
             $params = array('id' => $datos->id);
@@ -122,7 +167,7 @@
          * @param object $datos Datos de la fila.
          */
         public static function borrarRecuperacion($datos) {
-            $sql = 'DELETE FROM recuperacionClaves';
+            $sql = 'DELETE FROM RecuperacionClaves';
             $sql .= ' WHERE id=:id';
 
             $params = array('id' => $datos->id);
@@ -168,7 +213,7 @@
          * @return int ID de la fila insertada.
          */
         public static function altaPersona($datos) {
-            $sql = 'INSERT INTO persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
+            $sql = 'INSERT INTO Persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
 
             if ($datos->contrasenia != null) {
@@ -198,7 +243,7 @@
          * @return void
          */
         public static function altaUsuarioGoogle($datos) {
-            $sql = 'INSERT INTO persona(nombre, apellidos, correo)';
+            $sql = 'INSERT INTO Persona(nombre, apellidos, correo)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo)';
             $params = array(
                 'nombre' => $datos['given_name'],
@@ -215,7 +260,7 @@
          * @return void
          */
         public static function modificarPersona($datos) {
-            $sql = 'UPDATE persona';
+            $sql = 'UPDATE Persona';
             $sql .= ' SET nombre=:nombre, apellidos=:apellidos, correo=:correo, telefono=:telefono WHERE id=:id';
             $params = array(
                 'nombre' => $datos->nombre,
@@ -234,7 +279,7 @@
          * @return void
          */
         public static function modificarContrasenia($datos) {
-            $sql = 'UPDATE persona';
+            $sql = 'UPDATE Persona';
             $sql .= ' SET contrasenia=:contrasenia WHERE id=:id';
             $params = array(
                 'id' => $datos->id,
@@ -250,7 +295,7 @@
          * @return int ID de la inserción.
          */
         public static function altaPadre($id) {
-            $sql = 'INSERT INTO padre(id)';
+            $sql = 'INSERT INTO Padre(id)';
             $sql .= ' VALUES(:id)';
             $params = array('id' => $id);
 
@@ -263,7 +308,7 @@
          * @return int ID de la inserción.
          */
         public static function altaHijo($datos, $id) {
-            $sql = 'INSERT INTO hijo(id, idCurso)';
+            $sql = 'INSERT INTO Hijo(id, idCurso)';
             $sql .= ' VALUES(:id, :idCurso)';
             $params = array(
                 'id' => $id,
@@ -294,8 +339,8 @@
          * Elimina fila de la tabla 'hijos'
          * @param int $id ID de la fila a eliminar.
          */
-        public static function eliminaHijo($id){
-            $sql = 'DELETE FROM persona';
+        public static function eliminaHijo($id) {
+            $sql = 'DELETE FROM Persona';
             $sql .= ' WHERE id = :id';
 
             $params = array('id' => $id);
@@ -308,7 +353,7 @@
          * @return void
          */
         public static function modificarHijo($datos){
-            $sql = 'UPDATE persona';
+            $sql = 'UPDATE Persona';
             $sql .= ' SET nombre=:nombre, apellidos=:apellidos WHERE id=:id';
             $params = array(
                 'nombre' => $datos->nombre,
@@ -327,7 +372,6 @@
          */
         public static function altaPadreHijo($datos, $id) {
             $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
-            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
             $sql .= ' VALUES(:idPadre, :idHijo)';
             $params = array(
                 'idPadre' => $datos->id,
@@ -343,11 +387,34 @@
          * @return int ID de la inserción.
          */
         public static function altaUsuario($id) {
-            $sql = 'INSERT INTO usuario(id)';
+            $sql = 'INSERT INTO Usuario(id)';
             $sql .= ' VALUES(:id)';
             $params = array('id' => $id);
 
             return BD::insertar($sql, $params); 
+        }
+
+        /**
+         * Genera un listado de los días que tiene de comedor un usuario.
+         * @param array $listaDias Array de datos.
+         * @return array|boolean Array de dias, o False si no se pudo generar el listado.
+         */
+        public static function crearDias($listaDias) {
+            $dias = array();
+
+            if (count($listaDias) > 0) {
+                for ($i=0; $i<count($listaDias); $i++) {
+                    $dia = new Dia();
+                    $dia->dia = $listaDias[$i]['dia'];
+                    $dia->idUsuario = $listaDias[$i]['idUsuario'];
+                    $dia->idPadre = $listaDias[$i]['idPadre'];
+                    $dias[] = $dia;
+                }
+                return $dias;
+            }
+            else {
+                return false;
+            }
         }
 
         /**

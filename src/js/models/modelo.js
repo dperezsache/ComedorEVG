@@ -21,7 +21,8 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     altaHijo(datos) {
-        return Rest.post('hijos', [], datos, false);
+        let path = 'alta';
+        return Rest.post('hijos', [path], datos, false);
     }
 
     /**
@@ -32,18 +33,59 @@ export class Modelo {
         return Rest.post('cursos', [], null, true);
     }
 
-    dameHijos(id){
+    /**
+     * Obtener hijos de un padre.
+     * @param {Array} id ID del padre.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    dameHijos(id) {
         const queryParams = new Map()
         queryParams.set('id', id)
         return Rest.get('hijos', [], queryParams)
     }
 
-    eliminarHijo(id){
-        console.log(id)
-        return Rest.delete('hijos', [id] )
+    /**
+     * Eliminar fila de las tablas: persona, hijo y padres_hijos.
+     * @param {Array} id ID del hijo.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    eliminarHijo(id) {
+        return Rest.delete('hijos', [id])
     }
 
-    modificarHijo(datos){
+    /**
+     * Llamada para modificar fila de la tabla persona.
+     * @param {Array} datos Datos a enviar.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    modificarHijo(datos) {
         return Rest.put('hijos', [], datos, false);
+    }
+
+    /**
+     * Llamada para obtener filas de la tabla dias.
+     * @param {Array} ids Array de IDs a enviar.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    obtenerDiasComedor(ids) {
+        return Rest.get('dias', [], ids);
+    }
+
+    /**
+     * Llamada para insertar fila a la tabla dias.
+     * @param {Object} datos Datos a enviar.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    marcarDiaComedor(datos) {
+        return Rest.post('dias', [], datos, false);
+    }
+
+    /**
+     * Llamada para borrar fila de la tabla dias.
+     * @param {Object} datos Datos a enviar.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    desmarcarDiaComedor(datos) {
+        return Rest.delete('dias', [datos.dia, datos.idUsuario, datos.idPadre]);
     }
 }
