@@ -8,8 +8,6 @@
         <link rel="stylesheet" href="./css/styles.css"/>
         <link rel="stylesheet" href="./css/dashboardpadres.css"/>
         <title>Panel de gestión</title>
-        <link rel="stylesheet" href="./css/dashboardpadres.css"/>
-        <title>Panel de gestión</title>
     </head>
     <body>
         <nav id="menuPadres" class="topnav">
@@ -65,7 +63,7 @@
                     </div>
                     <div class="formItem">
                         <label for="cursoAlta">
-                            Curso <select name="cursoAlta"><option value="-1">Curso</option></select>
+                            Curso <select id="selectCursoAlta" class="form-control" name="cursoAlta"><option value="-1" selected>Elija curso</option></select>
                         </label>
                     </div>
                     <div class="formItem" id="loadingImgAlta">
@@ -76,7 +74,7 @@
                         <button type="button" class="btn btn-success">Dar de alta</button>
                     </div>
                 </form>
-                <div id="divExitoAlta" class="p-1 container bg-success text-light text-center rounded">
+                <div id="divExitoAlta" class="p-1 w-50 container bg-success text-light text-center">
                     <p>Tu hijo/a ha sido dado de alta correctamente.</p>
                 </div>
             </div>
@@ -98,7 +96,8 @@
                     </div>
                     <div class="formItem">
                         <label for="cursoModificacion">
-                            Curso <select name="cursoModificacion"><option value="-1">Curso</option></select>
+                            Curso <select id="selectCursoModificacion" class="form-control" name="cursoModificacion"><option value="-1" selected>Elija curso</option></select>
+                            <div class="invalid-feedback">Por favor, seleccione un curso.</div>
                         </label>
                     </div>
                     <div class="formItem" id="loadingImgModificacion">
@@ -109,7 +108,7 @@
                         <button type="button" class="btn btn-success">Actualizar</button>
                     </div>
                 </form>
-                <div id="divExitoModificacion" class="p-1 container bg-success text-light text-center rounded">
+                <div id="divExitoModificacion" class="p-1 w-50 container bg-success text-light text-center rounded">
                     <p>Tu hijo/a ha sido actualizado correctamente.</p>
                 </div>
             </div>
@@ -123,7 +122,7 @@
                 </table>
             </div>
         </div>
-
+    
         <div id="modificacionPadres">
             <h1 class="text-center my-4">Modificación de datos personales</h1>
             <form method="post" class="needs-validation" novalidate>
@@ -152,7 +151,7 @@
                 </div>
                 <div class="formItem">
                     <label for="politicaPrivacidad" class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="politicaPrivacidad" required/> Acepto sin reservas la <a href="https://fundacionloyola.com/vguadalupe/politica-de-privacidad/" target="_blank">Política de Privacidad</a>
+                        <input type="checkbox" class="form-check-input form-control" name="politicaPrivacidad" required/> Acepto sin reservas la <a href="https://fundacionloyola.com/vguadalupe/politica-de-privacidad/" target="_blank">Política de Privacidad</a>
                         <div class="invalid-feedback">Acepte la política de privacidad para continuar.</div>
                      </label>
                 </div>
@@ -164,7 +163,7 @@
                     <button type="button" class="btn btn-success">Actualizar datos</button>
                 </div>
             </form>
-            <div id="divExito" class="w-75 p-1 container alert alert-success text-center rounded my-2">
+            <div id="divExito" class="w-50 p-1 container alert alert-success text-center my-2">
                 <p>Tus datos han sido actualizados.</p>
             </div>
         </div>

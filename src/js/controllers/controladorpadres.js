@@ -33,8 +33,21 @@ class ControladorPadres {
         this.vistaModificacion = new VistaModificarPadres(this, document.getElementById('modificacionPadres'));
         
         this.vistaModificacion.actualizarCampos(this.#usuario);
-        this.vistaGestionHijos.actualizarCampos(this.#usuario);
+        this.vistaGestionHijos.actualizar(this.#usuario);
         this.verVistaInicio();
+    }
+
+    /**
+     * Devuelve array de cursos a vista de gestión de hijos.
+     */
+    obtenerCursos() {
+        this.modelo.obtenerCursos()
+         .then(cursos => {
+             this.vistaGestionHijos.rellenarSelects(cursos);
+         })
+         .catch(e => {
+            console.error(e);
+         })
     }
 
     /**
@@ -50,8 +63,6 @@ class ControladorPadres {
      * Cambia a la vista de gestión de hijos.
      */
     verVistaGestionHijos() {
-    
-    
         this.vistaInicio.mostrar(false);
         this.vistaGestionHijos.mostrar(true);
         this.vistaModificacion.mostrar(false);
@@ -73,17 +84,23 @@ class ControladorPadres {
     altaHijo(datos) {
         this.modelo.altaHijo(datos)
          .then(() => {
-            this.vistaGestionHijos.exitoAlta(true);
+             this.vistaGestionHijos.exitoAlta(true);
+             this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
          })
          .catch(e => {
              console.error(e);
          })
     }
 
+    /**
+     * Modificar datos de un hijo.
+     * @param {Object} datos 
+     */
     modificarHijo(datos){
         this.modelo.modificarHijo(datos)
          .then(() => {
-           this.vistaGestionHijos.exitoModificacion(true);
+             this.vistaGestionHijos.exitoModificacion(true);
+             this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
          })
          .catch(e => {
              console.error(e);
@@ -95,15 +112,15 @@ class ControladorPadres {
      * @param {int} id Identificador del hijo
      */
     eliminarHijo(id){
-        console.log(id)
         this.modelo.eliminarHijo(id)
-            .then(() => {
-                console.log("Eliminaste a un hijo")
-            })
-            .catch(e => {
-                console.error(e);
-            })
-        }
+         .then(() => {
+             this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
+         })
+         .catch(e => {
+             console.error(e);
+         })
+    }
+
     /**
      * Cierra la sesión del usuario.
      */
@@ -127,36 +144,19 @@ class ControladorPadres {
              console.error(e);
          }) 
     }
-    dameHijos(id){
-        console.log(id)
+
+    /**
+     * Devuelve los hijos de un padre a la vista de gestión de hijos.
+     * @param {Number} id ID del padre. 
+     */
+    dameHijos(id) {
         this.modelo.dameHijos(id)
-            .then((hijos) => {
-                console.log(hijos)
-            this.vistaGestionHijos.cargarHijos(hijos)
-            })
-            .catch(e => {
+         .then(hijos => {
+             this.vistaGestionHijos.cargarListado(hijos);
+         })
+         .catch(e => {
              console.error(e)
-       })
-    }
-    dameHijos(id){
-        this.modelo.dameHijos(id)
-            .then((hijos) => {
-                this.vistaGestionHijos.cargarHijos(hijos)
-            })
-            .catch(e => {
-             console.error(e)
-       })
-    }
-    dameCursos(){
-        console.log("damecursos")
-        this.modelo.dameCursos()
-            .then((cursos) => {
-                console.log('cursos cargados')
-                this.vistaGestionHijos.rellenarSelectCurso(cursos)
-            })
-            .catch(e => {
-                console.error(e)
-            })
+         })
     }
 }
 

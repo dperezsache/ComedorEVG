@@ -19,32 +19,35 @@ export class VistaGestionHijos extends Vista {
         this.divAltaHijos = this.div.querySelector('#divAltaHijos');
         this.divModificacionHijos = this.div.querySelector('#divModificacionHijos');
 
+        // Listado
+        this.tbody = this.div.getElementsByTagName('tbody')[0];
+
         // Alta
         this.formAlta = this.div.querySelector('#formAltaHijos');
         this.inputsAlta = this.formAlta.getElementsByTagName('input');
-        this.selectAlta = this.div.getElementsByTagName('select')[0];
         this.btnCancelarAlta = this.div.getElementsByTagName('button')[0];
         this.btnRegistrar = this.div.getElementsByTagName('button')[1];
         this.divExitoAlta = this.div.querySelector('#divExitoAlta');
         this.divCargandoAlta = this.div.querySelector('#loadingImgAlta');
-        this.btnRegistrar.addEventListener('click', this.validarFormulario.bind(this));
+        this.btnRegistrar.addEventListener('click', this.validarFormularioAlta.bind(this));
         this.btnCancelarAlta.addEventListener('click', this.cancelarAlta.bind(this));
 
         // Modificar
         this.formModificar = this.div.querySelector('#formModificacionHijos');
         this.inputsModificar = this.formModificar.getElementsByTagName('input');
-        this.selectModificacion = this.div.getElementsByTagName('select')[1];
         this.btnCancelarMod = this.div.getElementsByTagName('button')[2];
         this.btnActualizar = this.div.getElementsByTagName('button')[3];
         this.divExitoModificar = this.div.querySelector('#divExitoModificacion');
         this.divCargandoModificar = this.div.querySelector('#loadingImgModificacion');
-        this.btnActualizar.addEventListener('click', this.enviarModificar.bind(this));
+        this.btnActualizar.addEventListener('click', this.validarFormularioModificacion.bind(this));
         this.btnCancelarMod.addEventListener('click', this.cancelarModificacion.bind(this));
 
-        // Listado
-        this.tbody = this.div.getElementsByTagName('tbody')[0];
+        
+        this.selectAlta = this.div.getElementsByTagName('select')[0];
+        this.selectModificacion = this.div.getElementsByTagName('select')[1];
 
-        this.mostrarOcultarCrud(true, false, false);
+        this.controlador.obtenerCursos();
+        this.mostrarOcultarCrud(true, false, false);    // Iniciar mostrando el listado de hijos.
     }
 
     /**
@@ -59,17 +62,22 @@ export class VistaGestionHijos extends Vista {
         this.divModificacionHijos.style.display = modificacion ? 'block' : 'none';
     }
    
-    actualizarCampos(datos) {
+    /**
+     * Actualiza el listado.
+     * @param {Object} datos Datos del padre.
+     */
+    actualizar(datos) {
         this.idUsuario = datos.id;
-        this.controlador.dameHijos(this.idUsuario)
-        this.controlador.dameCursos()
-    }
-    
-    cargarHijos(hijos) {
-        this.pintar(hijos);
+        this.controlador.dameHijos(this.idUsuario);
     }
 
-    pintar(hijos) {
+    /**
+     * Carga tabla con los hijos.
+     * @param {Array} hijos Listado de hijos.
+     */
+    cargarListado(hijos) {
+        this.tbody.innerHTML = '';  // Limpiar tabla para sustituirla con nuevos datos.
+
         if (hijos != null) {
             for (let hijo of hijos) {
                let tr = document.createElement('tr');
@@ -98,10 +106,6 @@ export class VistaGestionHijos extends Vista {
                i3.setAttribute('class', 'fa-solid fa-user-xmark fa-xl');
                i3.setAttribute('style', 'color: #014179;');
                i3.onclick = this.eliminar.bind(this, hijo.id);
-               console.log(hijo.id)
-   
-               //luego ponerle los eventos a cada boton
-               console.log(hijo)
            }
            
            let trAnadir = document.createElement('tr');
@@ -123,49 +127,77 @@ export class VistaGestionHijos extends Vista {
         }
     }
 
-    /** Rellena el select de cursos de hijos */
-    rellenarSelectCurso(opciones) {
+    /**
+     * Rellena los select con la lista de cursos recibida.
+     * @param {Array} cursos Array de cursos.
+     */
+    rellenarSelects(cursos) {
+        for (const curso of cursos) {
+            let optionAlta = document.createElement('option');
+            optionAlta.textContent = curso.nombre;
+            optionAlta.value = curso.id;
 
-        for (let opc of opciones){
-
-            let opt = document.createElement("option");
-            opt.textContent = opc.nombre;
-            opt.value= opc.id;
+            // Crear otro option igual para el select de modificar, porque no se puede usar el mismo para ambos :/
+            let optionMod = document.createElement('option');   
+            optionMod.textContent = curso.nombre;
+            optionMod.value = curso.id;
             
-            this.selectAlta.appendChild(opt);
+            this.selectAlta.appendChild(optionAlta);
+            this.selectModificacion.appendChild(optionMod);
         }
-
+        
     }
 
     /**
-     * Valida formulario y realiza proceso en caso de que los campos sean válidos.
+     * Valida formulario y realiza proceso en caso de que las validaciones se cumplan.
      */
-    validarFormulario() {
+    validarFormularioAlta() {
         this.formAlta.classList.add('was-validated');
-        
-        if (this.inputsAlta[0].checkValidity() && this.inputsAlta[1].checkValidity()) {
-            const datos = {
-                'id': this.idUsuario,
-                'nombre': this.inputsAlta[0].value,
-                'apellidos': this.inputsAlta[1].value,
-                'idCurso': parseInt(this.selectAlta.value)
-            };
+        this.selectAlta.setCustomValidity('');
 
-            this.divCargandoAlta.style.display = 'block';
-            this.controlador.altaHijo(datos);
+        if (this.selectAlta.value != -1) {
+            if (this.inputsAlta[0].checkValidity() && this.inputsAlta[1].checkValidity()) {
+                const datos = {
+                    'id': this.idUsuario,
+                    'nombre': this.inputsAlta[0].value,
+                    'apellidos': this.inputsAlta[1].value,
+                    'idCurso': parseInt(this.selectAlta.value)
+                };
+    
+                this.divCargandoAlta.style.display = 'block';
+                this.controlador.altaHijo(datos);
+            }
+        }
+        else {
+            this.selectAlta.setCustomValidity('Selecciona un curso.');
+            this.selectAlta.reportValidity();
         }
     }
 
-    //Provisional hasta que se meta en validarFormulario :))) 
-    enviarModificar() {
-        const datos = {
-            'id': this.idUsuario,
-            'nombre': this.inputsModificar[0].value,
-            'apellidos': this.inputsModificar[1].value
-        }
+    /**
+     * Valida formulario y realiza proceso en caso de que las validaciones se cumplan.
+     */
+    validarFormularioModificacion() {
+        this.formModificar.classList.add('was-validated');
+        this.selectModificacion.setCustomValidity('');
 
-        this.divCargandoModificar.style.display = 'block';
-        this.controlador.modificarHijo(datos);
+        if (this.selectModificacion.value != -1) {
+            if (this.inputsModificar[0].checkValidity() && this.inputsModificar[1].checkValidity()) {
+                const datos = {
+                    'id': this.idUsuario,
+                    'nombre': this.inputsModificar[0].value,
+                    'apellidos': this.inputsModificar[1].value,
+                    'idCurso': parseInt(this.selectModificacion.value)
+                };
+    
+                this.divCargandoModificar.style.display = 'block';
+                this.controlador.modificarHijo(datos);
+            }
+        }
+        else {
+            this.selectModificacion.setCustomValidity('Selecciona un curso.');
+            this.selectModificacion.reportValidity();
+        }
     }
 
     /**
@@ -173,16 +205,6 @@ export class VistaGestionHijos extends Vista {
      */
     cancelarAlta() {
         for (let input of this.inputsAlta)
-            input.value = '';
-
-        this.mostrarOcultarCrud(true, false, false);
-    }
-
-    /**
-     * Limpia los campos del formulario modificación.
-     */
-    cancelarModificacion() {
-        for (let input of this.inputsModificar)
             input.value = '';
 
         this.mostrarOcultarCrud(true, false, false);
@@ -227,6 +249,18 @@ export class VistaGestionHijos extends Vista {
      */
     anadir() {
         this.mostrarOcultarCrud(false, true, false);
+    }
+
+    /**
+     * Mostrar formulario de edición de hijos.
+     * @param {Object} hijo Datos hijo.
+     */
+    editar(hijo) {
+        this.mostrarOcultarCrud(false, false, true);
+
+        this.idUsuario = hijo.id;
+        this.inputsModificar[0].value = hijo.nombre;
+        this.inputsModificar[1].value = hijo.apellidos;
     }
 
     /**
@@ -289,6 +323,7 @@ export class VistaGestionHijos extends Vista {
             this.divExitoModificar.style.display = 'none';
         }
     }
+    
     
     mostrar(ver) {
         super.mostrar(ver);
