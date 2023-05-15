@@ -131,7 +131,6 @@ export class VistaInicioPadres extends Vista {
             trBody.appendChild(tdHijo);
 
             let cont = 0;
-            let deshabilitar = false;
 
             for (let i=0; i<5; i++) {
                 let td = document.createElement('td');
@@ -148,6 +147,21 @@ export class VistaInicioPadres extends Vista {
                 checkbox.id = idString;
                 checkbox.addEventListener('click', () => this.marcarDesmarcarDia(checkbox.checked, hijo.id, this.idPadre, checkbox.id));
 
+                // Comprobaciones fecha:
+                const fechaActual = new Date();
+
+                // 1- No poder interactuar con el día de mañana si hoy son las 14 o más.
+                if (fechaDia.getFullYear() === fechaActual.getFullYear() &&
+                    fechaDia.getMonth() === fechaActual.getMonth() &&
+                    fechaDia.getDate() === fechaActual.getDate() + 1 &&
+                    fechaActual.getHours() >= 14) checkbox.disabled = true;
+
+                // 2- Desactivar el poder interactuar con días ya pasados.
+                if (!checkbox.disabled && Date.parse(fechaActual) > Date.parse(fechaDia)) {
+                    checkbox.disabled = true;
+                }
+
+                // Marcar los días que se hayan seleccionado previamente.
                 if (this.diasComedor.length > 0) {
                     for (const diaComedor of this.diasComedor) {
                         let fecha = new Date(diaComedor.dia);
@@ -157,8 +171,7 @@ export class VistaInicioPadres extends Vista {
                             cont++;
 
                             // Si ese día no ha sido asignado por el padre actual, desactivar checkbox
-                            if (diaComedor.idPadre != this.idPadre) {
-                                if (!deshabilitar) deshabilitar = true;
+                            if (!checkbox.disabled && diaComedor.idPadre != this.idPadre) {
                                 checkbox.disabled = true;
                             }
                         }
@@ -174,19 +187,17 @@ export class VistaInicioPadres extends Vista {
 
             let checkboxSemanaEntera = document.createElement('input');
             checkboxSemanaEntera.type = 'checkbox';
-            checkboxSemanaEntera.disabled = deshabilitar;
             checkboxSemanaEntera.addEventListener('click', () => this.marcarDesmarcarSemana(checkboxSemanaEntera.checked, this.inicioSemana, hijo.id));
             tdSemanaEntera.appendChild(checkboxSemanaEntera);
             trBody.appendChild(tdSemanaEntera);
 
             // Si toda la semana está marcada por el padre actual, marcar checkbox de semana entera.
-            if (cont==5 && !deshabilitar) 
+            if (cont==5) 
                 checkboxSemanaEntera.checked = true;
 
             let tdMesEntero = document.createElement('td');
             let checkboxMesEntero = document.createElement('input');
             checkboxMesEntero.type = 'checkbox';
-            checkboxMesEntero.disabled = deshabilitar;
             tdMesEntero.appendChild(checkboxMesEntero);
             trBody.appendChild(tdMesEntero);
             
