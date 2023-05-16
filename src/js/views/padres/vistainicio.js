@@ -145,16 +145,15 @@ export class VistaInicioPadres extends Vista {
                 idString += fechaDia.getFullYear() + '-' + (fechaDia.getMonth()+1) + '-' + fechaDia.getDate();
 
                 checkbox.id = idString;
-                checkbox.addEventListener('click', () => this.marcarDesmarcarDia(checkbox.checked, hijo.id, this.idPadre, checkbox.id));
+                checkbox.addEventListener('click', () => this.marcarDesmarcarDia(checkbox.checked, hijo.id, this.idPadre, true, checkbox.id));
 
                 // Comprobaciones fecha:
                 const fechaActual = new Date();
 
                 // 1- No poder interactuar con el día de mañana si hoy son las 14 o más.
-                if (fechaDia.getFullYear() === fechaActual.getFullYear() &&
-                    fechaDia.getMonth() === fechaActual.getMonth() &&
-                    fechaDia.getDate() === fechaActual.getDate() + 1 &&
-                    fechaActual.getHours() >= 14) checkbox.disabled = true;
+                if (this.bloquearDiaTomorrow(fechaActual, fechaDia)) {
+                    checkbox.disabled = true;
+                }
 
                 // 2- Desactivar el poder interactuar con días ya pasados.
                 if (!checkbox.disabled && Date.parse(fechaActual) > Date.parse(fechaDia)) {
@@ -198,6 +197,8 @@ export class VistaInicioPadres extends Vista {
             let tdMesEntero = document.createElement('td');
             let checkboxMesEntero = document.createElement('input');
             checkboxMesEntero.type = 'checkbox';
+            checkboxMesEntero.id = 'mes-' + this.inicioSemana.getMonth();
+            checkboxMesEntero.addEventListener('click', () => this.marcarDesmarcarMes(checkboxMesEntero.checked, checkboxMesEntero.id, hijo.id));
             tdMesEntero.appendChild(checkboxMesEntero);
             trBody.appendChild(tdMesEntero);
             
@@ -206,10 +207,57 @@ export class VistaInicioPadres extends Vista {
     }
 
     /**
+     * Marcar o desmarcar un mes entero de comedor.
+     * @param {Boolean} marcado True para marcar, false para desmarcar.
+     * @param {String} mes Texto con el mes.
+     * @param {Number} idHijo ID del hijo.
+     */
+    marcarDesmarcarMes(marcado, mes, idHijo) {
+        let numMes = mes.replace('mes-', '');
+        let temp = new Date();
+        temp.setMonth(parseInt(numMes));
+        temp.setDate(1);
+        
+        let diasMes = new Date(parseInt(temp.getFullYear()), parseInt(temp.getMonth()) + 1, 0).getDate();
+
+        for (let i=0; i<diasMes; i++) {
+            const actual = new Date();
+
+            // No interactuar con días ya pasados.
+            // Y no interactuar, si el próximo día a hoy es mañana y hoy son las 14 o más.
+            if (Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp)) {
+                // Comprobar que el día no sea fin de semana.
+                if (temp.getDay() != 6 && temp.getDay() != 0) {
+                    let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
+                    this.marcarDesmarcarDia(marcado, idHijo, this.idPadre, false, fechaFormateada);
+                }
+            }
+
+            temp.setDate(temp.getDate() + 1);
+        }
+
+        this.refrescarCalendario();
+    }
+
+    /**
+     * Comprobar si puede o no interactuar con el día de mañana si hoy son las 14 o más.
+     * @param {Date} fechaHoy Fecha actual.
+     * @param {Date} fechaDia Fecha mañana.
+     * @returns {Boolean} True si mañana debería ser estar bloqueado, false si no.
+     */
+    bloquearDiaTomorrow(fechaHoy, fechaDia) {
+        return fechaDia.getFullYear() === fechaHoy.getFullYear() &&
+                fechaDia.getMonth() === fechaHoy.getMonth() &&
+                fechaDia.getDate() === fechaHoy.getDate() + 1 &&
+                fechaHoy.getHours() >= 14;
+    }
+
+    /**
      * Marca o desmarcar los días de la semana actual entera.
      * @param {Boolean} marcado Marcar o desmarcar días.
      * @param {Date} fecha Fecha de inicio de la semana.
      * @param {Number} idHijo ID del hijo al que marcar o desmarcar los días.
+     * @return {Number} Total de días de la semana marcados/desmarcados.
      */
     marcarDesmarcarSemana(marcado, fecha, idHijo) {
         for (let i=0; i<5; i++) {
@@ -280,11 +328,19 @@ export class VistaInicioPadres extends Vista {
      * @param {Boolean} marcado Marcar día o desmarcar día del comedor.
      * @param {Number} idHijo ID del hijo (usuario).
      * @param {Number} idPadre ID del padre.
+     * @param {Boolean} validarFecha Formatear la fecha para que sea válida (solo debe ser true si se llama desde los eventListener de checkboxes).
      * @param {Date} fecha Fecha del día a insertar.
      */
-    marcarDesmarcarDia(marcado, idHijo, idPadre, fecha) {
-        let fechaValida = fecha.toString();
-        fechaValida = fechaValida.replace('fecha-' + idHijo + '-', '');  // Quitar 'fecha-id-' del string.
+    marcarDesmarcarDia(marcado, idHijo, idPadre, validarFecha, fecha) {
+        let fechaValida = null;
+
+        if (validarFecha) {
+            fechaValida = fecha.toString();
+            fechaValida = fechaValida.replace('fecha-' + idHijo + '-', '');  // Quitar 'fecha-id-' del string.
+        }
+        else {
+            fechaValida = fecha;
+        }
         
         const datos = {
             'dia': fechaValida,

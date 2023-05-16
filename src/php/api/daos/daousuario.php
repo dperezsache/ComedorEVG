@@ -50,6 +50,10 @@
             return DAOUsuario::crearDias($resultado);
         }
 
+        /**
+         * Añadir fila a la tabla días
+         * @param object $datos Datos del día.
+         */
         public static function altaDia($datos) {
             $sql = 'INSERT INTO Dias(dia, idUsuario, idPadre)';
             $sql .= ' VALUES(:dia, :idUsuario, :idPadre)';
@@ -63,6 +67,12 @@
             BD::insertar($sql, $params);
         }
 
+        /**
+         * Eliminar fila tabla días.
+         * @param object $dia Fecha del día.
+         * @param int $idUsuario ID del usuario.
+         * @param int $idPadre ID del padre.
+         */
         public static function eliminarDia($dia, $idUsuario, $idPadre) {
             $sql = 'DELETE FROM Dias';
             $sql .= ' WHERE dia=:dia AND idUsuario=:idUsuario AND idPadre=:idPadre';
