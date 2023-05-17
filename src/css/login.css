@@ -4,7 +4,8 @@
 }
 
 #imgLogin{
-	width:150px;
+	width:30%;
+	min-width: 150px;
 	margin-left:auto;
 	margin-right:auto;
 	margin-top:40px;
@@ -16,5 +17,5 @@
 }
 
 .btn-info{
-  min-width: 210px;
+	min-width: 210px;
 }

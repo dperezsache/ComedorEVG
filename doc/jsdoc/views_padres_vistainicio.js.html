@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/padres/vistainicio.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/padres/vistainicio.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Vista } from '../vista.js';
+
+/**
+ * Contiene la vista del inicio
+ */
+export class VistaInicioPadres extends Vista {
+    /**
+	 *	Constructor de la clase.
+	 *	@param {ControladorPadres} controlador Controlador de la vista.
+	 *	@param {HTMLDivElement} div Div de HTML en el que se desplegará la vista.
+	 */
+    constructor(controlador, div) {
+        super(controlador, div);
+
+        this.hijos = null;
+        this.dias = null;
+
+        this.listaMeses = [
+            "Enero", "Febrero", "Marzo",
+            "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre",
+            "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        this.listaDias = ["L", "M", "X", "J", "V"];
+
+        this.idPadre = 0;
+
+        this.inicioSemana = this.obtenerSemanaActual();
+        this.dia = this.inicioSemana.getDate();
+        this.mes = this.inicioSemana.getMonth();
+        this.anio = this.inicioSemana.getFullYear();
+        
+        this.tabla = this.div.querySelector('#menuHijos');
+        this.thead = this.div.getElementsByTagName('thead')[0];
+        this.tbody = this.div.getElementsByTagName('tbody')[0];
+    }
+
+    /**
+     * Hacer set del ID del padre, y pedir los hijos del padre al controlador.
+     * @param {Object} datos Datos del padre.
+     */
+    obtenerPadre(datos) {
+        this.idPadre = datos.id;
+        this.controlador.dameHijosCalendario(this.idPadre);
+    }
+
+    /**
+     * Recibir los hijos, y hacer llamada para obtener todos los días de comedor de los hijos.
+     * @param {Array} hijos Array de los hijos.
+     */
+    inicializar(hijos) {
+        this.hijos = hijos;
+        let idHijos = [];
+
+        if (this.hijos.length > 0) {
+            for (let hijo of this.hijos)  
+                idHijos.push(hijo.id);
+
+            this.controlador.obtenerDiasComedor(idHijos);
+        }
+        else {
+            this.iniciarCalendario();   // Iniciar calendario en blanco (no se mostrará).
+        }
+    }
+
+    /**
+     * Recibe los días que acuden al comedor los hijos de un padre, y monta el calendario.
+     * @param {Array} dias Array de objetos, con información de los días del comedor.
+     */
+    montarCalendario(dias) {
+        this.diasComedor = dias;
+        this.iniciarCalendario();
+    }
+
+    /**
+     * Montar el calendario de la semana indicada por partes.
+     */
+    iniciarCalendario() {
+        if (this.hijos != null &amp;&amp; this.hijos.length > 0) {
+            this.tabla.style.display = 'table';
+            this.crearEncabezado(); // thead
+            this.crearCuerpo();     // tbody
+            this.crearBotones();    // Botones cambio de semana
+        }
+        else {
+            this.tabla.style.display = 'none';
+        }
+    }
+
+    /**
+     * Generar parte de abajo del calendario dónde van los botones de cambio de semana.
+     */
+    crearBotones() {
+        let trBotones = document.createElement('tr');
+
+        let tdBotones = document.createElement('td');
+        tdBotones.classList.add('tdBotones');
+        tdBotones.colSpan = 8;
+
+        // Semana anterior
+        let botonSemanaAnterior = document.createElement('button');
+        botonSemanaAnterior.id = 'semanaAnterior';
+        botonSemanaAnterior.innerHTML = '&lt;i class="fa-solid fa-arrow-left">&lt;/i>';
+        botonSemanaAnterior.addEventListener('click', this.semanaAnterior.bind(this));
+        tdBotones.appendChild(botonSemanaAnterior);
+    
+        // Semana siguiente
+        let botonSemanaSiguiente = document.createElement('button');
+        botonSemanaSiguiente.id = 'semanaSiguiente';
+        botonSemanaSiguiente.innerHTML = '&lt;i class="fa-solid fa-arrow-right">&lt;/i>';
+        botonSemanaSiguiente.addEventListener('click', this.semanaSiguiente.bind(this));
+        tdBotones.appendChild(botonSemanaSiguiente);
+        trBotones.appendChild(tdBotones);
+
+        // Añadir al cuerpo de la tabla
+        this.tbody.appendChild(trBotones);
+    }
+
+    /**
+     * Generar el cuerpo del calendario (contenido tbody).
+     */
+    crearCuerpo() {
+        this.tbody.innerHTML = '';  // Limpiar contenido calendario previo.
+        for (const hijo of this.hijos) {
+            let trBody = document.createElement('tr');
+
+            let tdHijo = document.createElement('td');
+            tdHijo.classList.add('tdHijos');
+            tdHijo.textContent = hijo.nombre;
+            trBody.appendChild(tdHijo);
+
+            let cont = 0;
+
+            for (let i=0; i&lt;5; i++) {
+                let td = document.createElement('td');
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+
+                let fechaDia = new Date(this.inicioSemana);
+                fechaDia.setDate(fechaDia.getDate() + i);
+                fechaDia.setUTCHours(0, 0, 0, 0); // Limpiar el time de la fecha, para que no arruine comprobación posterior.
+
+                let idString = 'fecha-' + hijo.id + '-';
+                idString += fechaDia.getFullYear() + '-' + (fechaDia.getMonth()+1) + '-' + fechaDia.getDate();
+
+                checkbox.id = idString;
+                checkbox.addEventListener('click', () => this.marcarDesmarcarDia(checkbox.checked, hijo.id, this.idPadre, true, checkbox.id));
+
+                // Comprobaciones fecha:
+                const fechaActual = new Date();
+
+                // 1- No poder interactuar con el día de mañana si hoy son las 14 o más.
+                if (this.bloquearDiaTomorrow(fechaActual, fechaDia)) {
+                    checkbox.disabled = true;
+                }
+
+                // 2- Desactivar el poder interactuar con días ya pasados.
+                if (!checkbox.disabled &amp;&amp; Date.parse(fechaActual) > Date.parse(fechaDia)) {
+                    checkbox.disabled = true;
+                }
+
+                // Marcar los días que se hayan seleccionado previamente.
+                if (this.diasComedor.length > 0) {
+                    for (const diaComedor of this.diasComedor) {
+                        let fecha = new Date(diaComedor.dia);
+
+                        if (fecha.valueOf() === fechaDia.valueOf() &amp;&amp; diaComedor.idUsuario == hijo.id) {
+                            checkbox.checked = true;
+                            cont++;
+
+                            // Si ese día no ha sido asignado por el padre actual, desactivar checkbox
+                            if (!checkbox.disabled &amp;&amp; diaComedor.idPadre != this.idPadre) {
+                                checkbox.disabled = true;
+                            }
+                        }
+                    }
+                }
+
+                td.appendChild(checkbox);
+                trBody.appendChild(td);
+            }
+
+            let tdSemanaEntera = document.createElement('td');
+            tdSemanaEntera.classList.add('tdSemanaEntera');
+
+            let checkboxSemanaEntera = document.createElement('input');
+            checkboxSemanaEntera.type = 'checkbox';
+            checkboxSemanaEntera.addEventListener('click', () => this.marcarDesmarcarSemana(checkboxSemanaEntera.checked, this.inicioSemana, hijo.id));
+            tdSemanaEntera.appendChild(checkboxSemanaEntera);
+            trBody.appendChild(tdSemanaEntera);
+
+            // Si toda la semana está marcada por el padre actual, marcar checkbox de semana entera.
+            if (cont==5) 
+                checkboxSemanaEntera.checked = true;
+
+            let tdMesEntero = document.createElement('td');
+            let checkboxMesEntero = document.createElement('input');
+            checkboxMesEntero.type = 'checkbox';
+            checkboxMesEntero.id = 'mes-' + this.inicioSemana.getMonth();
+            checkboxMesEntero.addEventListener('click', () => this.marcarDesmarcarMes(checkboxMesEntero.checked, checkboxMesEntero.id, hijo.id));
+            tdMesEntero.appendChild(checkboxMesEntero);
+            trBody.appendChild(tdMesEntero);
+            
+            this.tbody.appendChild(trBody);
+        }  
+    }
+
+    /**
+     * Marcar o desmarcar un mes entero de comedor.
+     * @param {Boolean} marcado True para marcar, false para desmarcar.
+     * @param {String} mes Texto con el mes.
+     * @param {Number} idHijo ID del hijo.
+     */
+    marcarDesmarcarMes(marcado, mes, idHijo) {
+        let numMes = mes.replace('mes-', '');
+        let temp = new Date();
+        temp.setMonth(parseInt(numMes));
+        temp.setDate(1);
+        
+        let diasMes = new Date(parseInt(temp.getFullYear()), parseInt(temp.getMonth()) + 1, 0).getDate();
+
+        for (let i=0; i&lt;diasMes; i++) {
+            const actual = new Date();
+
+            // No interactuar con días ya pasados.
+            // Y no interactuar, si el próximo día a hoy es mañana y hoy son las 14 o más.
+            if (Date.parse(actual) &lt; Date.parse(temp) &amp;&amp; !this.bloquearDiaTomorrow(actual, temp)) {
+                // Comprobar que el día no sea fin de semana.
+                if (temp.getDay() != 6 &amp;&amp; temp.getDay() != 0) {
+                    let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
+                    this.marcarDesmarcarDia(marcado, idHijo, this.idPadre, false, fechaFormateada);
+                }
+            }
+
+            temp.setDate(temp.getDate() + 1);
+        }
+
+        this.refrescarCalendario();
+    }
+
+    /**
+     * Comprobar si puede o no interactuar con el día de mañana si hoy son las 14 o más.
+     * @param {Date} fechaHoy Fecha actual.
+     * @param {Date} fechaDia Fecha mañana.
+     * @returns {Boolean} True si mañana debería ser estar bloqueado, false si no.
+     */
+    bloquearDiaTomorrow(fechaHoy, fechaDia) {
+        return fechaDia.getFullYear() === fechaHoy.getFullYear() &amp;&amp;
+                fechaDia.getMonth() === fechaHoy.getMonth() &amp;&amp;
+                fechaDia.getDate() === fechaHoy.getDate() + 1 &amp;&amp;
+                fechaHoy.getHours() >= 14;
+    }
+
+    /**
+     * Marca o desmarcar los días de la semana actual entera.
+     * @param {Boolean} marcado Marcar o desmarcar días.
+     * @param {Date} fecha Fecha de inicio de la semana.
+     * @param {Number} idHijo ID del hijo al que marcar o desmarcar los días.
+     * @return {Number} Total de días de la semana marcados/desmarcados.
+     */
+    marcarDesmarcarSemana(marcado, fecha, idHijo) {
+        for (let i=0; i&lt;5; i++) {
+            let fechaDia = new Date(fecha);
+            fechaDia.setDate(fechaDia.getDate() + i);
+
+            let stringID = '#fecha-' + idHijo + '-';
+            stringID += fechaDia.getFullYear() + '-' + (fechaDia.getMonth()+1) + '-' + fechaDia.getDate();
+
+            let checkbox = this.tbody.querySelector(stringID);
+
+            // Marcar solo los que no estén deshabilitados, ni marcados.
+            if (checkbox &amp;&amp; !checkbox.disabled &amp;&amp; checkbox.checked!=marcado) {
+                let clickEvento = new MouseEvent('click', {
+                    'view': window,
+                    'bubbles': true,
+                    'cancelable': false
+                });
+
+                checkbox.dispatchEvent(clickEvento);    // Clicar checkbox programáticamente.
+            }
+        }
+    }
+
+    /**
+     * Generar el encabezado del calendario (contenido thead).
+     */
+    crearEncabezado() {   
+        this.thead.innerHTML = '';
+        let trHead = document.createElement('tr');
+        let thNombreMes = document.createElement('th');
+        thNombreMes.id = 'thMes';
+        thNombreMes.innerHTML = this.listaMeses[this.mes];
+        thNombreMes.appendChild(document.createElement('br'));
+        thNombreMes.innerHTML += this.inicioSemana.getFullYear();
+        trHead.appendChild(thNombreMes);
+
+        for (let i=0; i&lt;5; i++) {
+            let th = document.createElement('th');
+            th.classList.add('diaSemena');
+            th.appendChild(document.createElement("br"));
+
+            let fecha = new Date(this.inicioSemana);
+            fecha.setDate(fecha.getDate() + i);
+
+            th.innerHTML = this.listaDias[i];
+            th.appendChild(document.createElement('br'));
+            th.innerHTML += (fecha.getDate());
+
+            trHead.appendChild(th);
+        }
+
+        let thSemana = document.createElement('th');
+        thSemana.id = 'semanaEntera';
+        thSemana.innerHTML = '&lt;i class="fa-sharp fa-solid fa-calendar-week" title="Marcar semana entera">&lt;/i>';
+        trHead.appendChild(thSemana);
+
+        let thMes = document.createElement('th');
+        thMes.id = 'mesEntero';
+        thMes.innerHTML = '&lt;i class="fa-sharp fa-solid fa-calendar-days" title="Marcar mes entero">&lt;/i>';
+        trHead.appendChild(thMes);
+
+        this.thead.appendChild(trHead);
+    }
+
+    /**
+     * Pide al controlador realizar el proceso de marcar o desmarcar el día del comedor.
+     * @param {Boolean} marcado Marcar día o desmarcar día del comedor.
+     * @param {Number} idHijo ID del hijo (usuario).
+     * @param {Number} idPadre ID del padre.
+     * @param {Boolean} validarFecha Formatear la fecha para que sea válida (solo debe ser true si se llama desde los eventListener de checkboxes).
+     * @param {Date} fecha Fecha del día a insertar.
+     */
+    marcarDesmarcarDia(marcado, idHijo, idPadre, validarFecha, fecha) {
+        let fechaValida = null;
+
+        if (validarFecha) {
+            fechaValida = fecha.toString();
+            fechaValida = fechaValida.replace('fecha-' + idHijo + '-', '');  // Quitar 'fecha-id-' del string.
+        }
+        else {
+            fechaValida = fecha;
+        }
+        
+        const datos = {
+            'dia': fechaValida,
+            'idUsuario': idHijo,
+            'idPadre': idPadre
+        };
+
+        if (marcado) {
+            this.controlador.marcarDiaComedor(datos);
+        }
+        else {
+            this.controlador.desmarcarDiaComedor(datos);
+        }
+    }
+
+    /**
+     * Obtener la fecha que corresponde al lunes de esta semana.
+     * @return {Date} La fecha que corresponde al lunes de esta semana.
+     */
+    obtenerSemanaActual() {
+        let fecha = new Date();
+        let dia = fecha.getDay();
+        let diff = fecha.getDate() - dia + (dia == 0 ? -6:1); // Ajustar si el día es domingo.
+        return new Date(fecha.setDate(diff));
+    }
+
+    /**
+     * Hacer que la fecha sea la que corresponde al lunes de la semana pasada a la actual.
+     */
+    semanaAnterior() {
+        let fecha = this.inicioSemana;
+        fecha.setDate(fecha.getDate() - 7);
+
+        this.inicioSemana = fecha;
+        this.anio = this.inicioSemana.getFullYear();
+        this.mes = this.inicioSemana.getMonth();
+        this.dia = this.inicioSemana.getDate();
+
+        this.refrescarCalendario();
+    }
+
+    /**
+     * Hacer que la fecha sea la que corresponde al lunes de la semana siguiente a la actual.
+     */
+    semanaSiguiente() {
+        let fecha = this.inicioSemana;
+        fecha.setDate(fecha.getDate() + 7);
+
+        this.inicioSemana = fecha;
+        this.anio = this.inicioSemana.getFullYear();
+        this.mes = this.inicioSemana.getMonth();
+        this.dia = this.inicioSemana.getDate();
+        
+        this.refrescarCalendario();
+    }
+
+    /**
+     * Refrescar calendario.
+     */
+    refrescarCalendario() {
+        this.controlador.dameHijosCalendario(this.idPadre); // Pedir al controlador que actualice el calendario.
+    }
+
+    mostrar(ver) {
+        super.mostrar(ver);
+        if (ver) this.refrescarCalendario();    // Al volver a mostrar la vista, refrescar calendario.
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ControladorPadres.html">ControladorPadres</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginGoogle.html">LoginGoogle</a></li><li><a href="Modelo.html">Modelo</a></li><li><a href="Recuperar.html">Recuperar</a></li><li><a href="Registro.html">Registro</a></li><li><a href="Rest.html">Rest</a></li><li><a href="Restaurar.html">Restaurar</a></li><li><a href="Vista.html">Vista</a></li><li><a href="VistaGestionHijos.html">VistaGestionHijos</a></li><li><a href="VistaInicioPadres.html">VistaInicioPadres</a></li><li><a href="VistaMenuPadres.html">VistaMenuPadres</a></li><li><a href="VistaModificarPadres.html">VistaModificarPadres</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 17 2023 19:49:05 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

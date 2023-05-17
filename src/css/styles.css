@@ -10,6 +10,7 @@ div.formItem textarea {
     display: block;
     margin: auto;
     min-height: 20px;
+    width:100%;
     min-width: 198px;
     border: 1px solid gray;
     border-radius: 5px;
@@ -23,7 +24,8 @@ div.formItem input[type="file"] {
 }
 
 form {
-    width: 398px;
+    width:25%;
+    min-width: 398px;
     border: 1px solid gray;
     border-radius: 5px;
     margin: 1em auto;
@@ -38,14 +40,15 @@ label {
 
 div.formItem input[type="checkbox"] {
     min-width: 20px;
+    width: auto;
     display: inline-block;
     position: static;
 }
 
-@media (max-width:575.98px) {
+@media (max-width:576px) {
     form {
-        width: 82.77777777777778%;
-        padding: 3.355704697986577%;
+        width: 82.8%;
+        padding: 3.4%;
     }
 }
 

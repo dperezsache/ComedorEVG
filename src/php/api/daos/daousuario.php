@@ -318,7 +318,7 @@
          * @return int ID de la inserción.
          */
         public static function altaHijo($datos, $id) {
-            $sql = 'INSERT INTO Hijo(id, idCurso)';
+            $sql = 'INSERT INTO hijo(id, idCurso)';
             $sql .= ' VALUES(:id, :idCurso)';
             $params = array(
                 'id' => $id,
@@ -333,10 +333,12 @@
          * @param int $id ID de la persona.
          * @return object|boolean Devuelve los datos de los hijos asociados al usuario o false si no existe el usuario.
          */
-        public static function dameHijos($id) {
-            $sql = 'SELECT id, nombre, apellidos FROM persona';
-            $sql .= ' INNER JOIN Hijo_Padre';
-            $sql .= ' ON persona.id = Hijo_Padre.idHijo';
+
+        public static function dameHijos($id){
+
+            $sql = 'SELECT Persona.id, nombre, apellidos, idCurso FROM persona';
+            $sql .= ' INNER JOIN Hijo_Padre ON persona.id = Hijo_Padre.idHijo';
+            $sql .= ' INNER JOIN Hijo on Persona.id = Hijo.id';
             $sql .= ' WHERE Hijo_Padre.idPadre = :id';
 
             $params = array('id' => $id);
@@ -349,8 +351,8 @@
          * Elimina fila de la tabla 'hijos'
          * @param int $id ID de la fila a eliminar.
          */
-        public static function eliminaHijo($id) {
-            $sql = 'DELETE FROM Persona';
+        public static function eliminaHijo($id){
+            $sql = 'DELETE FROM persona';
             $sql .= ' WHERE id = :id';
 
             $params = array('id' => $id);
@@ -363,12 +365,14 @@
          * @return void
          */
         public static function modificarHijo($datos){
-            $sql = 'UPDATE Persona';
-            $sql .= ' SET nombre=:nombre, apellidos=:apellidos WHERE id=:id';
+            //UPDATE Persona inner join hijo on Persona.id = Hijo.id set nombre = 'Prueba', apellidos = 'Prueba2', idCurso = 4;
+            $sql = 'UPDATE Persona INNER JOIN Hijo on Persona.id = Hijo.id';
+            $sql .= ' SET nombre=:nombre, apellidos=:apellidos, idCurso=:idCurso WHERE Persona.id=:id';
             $params = array(
                 'nombre' => $datos->nombre,
                 'apellidos' => $datos->apellidos,
-                'id' => $datos->id
+                'id' => $datos->id,
+                'idCurso' => $datos->idCurso
             );
 
             BD::actualizar($sql, $params);
@@ -381,6 +385,7 @@
          * @return int ID de la inserción.
          */
         public static function altaPadreHijo($datos, $id) {
+            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
             $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
             $sql .= ' VALUES(:idPadre, :idHijo)';
             $params = array(
