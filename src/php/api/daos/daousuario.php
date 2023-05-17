@@ -195,7 +195,7 @@
             $para = $datos->correo;
             $titulo = 'Crear nueva contraseña Comedor EVG';
 
-            $enlaceRestauracion = 'localhost/ComedorEVG/src/restaurar.html?codigo=' . $codigo;
+            $enlaceRestauracion = 'https://guadalupe.fundacionloyola.net/appcomedor/restaurar.html?codigo=' . $codigo;
 
             $mensaje = $datos->nombre . ', pulse en el siguiente enlace para crear una ';
             $mensaje .= ' <a href="' . $enlaceRestauracion . '">contraseña nueva</a>.';
