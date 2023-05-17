@@ -216,15 +216,6 @@ export class VistaGestionHijos extends Vista {
     anadir() {
         this.mostrarOcultarCrud(false, true, false);
     }
-
-    editar(hijo) {
-        this.mostrarOcultarCrud(false, false, true);
-
-        this.idUsuario = hijo.id;
-        this.inputsModificar[0].value = hijo.nombre;
-        this.inputsModificar[1].value = hijo.apellidos;
-    }
-
     /**
      * Elimina un hijo de la lista.
      */
@@ -261,6 +252,7 @@ export class VistaGestionHijos extends Vista {
         this.idUsuario = hijo.id;
         this.inputsModificar[0].value = hijo.nombre;
         this.inputsModificar[1].value = hijo.apellidos;
+        this.selectModificacion.value = hijo.idCurso;
     }
 
     /**

@@ -280,7 +280,7 @@
          */
 
         public static function dameHijos($id){
-           //select persona.id, nombre, apellidos, idCurso from persona inner join Hijo_Padre on persona.id = hijo_padre.idHijo inner join hijo on persona.id=hijo.id where hijo_padre.idPadre = 1; 
+
             $sql = 'SELECT Persona.id, nombre, apellidos, idCurso FROM persona';
             $sql .= ' INNER JOIN Hijo_Padre ON persona.id = Hijo_Padre.idHijo';
             $sql .= ' INNER JOIN Hijo on Persona.id = Hijo.id';
@@ -310,12 +310,14 @@
          * @return void
          */
         public static function modificarHijo($datos){
-            $sql = 'UPDATE persona';
-            $sql .= ' SET nombre=:nombre, apellidos=:apellidos WHERE id=:id';
+            //UPDATE Persona inner join hijo on Persona.id = Hijo.id set nombre = 'Prueba', apellidos = 'Prueba2', idCurso = 4;
+            $sql = 'UPDATE Persona INNER JOIN Hijo on Persona.id = Hijo.id';
+            $sql .= ' SET nombre=:nombre, apellidos=:apellidos, idCurso=:idCurso WHERE Persona.id=:id';
             $params = array(
                 'nombre' => $datos->nombre,
                 'apellidos' => $datos->apellidos,
-                'id' => $datos->id
+                'id' => $datos->id,
+                'idCurso' => $datos->idCurso
             );
 
             BD::actualizar($sql, $params);
