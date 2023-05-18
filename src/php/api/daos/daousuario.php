@@ -14,8 +14,8 @@
          * @return object|boolean Devuelve los datos del usuario o false si no existe el usuario. 
          */
         public static function autenticarLogin($login) {
-            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM Persona';
-            $sql .= ' WHERE correo = :usuario AND contrasenia = :clave';
+            $sql = 'SELECT id, nombre, apellidos, correo, clave, telefono, dni, iban, titular FROM Persona';
+            $sql .= ' WHERE correo = :usuario AND clave = :clave';
 
             $params = array('usuario' => $login->usuario, 'clave' => $login->clave);
             $clave = $login->clave;
@@ -24,7 +24,7 @@
             $params = array('usuario' => $login->usuario);
             $resultado = BD::seleccionar($sql, $params);
 
-            if (password_verify($clave, $resultado[0]['contrasenia'])){
+            if (password_verify($clave, $resultado[0]['clave'])){
                 return DAOUsuario::crearUsuario($resultado);
             }
             else {
@@ -93,7 +93,7 @@
          * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function autenticarEmail($email) {
-            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM Persona';
+            $sql = 'SELECT id, nombre, apellidos, correo, clave, telefono, dni, iban, titular FROM Persona';
             $sql .= ' WHERE correo = :email';
 
             $params = array('email' => $email);
@@ -108,7 +108,7 @@
          * @return Usuario|boolean Devuelve los datos del usuario o false si no existe el usuario.
          */
         public static function existeCorreo($datos) {
-            $sql = 'SELECT id, nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular FROM Persona';
+            $sql = 'SELECT id, nombre, apellidos, correo, clave, telefono, dni, iban, titular FROM Persona';
             $sql .= ' WHERE correo = :email';
 
             $params = array('email' => $datos->correo);
@@ -223,11 +223,11 @@
          * @return int ID de la fila insertada.
          */
         public static function altaPersona($datos) {
-            $sql = 'INSERT INTO Persona(nombre, apellidos, correo, contrasenia, telefono, dni, iban, titular)';
-            $sql .= ' VALUES(:nombre, :apellidos, :correo, :contrasenia, :telefono, :dni, :iban, :titular)';
+            $sql = 'INSERT INTO Persona(nombre, apellidos, correo, clave, telefono, dni, iban, titular)';
+            $sql .= ' VALUES(:nombre, :apellidos, :correo, :clave, :telefono, :dni, :iban, :titular)';
 
-            if ($datos->contrasenia != null) {
-                $clave = password_hash($datos->contrasenia, PASSWORD_DEFAULT, ['cost' => 15]);
+            if ($datos->clave != null) {
+                $clave = password_hash($datos->clave, PASSWORD_DEFAULT, ['cost' => 15]);
             }
             else {
                 $clave = NULL;
@@ -237,7 +237,7 @@
                 'nombre' => $datos->nombre,
                 'apellidos' => $datos->apellidos,
                 'correo' => $datos->correo,
-                'contrasenia' => $clave,
+                'clave' => $clave,
                 'telefono' => $datos->telefono,
                 'dni' => $datos->dni,
                 'iban' => $datos->iban,
@@ -290,10 +290,10 @@
          */
         public static function modificarContrasenia($datos) {
             $sql = 'UPDATE Persona';
-            $sql .= ' SET contrasenia=:contrasenia WHERE id=:id';
+            $sql .= ' SET clave=:clave WHERE id=:id';
             $params = array(
                 'id' => $datos->id,
-                'contrasenia' => password_hash($datos->contrasenia, PASSWORD_DEFAULT, ['cost' => 15])
+                'clave' => password_hash($datos->clave, PASSWORD_DEFAULT, ['cost' => 15])
             );
 
             BD::actualizar($sql, $params);

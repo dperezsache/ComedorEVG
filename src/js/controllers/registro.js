@@ -63,7 +63,7 @@ class Registro {
             nombre: this.inputs[0].value,
             apellidos: this.inputs[1].value,
             correo: this.inputs[2].value,
-            contrasenia: this.inputs[3].value,
+            clave: this.inputs[3].value,
             telefono: this.inputs[5].value,
             dni: this.inputs[6].value,
             iban: this.inputs[7].value,
@@ -155,7 +155,7 @@ class Registro {
     redireccion(datos) {
         const login = {
             usuario: datos.correo,
-            clave: datos.contrasenia
+            clave: datos.clave
         };
 
         Rest.post('login', [], login, true)

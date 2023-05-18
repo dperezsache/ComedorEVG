@@ -74,7 +74,7 @@ class Restaurar {
     actualizarClave(id) {
         const datos = {
             'id' : id,
-            'contrasenia' : this.campo1.value
+            'clave' : this.campo1.value
         };
 
         Rest.put('restaurar', [], datos, false)

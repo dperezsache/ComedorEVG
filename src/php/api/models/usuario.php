@@ -7,7 +7,7 @@
         public $nombre = null;
         public $apellidos = null;
         public $correo = null;
-        public $contrasenia = null;
+        public $clave = null;
         public $telefono = null;
         public $dni = null;
         public $iban = null;

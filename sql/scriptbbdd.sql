@@ -5,7 +5,7 @@ CREATE TABLE Persona(
     nombre VARCHAR(50) NOT NULL,
     apellidos VARCHAR(80) NOT NULL,
     correo VARCHAR(90) NULL,
-    contrasenia VARCHAR(255) NULL,
+    clave VARCHAR(255) NULL,
     telefono CHAR(9) NULL,
     dni CHAR(9) NULL,
     iban CHAR(24) NULL,
@@ -13,7 +13,7 @@ CREATE TABLE Persona(
 
     CONSTRAINT PK_idPersona PRIMARY KEY (id),
     CONSTRAINT UQ_correoPersona UNIQUE (correo),
-    CONSTRAINT UQ_dniPersona UNIQUE (dni),
+    CONSTRAINT UQ_dniPersona UNIQUE (dni)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Curso(
@@ -91,9 +91,6 @@ CREATE TABLE RecuperacionClaves(
     CONSTRAINT UQ_RecuperacionClaves_Codigo UNIQUE (codigo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- ////////////////////////////////
--- // INSERCIÓN MASIVA DE CURSOS //
--- ////////////////////////////////
 INSERT INTO Curso (nombre) 
 VALUES ('1º Infantil'),
         ('2º Infantil'),

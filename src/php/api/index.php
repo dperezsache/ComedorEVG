@@ -106,11 +106,6 @@
                 require_once('./controllers/hijos.php');
                 $controlador = new Hijos();
                 break;
-            
-            case 'curso':
-                require_once('./controllers/curso.php');
-                $controlador = new Curso();
-                break;
                 
             case 'recuperar':
                 require_once('./controllers/recuperar.php');
