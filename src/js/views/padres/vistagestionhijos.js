@@ -270,6 +270,7 @@ export class VistaGestionHijos extends Vista {
      */
     exitoAlta(activar) {
         this.formAlta.classList.remove('was-validated');
+        this.formAlta.reset();
         this.divCargandoAlta.style.display = 'none';
         this.divExitoAlta.style.display = activar ? 'block' : 'none';
     }
