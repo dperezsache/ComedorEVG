@@ -14,7 +14,6 @@ CREATE TABLE Persona(
     CONSTRAINT PK_idPersona PRIMARY KEY (id),
     CONSTRAINT UQ_correoPersona UNIQUE (correo),
     CONSTRAINT UQ_dniPersona UNIQUE (dni),
-    CONSTRAINT UQ_ibanPersona UNIQUE (iban)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Curso(
