@@ -30,7 +30,7 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     obtenerCursos() {
-        return Rest.post('cursos', [], null, true);
+        return Rest.get('cursos', [], []);
     }
 
     /**
