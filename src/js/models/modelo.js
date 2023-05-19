@@ -39,9 +39,9 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     dameHijos(id) {
-        const queryParams = new Map()
-        queryParams.set('id', id)
-        return Rest.get('hijos', [], queryParams)
+        const queryParams = new Map();
+        queryParams.set('id', id);
+        return Rest.get('hijos', [], queryParams);
     }
 
     /**

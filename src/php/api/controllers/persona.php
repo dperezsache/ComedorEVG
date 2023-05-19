@@ -8,11 +8,18 @@
     class Persona {
         /**
          * Inserta fila a la tabla persona.
-         * @param $pathParams No utilizado.
-         * @param $queryParams No utilizado.
-         * @param $datos Datos del usuario.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams No utilizado.
+         * @param object $datos Datos del usuario.
+         * @param object $usuario Usuario que realiza el proceso.
          */
-        function post($pathParams, $queryParams, $datos) {
+        function post($pathParams, $queryParams, $datos, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
@@ -25,14 +32,20 @@
 
         /**
          * Actualiza fila tabla persona.
-         * @param $pathParams No utilizado.
-         * @param $queryParams No utilizado.
-         * @param $datos Datos del usuario.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams No utilizado.
+         * @param object $datos Datos del usuario.
+         * @param object $usuario Usuario que realiza el proceso.
          */
-        function put($pathParams, $queryParams, $datos) {
+        function put($pathParams, $queryParams, $datos, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             DAOUsuario::modificarPersona($datos);
             sleep(1);
-
             header('HTTP/1.1 200 OK');
             die();
         }

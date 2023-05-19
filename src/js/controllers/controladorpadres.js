@@ -26,6 +26,8 @@ class ControladorPadres {
         if (!this.#usuario)
             window.location.href = 'login.html';
 
+        Rest.setAutorizacion(this.#usuario.autorizacion);
+
         this.modelo = new Modelo();
         this.vistaMenu = new VistaMenuPadres(this, document.getElementById('menuPadres'));
         this.vistaInicio = new VistaInicioPadres(this, document.getElementById('inicioPadres'));

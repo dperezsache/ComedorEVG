@@ -9,7 +9,7 @@
         // Se configura por inyección de dependencias.
         public static $clave = null;
         public static $algoritmo_encriptacion = null;
-        public static $iv = 'Bx4!aWt^hYGFUt9^';
+        public static $iv = 'Sd5LzPt2fxW+rQfF';
 
         /**
          * Autentifica al usuario con el email y la clave.
@@ -19,8 +19,6 @@
          * @param $login Datos de login (usuario y clave).
          */
         function post($pathParams, $queryParams, $login) {
-            global $config;
-
             $usuario = DAOUsuario::autenticarLogin($login);
             sleep(1);
 

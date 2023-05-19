@@ -8,11 +8,17 @@
     class Dias {
         /**
          * Obtener filas de la tabla dias.
-         * @param $pathParams No utilizado.
-         * @param $queryParams Array de IDs.
-         * @param $datos Datos del usuario.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams Array de IDs.
+         * @param object $usuario Usuario que realiza el proceso.
          */
-        function get($pathParams, $queryParams) {
+        function get($pathParams, $queryParams, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             if (count($queryParams)) {
                 $resultado = DAOUsuario::obtenerDias($queryParams);
 
@@ -29,23 +35,36 @@
 
         /**
          * Inserta fila a la tabla dias.
-         * @param $pathParams No utilizado.
-         * @param $queryParams No utilizado.
-         * @param $datos Datos del usuario.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams No utilizado.
+         * @param object $datos Datos del usuario.
+         * @param object $usuario Usuario que realiza el proceso.
          */
-        function post($pathParams, $queryParams, $datos) {
-            DAOUsuario::altaDia($datos);
+        function post($pathParams, $queryParams, $datos, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
 
+            DAOUsuario::altaDia($datos);
             header('HTTP/1.1 200 OK');
             die();
         }
 
         /**
          * Borrar fila de la tabla dias
-         * @param $pathParams Datos del día.
-         * @param $queryParams No utilizado.
+         * @param array $pathParams Datos del día.
+         * @param array $queryParams No utilizado.
+         * @param object $usuario Usuario que realiza el proceso.
          */
-        function delete($pathParams, $queryParams){
+        function delete($pathParams, $queryParams, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             if (count($pathParams)) {
                 $fecha = new DateTime($pathParams[0]);
                 $fecha = $fecha->format('Y/m/d');

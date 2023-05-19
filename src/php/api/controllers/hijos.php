@@ -8,12 +8,18 @@
     class Hijos {
         /**
          * Inserta al hijo con sus datos en la base datos.
-         * @param $pathParams No utilizado.
-         * @param $queryParams No utilizado.
-         * @param $datos Datos del usuario.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams No utilizado.
+         * @param object $datos Datos del usuario.
+         * @param object $usuario Usuario que realiza el proceso.
          */
-        function post($pathParams, $queryParams, $datos) {
-            global $config;
+        function post($pathParams, $queryParams, $datos, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if ($usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
@@ -26,7 +32,7 @@
             // Insertar en tabla de hijos.
             DAOUsuario::altaHijo($datos, $id);
             sleep(1);
-            
+
             //Insertar en tabla de padreshijo
             DAOUsuario::altaPadreHijo($datos, $id);
             sleep(1);
@@ -39,32 +45,65 @@
             die();
         }
         
-        function get($pathParams, $queryParams){
-            global $config;
-        
+        /**
+         * Devuelve los hijos de un padre.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams Aquí viaja el ID del padre.
+         * @param object $usuario Usuario que realiza el proceso.
+         */
+        function get($pathParams, $queryParams, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             $hijos = DAOUsuario::dameHijos($queryParams['id']);
-            
-            $json = json_encode($hijos);
             header('Content-type: application/json; charset=utf-8');
             header('HTTP/1.1 200 OK');
-            echo $json;
+            echo json_encode($hijos);
             die();
         }
 
-        function delete($pathParams, $queryParams){
-            global $config;
-            $id = DAOUsuario::eliminaHijo($pathParams[0]);
+        /**
+         * Borra un hijo.
+         * @param array $pathParams Aquí viaja el ID del hijo a borrar.
+         * @param array $queryParams No utilizado.
+         * @param object $usuario Usuario que realiza el proceso.
+         */
+        function delete($pathParams, $queryParams, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
 
-            //Respuesta a un DELETE
-            header('HTTP/1.1 200 Ok');
+            if (count($pathParams)) {
+                DAOUsuario::eliminaHijo($pathParams[0]);
+                header('HTTP/1.1 200 OK');
+                die();
+            }
+
+            header('HTTP/1.1 404 Not Found');
             die();
         }
         
-        function put($pathParams, $queryParams, $datos){
-            global $config;
+        /**
+         * Modifica un hijo.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams No utilizado.
+         * @param object $datos Datos del hijo.
+         * @param object $usuario Usuario que realiza el proceso.
+         */
+        function put($pathParams, $queryParams, $datos, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             DAOUsuario::modificarHijo($datos);
             sleep(1);
-
             header('HTTP/1.1 200 OK');
             die();
         }

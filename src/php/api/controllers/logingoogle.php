@@ -24,8 +24,6 @@
          * @param string $token Token de login de Google.
          */
         function post($pathParams, $queryParams, $token){
-            global $config;
-
             $client = new Google_Client(['client_id' => self::$ID_CLIENTE]);
             $payload = $client->verifyIdToken($token);
 

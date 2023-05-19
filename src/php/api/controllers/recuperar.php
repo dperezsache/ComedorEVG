@@ -7,11 +7,18 @@
      */
     class Recuperar {
         /**
-         * @param $pathParams No utilizado.
-         * @param $queryParams No utilizado.
+         * @param array $pathParams No utilizado.
+         * @param array $queryParams No utilizado.
          * @param object $correo Objecto que contiene el correo del usuario.
+         * @param object $user Usuario que realiza el proceso.
          */
-        function post($pathParams, $queryParams, $correo) {
+        function post($pathParams, $queryParams, $correo, $user) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$user) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
             $usuario = DAOUsuario::existeCorreo($correo);
             sleep(1);
 
