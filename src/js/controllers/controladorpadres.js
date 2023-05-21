@@ -41,6 +41,19 @@ class ControladorPadres {
     }
 
     /**
+     * Devuelve array de días festivos a vista de gestión de hijos.
+     */
+    obtenerFestivos(inicioSemana) {
+        this.modelo.obtenerFestivos(inicioSemana)
+         .then(festivos => {
+             this.vistaInicio.obtenerFestivos(festivos);
+         })
+         .catch(e => {
+             console.error(e);
+         })
+    }
+
+    /**
      * Devuelve array de cursos a vista de gestión de hijos.
      */
     obtenerCursos() {

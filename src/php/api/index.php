@@ -127,6 +127,11 @@
                 $controlador = new Dias();
                 break;
 
+            case 'festivos':
+                require_once('./controllers/festivos.php');
+                $controlador = new Festivos();
+                break;
+
             default:
                 header('HTTP/1.1 501 Not Implemented');
                 die();

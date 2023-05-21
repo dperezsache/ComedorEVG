@@ -15,7 +15,7 @@
          */
         function post($pathParams, $queryParams, $datos, $usuario) {
             // Si no existe $usuario, es porque la autorización ha fallado.
-            if ($usuario) {
+            if (!$usuario) {
                 header('HTTP/1.1 401 Unauthorized');
                 die();
             }

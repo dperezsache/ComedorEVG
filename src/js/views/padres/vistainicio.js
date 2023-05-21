@@ -14,6 +14,7 @@ export class VistaInicioPadres extends Vista {
 
         this.hijos = null;
         this.dias = null;
+        this.festivos = null;
 
         this.listaMeses = [
             "Enero", "Febrero", "Marzo",
@@ -42,6 +43,15 @@ export class VistaInicioPadres extends Vista {
      */
     obtenerPadre(datos) {
         this.idPadre = datos.id;
+        this.controlador.obtenerFestivos(this.inicioSemana);
+    }
+
+    /**
+     * Obtener los días festivos que haya en la semana.
+     * @param {Array} festivos 
+     */
+    obtenerFestivos(festivos) {
+        this.festivos = festivos;
         this.controlador.dameHijosCalendario(this.idPadre);
     }
 
@@ -141,8 +151,8 @@ export class VistaInicioPadres extends Vista {
                 fechaDia.setDate(fechaDia.getDate() + i);
                 fechaDia.setUTCHours(0, 0, 0, 0); // Limpiar el time de la fecha, para que no arruine comprobación posterior.
 
-                let idString = 'fecha-' + hijo.id + '-';
-                idString += fechaDia.getFullYear() + '-' + (fechaDia.getMonth()+1) + '-' + fechaDia.getDate();
+                let fechaString = this.formatearStringFecha(fechaDia);
+                let idString = 'fecha-' + hijo.id + '-' + fechaString;
 
                 checkbox.id = idString;
                 checkbox.addEventListener('click', () => this.marcarDesmarcarDia(checkbox.checked, hijo.id, this.idPadre, true, checkbox.id));
@@ -150,12 +160,17 @@ export class VistaInicioPadres extends Vista {
                 // Comprobaciones fecha:
                 const fechaActual = new Date();
 
-                // 1- No poder interactuar con el día de mañana si hoy son las 14 o más.
-                if (this.bloquearDiaTomorrow(fechaActual, fechaDia)) {
+                // 1- Días festivos.
+                if (this.festivos && this.festivos.includes(fechaString)) {
                     checkbox.disabled = true;
                 }
 
-                // 2- Desactivar el poder interactuar con días ya pasados.
+                // 2- No poder interactuar con el día de mañana si hoy son las 14 o más.
+                if (!checkbox.disabled && this.bloquearDiaTomorrow(fechaActual, fechaDia)) {
+                    checkbox.disabled = true;
+                }
+
+                // 3- Desactivar el poder interactuar con días ya pasados.
                 if (!checkbox.disabled && Date.parse(fechaActual) > Date.parse(fechaDia)) {
                     checkbox.disabled = true;
                 }
@@ -207,6 +222,17 @@ export class VistaInicioPadres extends Vista {
     }
 
     /**
+     * Formatea una fecha con un formato específico.
+     * @param {Date} fecha Fecha a formatear.
+     * @returns {String} Fecha formateada (ejemplo: 2023-05-20).
+     */
+    formatearStringFecha(fecha) {
+        return fecha.getFullYear() + '-' + 
+                ("0" + (fecha.getMonth() + 1)).slice(-2) + '-' +
+                ("0" + fecha.getDate()).slice(-2);
+    }
+
+    /**
      * Marcar o desmarcar un mes entero de comedor.
      * @param {Boolean} marcado True para marcar, false para desmarcar.
      * @param {String} mes Texto con el mes.
@@ -222,17 +248,18 @@ export class VistaInicioPadres extends Vista {
 
         for (let i=0; i<diasMes; i++) {
             const actual = new Date();
+            let stringFecha = this.formatearStringFecha(temp);
 
-            // No interactuar con días ya pasados.
-            // Y no interactuar, si el próximo día a hoy es mañana y hoy son las 14 o más.
-            if (Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp)) {
+            // 1º Comprobar que no sean días ya pasados.
+            // 2º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
+            // 3º Comprobar, que no es un festivo.
+            if (Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && (this.festivos && !this.festivos.includes(stringFecha))) {
                 // Comprobar que el día no sea fin de semana.
                 if (temp.getDay() != 6 && temp.getDay() != 0) {
                     let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
                     this.marcarDesmarcarDia(marcado, idHijo, this.idPadre, false, fechaFormateada);
                 }
             }
-
             temp.setDate(temp.getDate() + 1);
         }
 
@@ -401,7 +428,7 @@ export class VistaInicioPadres extends Vista {
      * Refrescar calendario.
      */
     refrescarCalendario() {
-        this.controlador.dameHijosCalendario(this.idPadre); // Pedir al controlador que actualice el calendario.
+        this.controlador.obtenerFestivos(this.inicioSemana);
     }
 
     mostrar(ver) {
