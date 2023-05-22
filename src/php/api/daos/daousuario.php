@@ -186,30 +186,6 @@
         }
 
         /**
-         * Envía un correo con el enlace de recuperación de la contraseña.
-         * @param object $datos Datos del usuario.
-         * @param string $codigo Código único.
-         * @return boolean True si el correo fue mandado, False si no.
-         */
-        public static function enviarEmailRecuperacion($datos, $codigo) {
-            $para = $datos->correo;
-            $titulo = 'Crear nueva contraseña Comedor EVG';
-
-            $enlaceRestauracion = 'localhost/ComedorEVG/src/restaurar.html?codigo=' . $codigo;
-
-            $mensaje = $datos->nombre . ', pulse en el siguiente enlace para crear una ';
-            $mensaje .= ' <a href="' . $enlaceRestauracion . '">contraseña nueva</a>.';
-            $mensaje .= '<br/>Este enlace solo le permitirá cambiar la contraseña hasta en un máximo de 24 horas contando desde el momento de la solicitud. ';
-            $mensaje .= 'Si supera ese plazo deberá generar una nueva solicitud de cambio de contraseña.';
-
-            $headers = 'MIME-Version: 1.0' . "\r\n";
-            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-            $headers .= 'From: Comedor Escuela Virgen de Guadalupe <noreply@comedorevg.es>' . "\r\n";
-
-            return mail($para, $titulo, $mensaje, $headers);
-        }
-
-        /**
          * Genera código único de 16 caracteres.
          * @return string Código.
          */

@@ -1,6 +1,5 @@
 <?php
     require_once(dirname(__DIR__) . '/daos/daousuario.php');
-    require_once(dirname(__DIR__) . '/models/usuario.php');
 
     /**
      * Controlador de autenticación.

@@ -1,6 +1,5 @@
 <?php
     require_once(dirname(__DIR__) . '/daos/daousuario.php');
-    require_once(dirname(__DIR__) . '/models/usuario.php');
 
     /**
      * Controlador de restauración de contraseñas.
@@ -13,12 +12,6 @@
          * @param object $user Usuario que realiza el proceso.
          */
         function get($pathParams, $queryParams, $usuario) {
-            // Si no existe $usuario, es porque la autorización ha fallado.
-            if (!$usuario) {
-                header('HTTP/1.1 401 Unauthorized');
-                die();
-            }
-
             if (count($pathParams) && count($queryParams)) {
                 if ($pathParams[0] == 'codigo') {
                     $datos = DAOUsuario::obtenerRecuperacionPorCodigo($queryParams[0]);
@@ -60,12 +53,6 @@
          * @param object $usuario Usuario que realiza el proceso.
          */
         function put($pathParams, $queryParams, $datos, $usuario) {
-            // Si no existe $usuario, es porque la autorización ha fallado.
-            if (!$usuario) {
-                header('HTTP/1.1 401 Unauthorized');
-                die();
-            }
-
             // Actualizar contraseña.
             DAOUsuario::modificarContrasenia($datos);
             sleep(1);
