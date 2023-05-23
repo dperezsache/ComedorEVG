@@ -13,12 +13,6 @@
          * @param object $usuario Usuario que realiza el proceso.
          */
         function post($pathParams, $queryParams, $datos, $usuario) {
-            // Si no existe $usuario, es porque la autorización ha fallado.
-            if (!$usuario) {
-                header('HTTP/1.1 401 Unauthorized');
-                die();
-            }
-
             // Insertar en tabla de personas.
             $id = DAOUsuario::altaPersona($datos);
             sleep(1);
@@ -37,12 +31,6 @@
          * @param object $usuario Usuario que realiza el proceso.
          */
         function put($pathParams, $queryParams, $datos, $usuario) {
-            // Si no existe $usuario, es porque la autorización ha fallado.
-            if (!$usuario) {
-                header('HTTP/1.1 401 Unauthorized');
-                die();
-            }
-
             DAOUsuario::modificarPersona($datos);
             sleep(1);
             header('HTTP/1.1 200 OK');

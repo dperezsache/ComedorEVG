@@ -55,6 +55,7 @@ export class VistaModificarPadres extends Vista {
                 'correo': this.inputs[3].value
             };
 
+            this.btnActualizar.disabled = true;
             this.divCargando.style.display = 'block';
             this.controlador.modificarPadre(datos);
         }
@@ -62,25 +63,13 @@ export class VistaModificarPadres extends Vista {
 
     /**
      * Informar al usuario de la modificación exitosa.
+     * @param {Boolean} activar Activar o no mensaje de éxito.
      */
     exito(activar) {
         this.form.classList.remove('was-validated');
         this.divCargando.style.display = 'none';
-        
-        if (activar) {
-            for (let input of this.inputs)
-                input.disabled = true;
-
-            this.btnActualizar.disabled = true;
-            this.divExito.style.display = 'block';
-        }
-        else {
-            for (let input of this.inputs)
-                input.disabled = false;
-
-            this.btnActualizar.disabled = false;
-            this.divExito.style.display = 'none';
-        }
+        this.btnActualizar.disabled = false;
+        this.divExito.style.display = activar ? 'block' : 'none';
     }
 
 	mostrar(ver) {

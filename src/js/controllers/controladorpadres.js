@@ -62,7 +62,7 @@ class ControladorPadres {
              this.vistaGestionHijos.rellenarSelects(cursos);
          })
          .catch(e => {
-            console.error(e);
+             console.error(e);
          })
     }
 
@@ -100,10 +100,14 @@ class ControladorPadres {
     altaHijo(datos) {
         this.modelo.altaHijo(datos)
          .then(() => {
+             this.vistaGestionHijos.btnCancelarAlta.disabled = false;
+             this.vistaGestionHijos.btnRegistrar.disabled = false;
              this.vistaGestionHijos.exitoAlta(true);
              this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
          })
          .catch(e => {
+             this.vistaGestionHijos.btnCancelarAlta.disabled = false;
+             this.vistaGestionHijos.btnRegistrar.disabled = false;
              console.error(e);
          })
     }
@@ -115,10 +119,14 @@ class ControladorPadres {
     modificarHijo(datos){
         this.modelo.modificarHijo(datos)
          .then(() => {
+             this.vistaGestionHijos.btnActualizar.disabled = false;
+             this.vistaGestionHijos.btnCancelarMod.disabled = false;
              this.vistaGestionHijos.exitoModificacion(true);
              this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
          })
          .catch(e => {
+             this.vistaGestionHijos.btnActualizar.disabled = false;
+             this.vistaGestionHijos.btnCancelarMod.disabled = false;
              console.error(e);
          }) 
     }

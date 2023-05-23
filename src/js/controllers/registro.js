@@ -46,6 +46,8 @@ class Registro {
                 if (this.divError.style.display == 'block')
                     this.divError.style.display = 'none';
 
+                this.btnRegistrar.disabled = true;
+                this.btnCancelar.disabled = true;
                 this.insertarPersona();
             }
             else {
@@ -87,14 +89,14 @@ class Registro {
      */
     insertarPadre(id, usuario) {
         Rest.post('padres', [], id, false)
-        .then(() => {
-            this.divCargando.style.display = 'none';
-            this.exito(usuario);
-        })
-        .catch(e => {
-            this.divCargando.style.display = 'none';
-            this.error(e);
-        })
+         .then(() => {
+             this.divCargando.style.display = 'none';
+             this.exito(usuario);
+         })
+         .catch(e => {
+             this.divCargando.style.display = 'none';
+             this.error(e);
+         })
     }
 
     /**
@@ -104,7 +106,7 @@ class Registro {
     error(e) {
         if (e != null) {
             if(e == 'Error: 500 - Internal Server Error 1') {
-                this.divError.innerHTML = '<p>Ya existe una cuenta con esa dirección de correo o IBAN.</p>';
+                this.divError.innerHTML = '<p>Ya existe una cuenta con esa dirección de correo.</p>';
             }
             else if (e == 'Error: 408 - Request Timeout') {
                 this.divError.innerHTML = '<p>No hay conexión con la base de datos. Intente de nuevo más tarde.</p>';
@@ -120,6 +122,9 @@ class Registro {
         else {
             this.divError.style.display = 'none';
         }
+
+        this.btnRegistrar.disabled = false;
+        this.btnCancelar.disabled = false;
     }
 
     /**

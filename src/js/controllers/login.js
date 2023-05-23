@@ -30,8 +30,10 @@ class Login {
     validarFormulario() {
         this.form.classList.add('was-validated');
 
-        if (this.email.checkValidity() && this.clave.checkValidity())
+        if (this.email.checkValidity() && this.clave.checkValidity()) {
+            this.btnAceptar.disabled = true;
             this.login();
+        }
     }
 
     /**
@@ -50,11 +52,13 @@ class Login {
 
         Rest.post('login', [], login, true)
          .then(usuario => {
+             this.btnAceptar.disabled = false;
              this.divCargando.style.display = 'none';
              sessionStorage.setItem('usuario', JSON.stringify(usuario));
              window.location.href = 'index.html';
          })
          .catch(e => {
+             this.btnAceptar.disabled = false;
              this.divCargando.style.display = 'none';
              this.error(e);
          })

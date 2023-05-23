@@ -39,6 +39,8 @@ class Recuperar {
                 'correo' : this.correo.value
             };
             
+            this.btnEnviar.disabled = true;
+
             Rest.post('recuperar', [], email, false)
              .then(() => {
                  this.exito();
@@ -70,6 +72,7 @@ class Recuperar {
      * @param {Object} e Error.
      */
     error(e) {
+        this.btnEnviar.disabled = false;
         this.divCargando.style.display = 'none';
 
         if (e != null) {
