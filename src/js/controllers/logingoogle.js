@@ -1,7 +1,7 @@
 import { Rest } from "../services/rest.js";
 
 // Direcciones de correo posibles.
-const PILAR = 'pvillalon@fundacionloyola.es';
+const PILAR = 'dperezsache.guadalupe@alumnado.fundacionloyola.net';   // pvillalon@fundacionloyola.es
 const ALUMNADO = '@alumnado.fundacionloyola.net';
 const PERSONAL = '@fundacionloyola.es';
 
