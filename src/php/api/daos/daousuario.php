@@ -55,6 +55,9 @@
          * @param object $datos Datos del día.
          */
         public static function altaDia($datos) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+
             $sql = 'INSERT INTO Dias(dia, idUsuario, idPadre)';
             $sql .= ' VALUES(:dia, :idUsuario, :idPadre)';
 
@@ -65,6 +68,9 @@
             );
 
             BD::insertar($sql, $params);
+
+            if (!BD::commit())
+            throw new Exception('No se pudo confirmar la transacción.');
         }
 
         /**
@@ -123,6 +129,9 @@
          * @return string Devuelve código único de la solicitud.
          */
         public static function insertarRecuperacionClave($datos) {
+            if (!BD::iniciarTransaccion())
+            throw new Exception('No es posible iniciar la transacción.');
+
             $sql = 'INSERT INTO RecuperacionClaves(id, fechaLimite, codigo)';
             $sql .= ' VALUES(:id, :fechaLimite, :codigo)';
 
@@ -138,6 +147,10 @@
             );
 
             BD::insertar($sql, $params);
+
+            if (!BD::commit())
+            throw new Exception('No se pudo confirmar la transacción.');
+
             return $codigo;
         }
 
@@ -199,6 +212,9 @@
          * @return int ID de la fila insertada.
          */
         public static function altaPersona($datos) {
+            if (!BD::iniciarTransaccion())
+            throw new Exception('No es posible iniciar la transacción.');
+
             $sql = 'INSERT INTO Persona(nombre, apellidos, correo, clave, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :clave, :telefono, :dni, :iban, :titular)';
 
@@ -219,8 +235,12 @@
                 'iban' => $datos->iban,
                 'titular' => $datos->titular
             );
-            
-            return BD::insertar($sql, $params);  
+            $id = BD::insertar($sql, $params);
+           
+            if (!BD::commit())
+            throw new Exception('No se pudo confirmar la transacción.');
+
+            return $id;
         }
 
         /**
@@ -229,6 +249,9 @@
          * @return void
          */
         public static function altaUsuarioGoogle($datos) {
+            if (!BD::iniciarTransaccion())
+            throw new Exception('No es posible iniciar la transacción.');
+
             $sql = 'INSERT INTO Persona(nombre, apellidos, correo)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo)';
             $params = array(
@@ -237,7 +260,12 @@
                 'correo' => $datos['email']
             );
 
-            return BD::insertar($sql, $params);  
+            $id = BD::insertar($sql, $params);  
+
+            if (!BD::commit())
+            throw new Exception('No se pudo confirmar la transacción.');
+
+            return $id;
         }
 
         /**
@@ -281,27 +309,62 @@
          * @return int ID de la inserción.
          */
         public static function altaPadre($id) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+                
             $sql = 'INSERT INTO Padre(id)';
             $sql .= ' VALUES(:id)';
             $params = array('id' => $id);
 
-            return BD::insertar($sql, $params); 
+            BD::insertar($sql, $params); 
+            
+            if (!BD::commit())
+			    throw new Exception('No se pudo confirmar la transacción.');
+           
+            return null;
+           
         }
-        
-        /**
-         * Inserta fila en la tabla 'hijo'.
-         * @param int $id ID de la Persona.
-         * @return int ID de la inserción.
-         */
-        public static function altaHijo($datos, $id) {
-            $sql = 'INSERT INTO hijo(id, idCurso)';
+    
+        public static function insertarHijo($datos) {
+
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+
+            $sql = 'INSERT INTO Persona(nombre, apellidos, correo, clave, telefono, dni, iban, titular)';
+            $sql .= ' VALUES(:nombre, :apellidos, :correo, :clave, :telefono, :dni, :iban, :titular)';
+
+            $params = array(
+                'nombre' => $datos->nombre,
+                'apellidos' => $datos->apellidos,
+                'correo' => $datos->correo,
+                'clave' => $clave,
+                'telefono' => $datos->telefono,
+                'dni' => $datos->dni,
+                'iban' => $datos->iban,
+                'titular' => $datos->titular
+            );
+            $id = BD::insertar($sql, $params);  
+
+            $sql = 'INSERT INTO Hijo(id, idCurso)';
             $sql .= ' VALUES(:id, :idCurso)';
             $params = array(
                 'id' => $id,
                 'idCurso' => $datos->idCurso
             );
 
-            return BD::insertar($sql, $params); 
+            BD::insertar($sql, $params); 
+
+            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
+            $sql .= ' VALUES(:idPadre, :idHijo)';
+            $params = array(
+                'idPadre' => $datos->id,
+                'idHijo' => $id
+            );
+
+            BD::insertar($sql, $params); 
+
+            if (!BD::commit())
+            throw new Exception('No se pudo confirmar la transacción.');
         }
 
         /**
@@ -355,33 +418,23 @@
         }
 
         /**
-         * Inserta fila en la tabla 'padresHijos'.
-         * @param object $datos Datos de la Persona.
-         * @param int $id ID de la Persona.
-         * @return int ID de la inserción.
-         */
-        public static function altaPadreHijo($datos, $id) {
-            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
-            $sql .= ' VALUES(:idPadre, :idHijo)';
-            $params = array(
-                'idPadre' => $datos->id,
-                'idHijo' => $id
-            );
-
-            return BD::insertar($sql, $params); 
-        }
-
-        /**
          * Inserta fila en la tabla 'usuario'.
          * @param int $id ID de la Persona.
          * @return int ID de la inserción.
          */
         public static function altaUsuario($id) {
+            if (!BD::iniciarTransaccion())
+            throw new Exception('No es posible iniciar la transacción.');
+
             $sql = 'INSERT INTO Usuario(id)';
             $sql .= ' VALUES(:id)';
             $params = array('id' => $id);
+            $lastInsertID =  BD::insertar($sql, $params);
 
-            return BD::insertar($sql, $params); 
+            if (!BD::commit())
+            throw new Exception('No se pudo confirmar la transacción.');
+            
+            return $lastInsertID;
         }
 
         /**
