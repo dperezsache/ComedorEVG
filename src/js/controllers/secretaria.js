@@ -25,6 +25,10 @@ class ControladorSecretaria {
         if (!this.#usuario)
             window.location.href = 'login_google.html';
 
+        // Comprobar rol de usuario secretaría
+        if (this.#usuario.rol != 'S')
+            window.location.href = 'login_google.html';
+
         Rest.setAutorizacion(this.#usuario.autorizacion);
 
         this.modelo = new Modelo();
