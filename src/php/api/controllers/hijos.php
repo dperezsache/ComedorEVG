@@ -19,27 +19,8 @@
                 die();
             }
 
-            // Insertar en tabla de personas.
-            $id = DAOUsuario::altaPersona($datos);
+            DAOUSuario::insertarHijo($datos);
             sleep(1);
-
-            if (!$id) {
-                header('HTTP/1.1 400 Bad Request');
-                die();
-            }
-
-            // Insertar en tabla de hijos.
-            DAOUsuario::altaHijo($datos, $id);
-            sleep(1);
-
-            //Insertar en tabla de padreshijo
-            DAOUsuario::altaPadreHijo($datos, $id);
-            sleep(1);
-
-            // Insertar en tabla de usuarios.
-            DAOUsuario::altaUsuario($id);
-            sleep(1);
-
             header('HTTP/1.1 200 OK');
             die();
         }
