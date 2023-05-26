@@ -471,7 +471,7 @@
                 $usuario->dni = $resultSet[0]['dni'];
                 $usuario->iban = $resultSet[0]['iban'];
                 $usuario->titular = $resultSet[0]['titular'];
-                $usuario->rol = $resultSet[0]['rol'];
+                $usuario->rol = null;
             }
             else {
                 $usuario = false;
