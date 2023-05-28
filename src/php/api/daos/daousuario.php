@@ -330,6 +330,7 @@
             if (!BD::iniciarTransaccion())
                 throw new Exception('No es posible iniciar la transacción.');
 
+<<<<<<< HEAD
             $sql = 'INSERT INTO Persona(nombre, apellidos, correo, clave, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :clave, :telefono, :dni, :iban, :titular)';
 
@@ -342,6 +343,14 @@
                 'dni' => $datos->dni,
                 'iban' => $datos->iban,
                 'titular' => $datos->titular
+=======
+            $sql = 'INSERT INTO Persona(nombre, apellidos)';
+            $sql .= ' VALUES(:nombre, :apellidos)';
+
+            $params = array(
+                'nombre' => $datos->nombre,
+                'apellidos' => $datos->apellidos
+>>>>>>> sprint4_david
             );
             $id = BD::insertar($sql, $params);  
 
@@ -477,6 +486,7 @@
                 $usuario->dni = $resultSet[0]['dni'];
                 $usuario->iban = $resultSet[0]['iban'];
                 $usuario->titular = $resultSet[0]['titular'];
+                $usuario->rol = null;
             }
             else {
                 $usuario = false;

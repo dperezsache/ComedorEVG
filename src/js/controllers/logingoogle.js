@@ -1,8 +1,9 @@
 import { Rest } from "../services/rest.js";
 
 // Direcciones de correo posibles.
-// 'pvillalon@fundacionloyola.es';
-const PILAR = "sergioriverasalgado.guadalupe@alumnado.fundacionloyola.net";
+
+const PILAR = 'dperezsache.guadalupe@alumnado.fundacionloyola.net';   // pvillalon@fundacionloyola.es
+
 const ALUMNADO = '@alumnado.fundacionloyola.net';
 const PERSONAL = '@fundacionloyola.es';
 
@@ -59,14 +60,25 @@ class LoginGoogle {
      * @param {String} correo Email del usuario.
      */
     redireccionar(correo) {
+        let usuario = JSON.parse(sessionStorage.getItem('usuario'));
+
+        // Secretaría
         if (correo == PILAR) {
-            window.location.href = 'index_evg.html';        // Secretaría
+            usuario.rol = 'S';  // Si es usuario de secretaría, poner rol de secretaría.
+            sessionStorage.setItem('usuario', JSON.stringify(usuario));
+            window.location.href = 'index_evg.html';        
         }
+        // PAS o trabajadores
         else if (correo.includes(PERSONAL)) {
-            window.location.href = 'index_personal.html';   // PAS o trabajadores
+            usuario.rol = 'G';  // Poner rol de usuario de Google.
+            sessionStorage.setItem('usuario', JSON.stringify(usuario));
+            window.location.href = 'index_personal.html';   
         }
+        // Alumnado
         else if (correo.includes(ALUMNADO)) {
-            window.location.href = 'index_alumnos.html';    // Alumno
+            usuario.rol = 'G';  // Poner rol de usuario de Google.
+            sessionStorage.setItem('usuario', JSON.stringify(usuario));
+            window.location.href = 'index_alumnos.html';    
         }
     }
 

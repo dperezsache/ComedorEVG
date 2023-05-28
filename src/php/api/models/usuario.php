@@ -12,7 +12,7 @@
         public $dni = null;
         public $iban = null;
         public $titular = null;
-
+        public $rol = null;
         public $tsConexion = null; // Timestamp de conexión
         public $autorizacion = null;
     }
