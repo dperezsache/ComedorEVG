@@ -104,6 +104,7 @@ class ControladorSecretaria {
      */
     cerrarSesion() {
         this.#usuario = null;
+        sessionStorage.removeItem('usuario');
         Rest.setAutorizacion(null);
         window.location.href = 'login_google.html';
     }
