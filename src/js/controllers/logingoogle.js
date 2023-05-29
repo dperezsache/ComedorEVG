@@ -28,7 +28,7 @@ class LoginGoogle {
         
         google.accounts.id.renderButton(
             document.getElementById('divGoogleLogin'),
-            { theme: 'outline', size: 'large', text: "signin_with", shape: 'rectangular' }
+            { theme: 'outline', size: 'medium', text: "signin_with", shape: 'rectangular' }
         );
     }
 
