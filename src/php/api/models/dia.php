@@ -4,7 +4,7 @@
      */
     class Dia {
         public $dia = null;
-        public $idUsuario = null;
+        public $idPersona = null;
         public $idPadre = null;
     }
 ?>

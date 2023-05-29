@@ -1,4 +1,18 @@
-/* ----- Estilos comunes ----- */
+/* ESTILOS COMUNES */
+
+/* ----- FUENTE ----- */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: url("../font/opensans/OpenSans-VariableFont.ttf");
+}
+
+body {
+    font-family: 'Open Sans';
+}
+
+/* ----- FORMULARIOS ----- */
 form div.formItem {
     margin: 10px auto;
     text-align: center;

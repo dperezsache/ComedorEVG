@@ -180,7 +180,7 @@ export class VistaInicioPadres extends Vista {
                     for (const diaComedor of this.diasComedor) {
                         let fecha = new Date(diaComedor.dia);
 
-                        if (fecha.valueOf() === fechaDia.valueOf() && diaComedor.idUsuario == hijo.id) {
+                        if (fecha.valueOf() === fechaDia.valueOf() && diaComedor.idPersona == hijo.id) {
                             checkbox.checked = true;
                             cont++;
 
@@ -371,7 +371,7 @@ export class VistaInicioPadres extends Vista {
         
         const datos = {
             'dia': fechaValida,
-            'idUsuario': idHijo,
+            'idPersona': idHijo,
             'idPadre': idPadre
         };
 

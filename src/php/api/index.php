@@ -132,6 +132,11 @@
                 $controlador = new Festivos();
                 break;
 
+            case 'secretaria':
+                require_once('./controllers/secretaria.php');
+                $controlador = new Secretaria();
+                break;
+
             default:
                 header('HTTP/1.1 501 Not Implemented');
                 die();
