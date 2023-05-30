@@ -418,7 +418,6 @@
             $params = array(
                 'nombre' => $datos->nombre,
                 'apellidos' => $datos->apellidos
->>>>>>> sprint4_david
             );
 
             $id = BD::insertar($sql, $params);  
