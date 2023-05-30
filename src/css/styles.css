@@ -1,4 +1,18 @@
-/* ----- Estilos comunes ----- */
+/* ESTILOS COMUNES */
+
+/* ----- FUENTE ----- */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: url("../font/opensans/OpenSans-VariableFont.ttf");
+}
+
+body {
+    font-family: 'Open Sans';
+}
+
+/* ----- FORMULARIOS ----- */
 form div.formItem {
     margin: 10px auto;
     text-align: center;
@@ -49,6 +63,8 @@ div.formItem input[type="checkbox"] {
     form {
         width: 82.8%;
         padding: 3.4%;
+        min-width: 250px;
+        font-size: 0.9em;
     }
 }
 
@@ -108,10 +124,10 @@ nav#menuSecretaria ul li {
 @media screen and (max-width: 600px) {
     .topnav li:not(:first-child) {display: none;}
     .topnav li.icon {
-      float: right;
-      display: block;
+        float: right;
+        display: block;
     }
-  }
+}
   
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 600px) {
@@ -126,4 +142,8 @@ nav#menuSecretaria ul li {
         display: block;
         text-align: left;
     }
+}
+
+i {
+    color: white;
 }

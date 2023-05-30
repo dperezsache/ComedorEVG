@@ -143,7 +143,7 @@ class Registro {
         this.divExito.style.display = 'block';
 
         window.scrollTo(0, document.body.scrollHeight);
-        this.redireccion(datos);
+        this.iniciarSesion(datos);
     }
 
     /**
@@ -154,10 +154,10 @@ class Registro {
     }
 
     /**
-     * Loguear usuario y redireccionarlo a la página de padres.
+     * Loguear usuario.
      * @param {Object} datos Datos del usuario.
      */
-    redireccion(datos) {
+    iniciarSesion(datos) {
         const login = {
             usuario: datos.correo,
             clave: datos.clave
@@ -171,6 +171,16 @@ class Registro {
          .catch(e => {
              this.error(e);
          })
+    }
+
+    /**
+     * Asigna rol de padre y redirigir.
+     */
+    redireccionar() {
+        let usuario = JSON.parse(sessionStorage.getItem('usuario'));
+        usuario.rol = 'P';  // Poner rol de usuario padre.
+        sessionStorage.setItem('usuario', JSON.stringify(usuario));
+        window.location.href = 'index.html';
     }
 }
 

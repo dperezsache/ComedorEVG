@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
         <link rel="stylesheet" href="./css/styles.css"/>
         <link rel="stylesheet" href="./css/dashbaordsecretaria.css"/>
+        <script src="https://kit.fontawesome.com/d3a22cc0b3.js" crossorigin="anonymous"></script>
         <title>Comedor EVG</title>
     </head>
     <body>
@@ -16,15 +17,15 @@
                     <i class="fa-solid fa-bars"></i>
                 </li>
                 <li class="active">
-                    <i class="fa-solid fa-calendar-day" style="color: #ffffff;"></i>
+                    <i class="fa-solid fa-calendar-day"></i>
                     &nbsp;Gestión diaria
                 </li>
                 <li>
-                    <i class="fa-solid fa-calendar-days" style="color: #ffffff;"></i>
+                    <i class="fa-solid fa-calendar-days"></i>
                     &nbsp;Gestión mensual
                 </li>
                 <li>
-                    <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+                    <i class="fa-solid fa-right-from-bracket"></i>
                     &nbsp;Cerrar sesión
                 </li>
             </ul>
@@ -32,13 +33,20 @@
 
         <div id="gestionDiaria">
             <h1 class="text-center my-4">Gestión diaria</h1>
+            <div class="container">
+                <button type="button" class="btn btn-info btn-prev">Día anterior</button>
+                <button type="button" class="btn btn-info btn-next">Día siguiente</button>
+            </div>
+            <table id="tablaGestionDiaria">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
         </div>
 
         <div id="gestionMensual">
             <h1 class="text-center my-4">Gestión mensual</h1>
         </div>
 
-        <script src="https://kit.fontawesome.com/9e50a00cdb.js" crossorigin="anonymous"></script>
         <script type="module" src="./js/controllers/secretaria.js"></script>
     </body>
 </html>

@@ -33,21 +33,102 @@
         }
         
         /**
-         * Obtener filas de la tabla días de los usuarios cuyo IDs estén en la lista.
-         * @param array $idUsuarios Lista con los IDs de los usuarios.
-         * @return array Array con los días de todos los usuarios.
+         * Obtener las incidencias de una fecha.
+         * @param DateTime $fecha Fecha.
+         * @return array Devuelve las incidencias. 
          */
-        public static function obtenerDias($idUsuarios) {
-            $sql = 'SELECT dia, idUsuario, idPadre FROM Dias';
-            $sql .= ' WHERE idUsuario IN (';
+        public static function obtenerIncidenciasPorDia($fecha) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
 
-            foreach ($idUsuarios as $id)
+            $sql = 'SELECT idPersona, incidencia FROM Dias';
+            $sql .= ' WHERE dia=:fecha';
+
+            $params = array('fecha' => $fecha);
+            $incidencias = BD::seleccionar($sql, $params);
+
+            if (!BD::commit())
+                throw new Exception('No se pudo confirmar la transacción.');
+
+            return $incidencias;
+        }
+
+        /**
+         * Inserta/modifica incidencia de un día de un usuario en concreto.
+         * @param object $datos Datos de la incidencia.
+         */
+        public static function insertarIncidencia($datos) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+
+            $sql = 'UPDATE Dias SET incidencia=:incidencia';
+            $sql .= ' WHERE dia=:dia AND idPersona=:idPersona';
+
+            $fecha = new DateTime($datos->dia);
+            $fecha = $fecha->format('Y-m-d');
+
+            $params = array(
+                'dia' => $fecha,
+                'incidencia' => $datos->incidencia,
+                'idPersona' => $datos->idPersona
+            );
+
+            BD::actualizar($sql, $params);
+
+            if (!BD::commit())
+                throw new Exception('No se pudo confirmar la transacción.');
+        }
+
+        /**
+         * Obtener filas de la tabla días de las personas cuyos IDs estén en la lista.
+         * @param array $idPersonas Lista con los IDs de las personas.
+         * @return array Array con los días de todas las personas.
+         */
+        public static function obtenerDias($idPersonas) {
+            $sql = 'SELECT dia, idPersona, idPadre FROM Dias';
+            $sql .= ' WHERE idPersona IN (';
+
+            foreach ($idPersonas as $id)
                 $sql .= $id . ',';
 
             $sql = substr_replace($sql, ")", -1);
             $resultado = BD::seleccionar($sql, null);
 
             return DAOUsuario::crearDias($resultado);
+        }
+
+        /**
+         * Obtener los datos de las personas que tienen 'x' día asignado.
+         * @param DateTime $fecha Fecha.
+         */
+        public static function obtenerUsuariosPorDia($fecha) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+
+            $sql = 'SELECT idPersona FROM Dias';
+            $sql .= ' WHERE dia=:fecha';
+            $params = array('fecha' => $fecha);
+
+            $resultados = BD::seleccionar($sql, $params);
+
+            if (!count($resultados)) {
+                if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
+                else return false;
+            }
+
+            $sql = 'SELECT id, nombre, apellidos, correo FROM Persona';
+            $sql .= ' WHERE id IN (';
+
+            foreach ($resultados as $resultado)
+                $sql .= $resultado['idPersona'] . ',';
+            
+            $sql = substr_replace($sql, ")", -1);
+            $usuarios = BD::seleccionar($sql, null);
+            
+            if (!BD::commit())
+                throw new Exception('No se pudo confirmar la transacción.');
+                
+            return $usuarios;
         }
 
         /**
@@ -58,34 +139,34 @@
             if (!BD::iniciarTransaccion())
                 throw new Exception('No es posible iniciar la transacción.');
 
-            $sql = 'INSERT INTO Dias(dia, idUsuario, idPadre)';
-            $sql .= ' VALUES(:dia, :idUsuario, :idPadre)';
+            $sql = 'INSERT INTO Dias(dia, idPersona, idPadre)';
+            $sql .= ' VALUES(:dia, :idPersona, :idPadre)';
 
             $params = array(
                 'dia' => $datos->dia,
-                'idUsuario' => $datos->idUsuario,
+                'idPersona' => $datos->idPersona,
                 'idPadre' => $datos->idPadre
             );
 
             BD::insertar($sql, $params);
 
             if (!BD::commit())
-            throw new Exception('No se pudo confirmar la transacción.');
+                throw new Exception('No se pudo confirmar la transacción.');
         }
 
         /**
          * Eliminar fila tabla días.
          * @param object $dia Fecha del día.
-         * @param int $idUsuario ID del usuario.
+         * @param int $idPersona ID de la persona.
          * @param int $idPadre ID del padre.
          */
-        public static function eliminarDia($dia, $idUsuario, $idPadre) {
+        public static function eliminarDia($dia, $idPersona, $idPadre) {
             $sql = 'DELETE FROM Dias';
-            $sql .= ' WHERE dia=:dia AND idUsuario=:idUsuario AND idPadre=:idPadre';
+            $sql .= ' WHERE dia=:dia AND idPersona=:idPersona AND idPadre=:idPadre';
 
             $params = array(
                 'dia' => $dia,
-                'idUsuario' => $idUsuario,
+                'idPersona' => $idPersona,
                 'idPadre' => $idPadre
             );
 
@@ -130,7 +211,7 @@
          */
         public static function insertarRecuperacionClave($datos) {
             if (!BD::iniciarTransaccion())
-            throw new Exception('No es posible iniciar la transacción.');
+                throw new Exception('No es posible iniciar la transacción.');
 
             $sql = 'INSERT INTO RecuperacionClaves(id, fechaLimite, codigo)';
             $sql .= ' VALUES(:id, :fechaLimite, :codigo)';
@@ -149,7 +230,7 @@
             BD::insertar($sql, $params);
 
             if (!BD::commit())
-            throw new Exception('No se pudo confirmar la transacción.');
+                throw new Exception('No se pudo confirmar la transacción.');
 
             return $codigo;
         }
@@ -213,7 +294,7 @@
          */
         public static function altaPersona($datos) {
             if (!BD::iniciarTransaccion())
-            throw new Exception('No es posible iniciar la transacción.');
+                throw new Exception('No es posible iniciar la transacción.');
 
             $sql = 'INSERT INTO Persona(nombre, apellidos, correo, clave, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :clave, :telefono, :dni, :iban, :titular)';
@@ -238,7 +319,7 @@
             $id = BD::insertar($sql, $params);
            
             if (!BD::commit())
-            throw new Exception('No se pudo confirmar la transacción.');
+                throw new Exception('No se pudo confirmar la transacción.');
 
             return $id;
         }
@@ -250,7 +331,7 @@
          */
         public static function altaUsuarioGoogle($datos) {
             if (!BD::iniciarTransaccion())
-            throw new Exception('No es posible iniciar la transacción.');
+                throw new Exception('No es posible iniciar la transacción.');
 
             $sql = 'INSERT INTO Persona(nombre, apellidos, correo)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo)';
@@ -263,7 +344,7 @@
             $id = BD::insertar($sql, $params);  
 
             if (!BD::commit())
-            throw new Exception('No se pudo confirmar la transacción.');
+                throw new Exception('No se pudo confirmar la transacción.');
 
             return $id;
         }
@@ -330,20 +411,7 @@
             if (!BD::iniciarTransaccion())
                 throw new Exception('No es posible iniciar la transacción.');
 
-<<<<<<< HEAD
-            $sql = 'INSERT INTO Persona(nombre, apellidos, correo, clave, telefono, dni, iban, titular)';
-            $sql .= ' VALUES(:nombre, :apellidos, :correo, :clave, :telefono, :dni, :iban, :titular)';
-
-            $params = array(
-                'nombre' => $datos->nombre,
-                'apellidos' => $datos->apellidos,
-                'correo' => $datos->correo,
-                'clave' => $clave,
-                'telefono' => $datos->telefono,
-                'dni' => $datos->dni,
-                'iban' => $datos->iban,
-                'titular' => $datos->titular
-=======
+            // Insertar en Persona
             $sql = 'INSERT INTO Persona(nombre, apellidos)';
             $sql .= ' VALUES(:nombre, :apellidos)';
 
@@ -352,8 +420,10 @@
                 'apellidos' => $datos->apellidos
 >>>>>>> sprint4_david
             );
+
             $id = BD::insertar($sql, $params);  
 
+            // Insertar en Hijo
             $sql = 'INSERT INTO Hijo(id, idCurso)';
             $sql .= ' VALUES(:id, :idCurso)';
             $params = array(
@@ -363,6 +433,7 @@
 
             BD::insertar($sql, $params); 
 
+            // Insertar en Hijo_Padre
             $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
             $sql .= ' VALUES(:idPadre, :idHijo)';
             $params = array(
@@ -373,7 +444,7 @@
             BD::insertar($sql, $params); 
 
             if (!BD::commit())
-            throw new Exception('No se pudo confirmar la transacción.');
+                throw new Exception('No se pudo confirmar la transacción.');
         }
 
         /**
@@ -382,8 +453,7 @@
          * @return object|boolean Devuelve los datos de los hijos asociados al usuario o false si no existe el usuario.
          */
 
-        public static function dameHijos($id){
-
+        public static function dameHijos($id) {
             $sql = 'SELECT Persona.id, nombre, apellidos, idCurso FROM Persona';
             $sql .= ' INNER JOIN Hijo_Padre ON Persona.id = Hijo_Padre.idHijo';
             $sql .= ' INNER JOIN Hijo on Persona.id = Hijo.id';
@@ -433,7 +503,7 @@
          */
         public static function altaUsuario($id) {
             if (!BD::iniciarTransaccion())
-            throw new Exception('No es posible iniciar la transacción.');
+                throw new Exception('No es posible iniciar la transacción.');
 
             $sql = 'INSERT INTO Usuario(id)';
             $sql .= ' VALUES(:id)';
@@ -441,7 +511,7 @@
             $lastInsertID =  BD::insertar($sql, $params);
 
             if (!BD::commit())
-            throw new Exception('No se pudo confirmar la transacción.');
+                throw new Exception('No se pudo confirmar la transacción.');
             
             return $lastInsertID;
         }
@@ -458,7 +528,7 @@
                 for ($i=0; $i<count($listaDias); $i++) {
                     $dia = new Dia();
                     $dia->dia = $listaDias[$i]['dia'];
-                    $dia->idUsuario = $listaDias[$i]['idUsuario'];
+                    $dia->idPersona = $listaDias[$i]['idPersona'];
                     $dia->idPadre = $listaDias[$i]['idPadre'];
                     $dias[] = $dia;
                 }

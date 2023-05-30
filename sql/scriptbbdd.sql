@@ -48,6 +48,12 @@ CREATE TABLE Hijo(
 
 CREATE TABLE Dias(
     dia DATE NOT NULL,
+    idPersona SMALLINT UNSIGNED NOT NULL,
+    idPadre SMALLINT UNSIGNED NULL,
+    incidencia VARCHAR(500) NULL,
+
+    CONSTRAINT PK_Dias_id PRIMARY KEY (dia, idPersona),
+    CONSTRAINT FK_Dias_idPersona FOREIGN KEY (idPersona) REFERENCES Persona(id) ON DELETE CASCADE,
 	incidencia VARCHAR(500) NULL,
     idUsuario SMALLINT UNSIGNED NOT NULL,
     idPadre SMALLINT UNSIGNED NOT NULL,
@@ -64,16 +70,6 @@ CREATE TABLE Hijo_Padre(
     CONSTRAINT PK_Hijo_Padre_id PRIMARY KEY (idPadre, idHijo),
     CONSTRAINT FK_Hijo_Padre_idPadre FOREIGN KEY (idPadre) REFERENCES Padre(id) ON DELETE CASCADE,
     CONSTRAINT FK_Hijo_Padre_idHijo FOREIGN KEY (idHijo) REFERENCES Hijo(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-CREATE TABLE Secretaria(
-    id TINYINT UNSIGNED NOT NULL,
-    nombre VARCHAR (80) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    correo VARCHAR(90) NOT NULL,
-
-	CONSTRAINT PK_Secretaria_id PRIMARY KEY (id),
-    CONSTRAINT UQ_Secretaria_correo UNIQUE (correo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 CREATE TABLE Festivo(

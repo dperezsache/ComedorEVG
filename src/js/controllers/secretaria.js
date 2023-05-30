@@ -40,6 +40,50 @@ class ControladorSecretaria {
     }
 
     /**
+     * Obtiene las incidencias de una fecha.
+     * @param {String} fecha String de la fecha.
+     */
+    obtenerIncidencias(fecha) {
+        this.modelo.obtenerIncidencias(fecha)
+         .then(incidencias => {
+             this.vistaGestionDiaria.cargarListado(incidencias);
+         })
+         .catch(e => {
+             console.error(e);
+         })
+    }
+
+    /**
+     * Insertar incidencia del usuario indicado en el día indicado.
+     * @param {Object} datos Datos de la incidencia.
+     * @param {HTMLTextAreaElement} textarea Elemento dónde se introdujo la incidencia.
+     */
+    insertarIncidencia(datos, textarea) {
+        this.modelo.insertarIncidencia(datos)
+         .then(() => {
+             if (textarea) this.vistaGestionDiaria.insercionExito(textarea);
+         })
+         .catch(e => {
+             console.error(e);
+             if (textarea) this.vistaGestionDiaria.insercionError(textarea);
+         })
+    }
+
+    /**
+     * Obtiene los usuarios que van al comedor de una fecha.
+     * @param {String} fecha String de la fecha.
+     */
+    obtenerUsuarios(fecha) {
+        this.modelo.obtenerUsuariosApuntados(fecha)
+         .then(usuarios => {
+             this.vistaGestionDiaria.cargarIncidencias(usuarios);
+         })
+         .catch(e => {
+             console.error(e);
+         })
+    }
+
+    /**
      * Muestra la vista de gestión diaria.
      */
     verVistaGestionDiaria() {
@@ -60,6 +104,7 @@ class ControladorSecretaria {
      */
     cerrarSesion() {
         this.#usuario = null;
+        sessionStorage.removeItem('usuario');
         Rest.setAutorizacion(null);
         window.location.href = 'login_google.html';
     }
