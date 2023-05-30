@@ -54,12 +54,6 @@ CREATE TABLE Dias(
 
     CONSTRAINT PK_Dias_id PRIMARY KEY (dia, idPersona),
     CONSTRAINT FK_Dias_idPersona FOREIGN KEY (idPersona) REFERENCES Persona(id) ON DELETE CASCADE,
-	incidencia VARCHAR(500) NULL,
-    idUsuario SMALLINT UNSIGNED NOT NULL,
-    idPadre SMALLINT UNSIGNED NOT NULL,
-    
-    CONSTRAINT PK_Dias_id PRIMARY KEY (dia, idUsuario, idPadre),
-    CONSTRAINT FK_Dias_idUsuario FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
     CONSTRAINT FK_Dias_idPadre FOREIGN KEY (idPadre) REFERENCES Padre(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
