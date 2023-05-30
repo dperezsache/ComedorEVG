@@ -220,12 +220,15 @@ export class VistaGestionDiaria extends Vista {
     }
 
     /**
-     * Devolver el próximo lunes, devolviendo la fecha actual si hoy es lunes.
+     * Devolver el próximo lunes si es fin de semana, devolviendo la fecha actual si no lo es.
      * @returns {Date} Fecha.
      */
     obtenerFecha() {
         let fecha = new Date();
-        fecha.setDate(fecha.getDate() + (1 + 7 - fecha.getDay()) % 7);
+
+        if (fecha.getDay() == 0) fecha.setDate(fecha.getDate() + 1);
+        else if (fecha.getDay() == 6) fecha.setDate(fecha.getDate() + 2);
+
         fecha.setUTCHours(0, 0, 0, 0);
         return fecha;
     }
