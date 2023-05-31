@@ -132,7 +132,6 @@ export class VistaGestionDiaria extends Vista {
 
             let textarea = document.createElement('textarea');
             textarea.maxLength = 500;
-
             if (this.incidencias) {
                 for (const incidencia of this.incidencias) {
                     if (incidencia.idPersona == usuario.id && incidencia.incidencia)

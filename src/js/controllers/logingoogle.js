@@ -11,7 +11,7 @@ const PERSONAL = '@fundacionloyola.es';
 class LoginGoogle {
     constructor() {
         window.onload = this.iniciar.bind(this);
-        window.onerror = (error) => console.log('Error capturado. ' + error);
+        window.onerror = (error) => console.error('Error capturado. ' + error);
     }
 
     /**

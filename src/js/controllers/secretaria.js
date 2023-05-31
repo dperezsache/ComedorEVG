@@ -52,6 +52,20 @@ class ControladorSecretaria {
              console.error(e);
          })
     }
+    
+    /**
+     * Obtiene las incidencias de un mes.
+     * @param {Number} mes Mes.
+     */
+    obtenerIncidenciasMensual(mes) {
+        this.modelo.obtenerIncidenciasMensual(mes)
+         .then(incidencias => {
+             this.vistaGestionMensual.cargarListado(incidencias);
+         })
+         .catch(e => {
+             console.error(e);
+         })
+    }
 
     /**
      * Insertar incidencia del usuario indicado en el día indicado.
@@ -81,6 +95,20 @@ class ControladorSecretaria {
          .catch(e => {
              console.error(e);
          })
+    }
+
+    /**
+     * Obtener usuarios de comedor de un mes.
+     * @param {Number} mes Mes.
+     */
+    obtenerUsuariosMensual(mes) {
+        this.modelo.obtenerUsuariosApuntadosMensual(mes)
+        .then(usuarios => {
+            this.vistaGestionMensual.cargarIncidencias(usuarios);
+        })
+        .catch(e => {
+            console.error(e);
+        })
     }
 
     /**

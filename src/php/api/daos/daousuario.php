@@ -54,6 +54,28 @@
         }
 
         /**
+         * Obtener las incidencias de un mes.
+         * @param integer $mes Mes.
+         * @return array Devuelve las incidencias. 
+         */
+        public static function obtenerIncidenciasPorMes($mes) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+            //SELECT idPersona, GROUP_CONCAT(incidencia SEPARATOR ', ') AS incidencias_mes FROM Dias WHERE MONTH(dia) = 6 GROUP BY idPersona; 
+            $sql = 'SELECT idPersona, GROUP_CONCAT(incidencia SEPARATOR ", ") AS incidencias FROM Dias';
+            $sql .= ' WHERE MONTH(dia)=:mes';
+            $sql .= ' GROUP BY idPersona';
+            
+            $params = array('mes' => $mes);
+            $incidencias = BD::seleccionar($sql, $params);
+
+            if (!BD::commit())
+                throw new Exception('No se pudo confirmar la transacción.');
+
+            return $incidencias;
+        }
+
+        /**
          * Inserta/modifica incidencia de un día de un usuario en concreto.
          * @param object $datos Datos de la incidencia.
          */
@@ -124,6 +146,44 @@
             
             $sql = substr_replace($sql, ")", -1);
             $usuarios = BD::seleccionar($sql, null);
+            
+            if (!BD::commit())
+                throw new Exception('No se pudo confirmar la transacción.');
+                
+            return $usuarios;
+        }
+
+        /**
+         * Obtener los datos de las personas que van al comedor en 'x' mes.
+         * @param Integer $mes Mes.
+         */
+        public static function obtenerUsuariosPorMes($mes) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+
+            $sql = 'SELECT idPersona FROM Dias';
+            $sql .= ' WHERE MONTH(dia)=:mes';
+            $params = array('mes' => $mes);
+
+            $resultados = BD::seleccionar($sql, $params);
+
+            if (!count($resultados)) {
+                if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
+                else return false;
+            }
+            //SELECT Persona.id, Persona.nombre, Persona.apellidos, Persona.correo, COUNT(Dias.idPersona) AS 'NumeroDias' FROM persona
+            //LEFT JOIN Dias ON Persona.id = Dias.idPersona WHERE Persona.id IN (2) AND MONTH(Dias.dia) = 6 GROUP BY Persona.id; 
+            $sql = 'SELECT Persona.id, Persona.nombre, Persona.apellidos, Persona.correo, COUNT(Dias.idPersona) AS "numeroMenus" FROM Persona';
+            $sql .= ' LEFT JOIN Dias ON Persona.id = Dias.idPersona';
+            $sql .= ' WHERE Persona.id IN (';
+
+            foreach ($resultados as $resultado)
+                $sql .= $resultado['idPersona'] . ',';
+            
+            $sql = substr_replace($sql, ")", -1);
+            $sql .= ' AND MONTH(Dias.dia) = :mes';
+            $sql .= ' GROUP BY Persona.id';
+            $usuarios = BD::seleccionar($sql, $params);
             
             if (!BD::commit())
                 throw new Exception('No se pudo confirmar la transacción.');
