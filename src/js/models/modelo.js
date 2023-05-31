@@ -110,11 +110,25 @@ export class Modelo {
         queryParams.set('fecha', fecha.getDate() + '-' + (fecha.getMonth()+1) + '-' + fecha.getFullYear());
         return Rest.get('secretaria', [], queryParams);
     }
+    //mensual
+    obtenerUsuariosApuntadosMensual(mes) {
+        const queryParams = new Map();
+        queryParams.set('procesom', 'usuarios');
+        queryParams.set('mes', mes);
+        return Rest.get('secretaria', [], queryParams);
+    }
 
     obtenerIncidencias(fecha) {
         const queryParams = new Map();
         queryParams.set('proceso', 'incidencias');
         queryParams.set('fecha', fecha.getDate() + '-' + (fecha.getMonth()+1) + '-' + fecha.getFullYear());
+        return Rest.get('secretaria', [], queryParams);
+    }
+    //Mensual
+    obtenerIncidenciasMensual(mes) {
+        const queryParams = new Map();
+        queryParams.set('procesom', 'incidencias');
+        queryParams.set('mes', mes);
         return Rest.get('secretaria', [], queryParams);
     }
 

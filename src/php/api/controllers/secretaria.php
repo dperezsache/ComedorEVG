@@ -25,7 +25,7 @@
         }
 
         /**
-         * Sacar los usuarios de una fecha.
+         * Sacar los usuarios de una fecha (Si existe proceso) Sacar los usuarios de un mes (Si existe procesom).
          * @param array $pathParams No utilizado.
          * @param array $queryParams No utilizado.
          * @param object $usuario Usuario que realiza el proceso.
@@ -48,10 +48,48 @@
                         break;
                 }
             }
+            elseif (count($queryParams) && isset($queryParams['procesom'])){
+                switch ($queryParams['procesom']) {
+                    case 'usuarios':
+                        $this->obtenerUsuariosMes($queryParams['mes']);
+                        break;
+
+                    case 'incidencias':
+                        $this->obtenerIncidenciasMes($queryParams['mes']);
+                        break;
+                }
+            }
             else {
                 header('HTTP/1.1 400 Bad Request');
                 die();
             }
+        }
+        
+        /**
+         * Obtener usuarios mensuales.
+         * @param integer $mes Mes.
+         */
+        function obtenerUsuariosMes($mes) {
+
+            $usuarios = DAOUsuario::obtenerUsuariosPorMes($mes);
+
+            header('Content-type: application/json; charset=utf-8');
+            header('HTTP/1.1 200 OK');
+            echo json_encode($usuarios);
+            die();
+        }
+         /**
+         * Obtener incidencias mensuales.
+         * @param integer $mes Mes.
+         */
+        function obtenerIncidenciasMes($mes) {
+         
+            $incidencias = DAOUsuario::obtenerIncidenciasPorMes($mes);
+
+            header('Content-type: application/json; charset=utf-8');
+            header('HTTP/1.1 200 OK');
+            echo json_encode($incidencias);
+            die();
         }
 
         /**
