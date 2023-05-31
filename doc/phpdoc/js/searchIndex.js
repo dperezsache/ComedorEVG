@@ -6,10 +6,10 @@ Search.appendIndex(
             "summary": "Controlador\u0020de\u0020cursos.",
             "url": "classes/Cursos.html"
         },                {
-            "fqsen": "\\Cursos\u003A\u003Apost\u0028\u0029",
-            "name": "post",
+            "fqsen": "\\Cursos\u003A\u003Aget\u0028\u0029",
+            "name": "get",
             "summary": "Sacar\u0020los\u0020cursos.",
-            "url": "classes/Cursos.html#method_post"
+            "url": "classes/Cursos.html#method_get"
         },                {
             "fqsen": "\\Dias",
             "name": "Dias",
@@ -31,6 +31,16 @@ Search.appendIndex(
             "summary": "Borrar\u0020fila\u0020de\u0020la\u0020tabla\u0020dias",
             "url": "classes/Dias.html#method_delete"
         },                {
+            "fqsen": "\\Festivos",
+            "name": "Festivos",
+            "summary": "Controlador\u0020de\u0020d\u00EDas\u0020festivos.",
+            "url": "classes/Festivos.html"
+        },                {
+            "fqsen": "\\Festivos\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "Sacar\u0020los\u0020d\u00EDas\u0020festivos.",
+            "url": "classes/Festivos.html#method_get"
+        },                {
             "fqsen": "\\Hijos",
             "name": "Hijos",
             "summary": "Controlador\u0020de\u0020hijos.",
@@ -43,17 +53,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Hijos\u003A\u003Aget\u0028\u0029",
             "name": "get",
-            "summary": "",
+            "summary": "Devuelve\u0020los\u0020hijos\u0020de\u0020un\u0020padre.",
             "url": "classes/Hijos.html#method_get"
         },                {
             "fqsen": "\\Hijos\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
-            "summary": "",
+            "summary": "Borra\u0020un\u0020hijo.",
             "url": "classes/Hijos.html#method_delete"
         },                {
             "fqsen": "\\Hijos\u003A\u003Aput\u0028\u0029",
             "name": "put",
-            "summary": "",
+            "summary": "Modifica\u0020un\u0020hijo.",
             "url": "classes/Hijos.html#method_put"
         },                {
             "fqsen": "\\Login",
@@ -151,6 +161,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Recuperar.html#method_post"
         },                {
+            "fqsen": "\\Recuperar\u003A\u003AenviarEmailRecuperacion\u0028\u0029",
+            "name": "enviarEmailRecuperacion",
+            "summary": "Env\u00EDa\u0020un\u0020correo\u0020con\u0020el\u0020enlace\u0020de\u0020recuperaci\u00F3n\u0020de\u0020la\u0020contrase\u00F1a.",
+            "url": "classes/Recuperar.html#method_enviarEmailRecuperacion"
+        },                {
             "fqsen": "\\Restaurar",
             "name": "Restaurar",
             "summary": "Controlador\u0020de\u0020restauraci\u00F3n\u0020de\u0020contrase\u00F1as.",
@@ -165,6 +180,41 @@ Search.appendIndex(
             "name": "put",
             "summary": "Actualiza\u0020la\u0020contrase\u00F1a\u0020y\u0020elimina\u0020el\u0020request\u0020asociado.",
             "url": "classes/Restaurar.html#method_put"
+        },                {
+            "fqsen": "\\Secretaria",
+            "name": "Secretaria",
+            "summary": "Controlador\u0020de\u0020secretar\u00EDa.",
+            "url": "classes/Secretaria.html"
+        },                {
+            "fqsen": "\\Secretaria\u003A\u003Aput\u0028\u0029",
+            "name": "put",
+            "summary": "Insertar\/modificar\u0020incidencia.",
+            "url": "classes/Secretaria.html#method_put"
+        },                {
+            "fqsen": "\\Secretaria\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "Sacar\u0020los\u0020usuarios\u0020de\u0020una\u0020fecha\u0020\u0028Si\u0020existe\u0020proceso\u0029\u0020Sacar\u0020los\u0020usuarios\u0020de\u0020un\u0020mes\u0020\u0028Si\u0020existe\u0020procesom\u0029.",
+            "url": "classes/Secretaria.html#method_get"
+        },                {
+            "fqsen": "\\Secretaria\u003A\u003AobtenerUsuariosMes\u0028\u0029",
+            "name": "obtenerUsuariosMes",
+            "summary": "Obtener\u0020usuarios\u0020mensuales.",
+            "url": "classes/Secretaria.html#method_obtenerUsuariosMes"
+        },                {
+            "fqsen": "\\Secretaria\u003A\u003AobtenerIncidenciasMes\u0028\u0029",
+            "name": "obtenerIncidenciasMes",
+            "summary": "Obtener\u0020incidencias\u0020mensuales.",
+            "url": "classes/Secretaria.html#method_obtenerIncidenciasMes"
+        },                {
+            "fqsen": "\\Secretaria\u003A\u003AobtenerUsuarios\u0028\u0029",
+            "name": "obtenerUsuarios",
+            "summary": "Obtener\u0020usuarios.",
+            "url": "classes/Secretaria.html#method_obtenerUsuarios"
+        },                {
+            "fqsen": "\\Secretaria\u003A\u003AobtenerIncidencias\u0028\u0029",
+            "name": "obtenerIncidencias",
+            "summary": "Obtener\u0020incidencias.",
+            "url": "classes/Secretaria.html#method_obtenerIncidencias"
         },                {
             "fqsen": "\\DAOCurso",
             "name": "DAOCurso",
@@ -181,6 +231,21 @@ Search.appendIndex(
             "summary": "Genera\u0020un\u0020listado\u0020de\u0020los\u0020cursos.",
             "url": "classes/DAOCurso.html#method_crearCursos"
         },                {
+            "fqsen": "\\DAOFestivos",
+            "name": "DAOFestivos",
+            "summary": "DAO\u0020de\u0020Festivos.",
+            "url": "classes/DAOFestivos.html"
+        },                {
+            "fqsen": "\\DAOFestivos\u003A\u003AobtenerFestivos\u0028\u0029",
+            "name": "obtenerFestivos",
+            "summary": "Consulta\u0020para\u0020obtener\u0020filas\u0020de\u0020la\u0020tabla\u0020\u0027festivo\u0027.",
+            "url": "classes/DAOFestivos.html#method_obtenerFestivos"
+        },                {
+            "fqsen": "\\DAOFestivos\u003A\u003AprocesarFestivos\u0028\u0029",
+            "name": "procesarFestivos",
+            "summary": "Procesa\u0020los\u0020elementos\u0020del\u0020listado\u0020para\u0020convertirlos\u0020a\u0020un\u0020formato\u0020adecuado\u0020\u0028de\u0020objeto\u0020a\u0020string\u0029.",
+            "url": "classes/DAOFestivos.html#method_procesarFestivos"
+        },                {
             "fqsen": "\\DAOUsuario",
             "name": "DAOUsuario",
             "summary": "DAO\u0020de\u0020Usuario.",
@@ -191,10 +256,35 @@ Search.appendIndex(
             "summary": "Consulta\u0020la\u0020base\u0020de\u0020datos\u0020para\u0020autenticar\u0020al\u0020usuario\u0020y\u0020devolver\u0020sus\u0020datos.",
             "url": "classes/DAOUsuario.html#method_autenticarLogin"
         },                {
+            "fqsen": "\\DAOUsuario\u003A\u003AobtenerIncidenciasPorDia\u0028\u0029",
+            "name": "obtenerIncidenciasPorDia",
+            "summary": "Obtener\u0020las\u0020incidencias\u0020de\u0020una\u0020fecha.",
+            "url": "classes/DAOUsuario.html#method_obtenerIncidenciasPorDia"
+        },                {
+            "fqsen": "\\DAOUsuario\u003A\u003AobtenerIncidenciasPorMes\u0028\u0029",
+            "name": "obtenerIncidenciasPorMes",
+            "summary": "Obtener\u0020las\u0020incidencias\u0020de\u0020un\u0020mes.",
+            "url": "classes/DAOUsuario.html#method_obtenerIncidenciasPorMes"
+        },                {
+            "fqsen": "\\DAOUsuario\u003A\u003AinsertarIncidencia\u0028\u0029",
+            "name": "insertarIncidencia",
+            "summary": "Inserta\/modifica\u0020incidencia\u0020de\u0020un\u0020d\u00EDa\u0020de\u0020un\u0020usuario\u0020en\u0020concreto.",
+            "url": "classes/DAOUsuario.html#method_insertarIncidencia"
+        },                {
             "fqsen": "\\DAOUsuario\u003A\u003AobtenerDias\u0028\u0029",
             "name": "obtenerDias",
-            "summary": "Obtener\u0020filas\u0020de\u0020la\u0020tabla\u0020d\u00EDas\u0020de\u0020los\u0020usuarios\u0020cuyo\u0020IDs\u0020est\u00E9n\u0020en\u0020la\u0020lista.",
+            "summary": "Obtener\u0020filas\u0020de\u0020la\u0020tabla\u0020d\u00EDas\u0020de\u0020las\u0020personas\u0020cuyos\u0020IDs\u0020est\u00E9n\u0020en\u0020la\u0020lista.",
             "url": "classes/DAOUsuario.html#method_obtenerDias"
+        },                {
+            "fqsen": "\\DAOUsuario\u003A\u003AobtenerUsuariosPorDia\u0028\u0029",
+            "name": "obtenerUsuariosPorDia",
+            "summary": "Obtener\u0020los\u0020datos\u0020de\u0020las\u0020personas\u0020que\u0020tienen\u0020\u0027x\u0027\u0020d\u00EDa\u0020asignado.",
+            "url": "classes/DAOUsuario.html#method_obtenerUsuariosPorDia"
+        },                {
+            "fqsen": "\\DAOUsuario\u003A\u003AobtenerUsuariosPorMes\u0028\u0029",
+            "name": "obtenerUsuariosPorMes",
+            "summary": "Obtener\u0020los\u0020datos\u0020de\u0020las\u0020personas\u0020que\u0020van\u0020al\u0020comedor\u0020en\u0020\u0027x\u0027\u0020mes.",
+            "url": "classes/DAOUsuario.html#method_obtenerUsuariosPorMes"
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AaltaDia\u0028\u0029",
             "name": "altaDia",
@@ -236,11 +326,6 @@ Search.appendIndex(
             "summary": "Borra\u0020fila\u0020de\u0020la\u0020tabla\u0020recuperacionClaves.",
             "url": "classes/DAOUsuario.html#method_borrarRecuperacion"
         },                {
-            "fqsen": "\\DAOUsuario\u003A\u003AenviarEmailRecuperacion\u0028\u0029",
-            "name": "enviarEmailRecuperacion",
-            "summary": "Env\u00EDa\u0020un\u0020correo\u0020con\u0020el\u0020enlace\u0020de\u0020recuperaci\u00F3n\u0020de\u0020la\u0020contrase\u00F1a.",
-            "url": "classes/DAOUsuario.html#method_enviarEmailRecuperacion"
-        },                {
             "fqsen": "\\DAOUsuario\u003A\u003AgenerarUID\u0028\u0029",
             "name": "generarUID",
             "summary": "Genera\u0020c\u00F3digo\u0020\u00FAnico\u0020de\u002016\u0020caracteres.",
@@ -248,22 +333,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AaltaPersona\u0028\u0029",
             "name": "altaPersona",
-            "summary": "A\u00F1ade\u0020fila\u0020a\u0020tabla\u0020\u0027persona\u0027",
+            "summary": "A\u00F1ade\u0020fila\u0020a\u0020tabla\u0020\u0027Persona\u0027",
             "url": "classes/DAOUsuario.html#method_altaPersona"
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AaltaUsuarioGoogle\u0028\u0029",
             "name": "altaUsuarioGoogle",
-            "summary": "Inserta\u0020fila\u0020en\u0020la\u0020tabla\u0020\u0027persona\u0027\u0020solo\u0020de\u0020varios\u0020campos.",
+            "summary": "Inserta\u0020fila\u0020en\u0020la\u0020tabla\u0020\u0027Persona\u0027\u0020solo\u0020de\u0020varios\u0020campos.",
             "url": "classes/DAOUsuario.html#method_altaUsuarioGoogle"
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AmodificarPersona\u0028\u0029",
             "name": "modificarPersona",
-            "summary": "Modifica\u0020fila\u0020de\u0020la\u0020tabla\u0020\u0027persona\u0027.",
+            "summary": "Modifica\u0020fila\u0020de\u0020la\u0020tabla\u0020\u0027Persona\u0027.",
             "url": "classes/DAOUsuario.html#method_modificarPersona"
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AmodificarContrasenia\u0028\u0029",
             "name": "modificarContrasenia",
-            "summary": "Modifica\u0020campo\u0020contrase\u00F1a\u0020de\u0020una\u0020fila\u0020de\u0020la\u0020tabla\u0020\u0027persona\u0027.",
+            "summary": "Modifica\u0020campo\u0020contrase\u00F1a\u0020de\u0020una\u0020fila\u0020de\u0020la\u0020tabla\u0020\u0027Persona\u0027.",
             "url": "classes/DAOUsuario.html#method_modificarContrasenia"
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AaltaPadre\u0028\u0029",
@@ -271,10 +356,10 @@ Search.appendIndex(
             "summary": "Inserta\u0020fila\u0020en\u0020la\u0020tabla\u0020\u0027padre\u0027.",
             "url": "classes/DAOUsuario.html#method_altaPadre"
         },                {
-            "fqsen": "\\DAOUsuario\u003A\u003AaltaHijo\u0028\u0029",
-            "name": "altaHijo",
-            "summary": "Inserta\u0020fila\u0020en\u0020la\u0020tabla\u0020\u0027hijo\u0027.",
-            "url": "classes/DAOUsuario.html#method_altaHijo"
+            "fqsen": "\\DAOUsuario\u003A\u003AinsertarHijo\u0028\u0029",
+            "name": "insertarHijo",
+            "summary": "",
+            "url": "classes/DAOUsuario.html#method_insertarHijo"
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AdameHijos\u0028\u0029",
             "name": "dameHijos",
@@ -288,13 +373,8 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AmodificarHijo\u0028\u0029",
             "name": "modificarHijo",
-            "summary": "Modifica\u0020fila\u0020de\u0020la\u0020tabla\u0020\u0027persona\u0027",
+            "summary": "Modifica\u0020fila\u0020de\u0020la\u0020tabla\u0020\u0027Persona\u0027",
             "url": "classes/DAOUsuario.html#method_modificarHijo"
-        },                {
-            "fqsen": "\\DAOUsuario\u003A\u003AaltaPadreHijo\u0028\u0029",
-            "name": "altaPadreHijo",
-            "summary": "Inserta\u0020fila\u0020en\u0020la\u0020tabla\u0020\u0027padresHijos\u0027.",
-            "url": "classes/DAOUsuario.html#method_altaPadreHijo"
         },                {
             "fqsen": "\\DAOUsuario\u003A\u003AaltaUsuario\u0028\u0029",
             "name": "altaUsuario",
@@ -341,10 +421,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Dia.html#property_dia"
         },                {
-            "fqsen": "\\Dia\u003A\u003A\u0024idUsuario",
-            "name": "idUsuario",
+            "fqsen": "\\Dia\u003A\u003A\u0024idPersona",
+            "name": "idPersona",
             "summary": "",
-            "url": "classes/Dia.html#property_idUsuario"
+            "url": "classes/Dia.html#property_idPersona"
         },                {
             "fqsen": "\\Dia\u003A\u003A\u0024idPadre",
             "name": "idPadre",
@@ -396,10 +476,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Usuario.html#property_correo"
         },                {
-            "fqsen": "\\Usuario\u003A\u003A\u0024contrasenia",
-            "name": "contrasenia",
+            "fqsen": "\\Usuario\u003A\u003A\u0024clave",
+            "name": "clave",
             "summary": "",
-            "url": "classes/Usuario.html#property_contrasenia"
+            "url": "classes/Usuario.html#property_clave"
         },                {
             "fqsen": "\\Usuario\u003A\u003A\u0024telefono",
             "name": "telefono",
@@ -420,6 +500,11 @@ Search.appendIndex(
             "name": "titular",
             "summary": "",
             "url": "classes/Usuario.html#property_titular"
+        },                {
+            "fqsen": "\\Usuario\u003A\u003A\u0024rol",
+            "name": "rol",
+            "summary": "",
+            "url": "classes/Usuario.html#property_rol"
         },                {
             "fqsen": "\\Usuario\u003A\u003A\u0024tsConexion",
             "name": "tsConexion",
