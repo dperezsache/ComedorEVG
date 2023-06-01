@@ -9,7 +9,7 @@
          * @return array|boolean Array de los festivos, o false si no existen.
          */
         public static function obtenerFestivos($fechaInicio, $fechaFinal) {
-            $sql = 'SELECT diaFestivo FROM festivo';
+            $sql = 'SELECT diaFestivo FROM Festivo';
             $sql .= ' WHERE diaFestivo BETWEEN :inicio AND :final';
             $params = array(
                 'inicio' => $fechaInicio,
