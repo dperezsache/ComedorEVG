@@ -35,6 +35,8 @@ export class Modelo {
 
     /**
      * Realiza el proceso de obtener filas de la tabla festivos.
+     * @param {Date} inicioMes Primer día del mes.
+     * @param {Date} finMes Último día del mes.
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     obtenerFestivos(inicioMes, finMes) {

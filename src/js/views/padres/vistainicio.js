@@ -13,7 +13,7 @@ export class VistaInicioPadres extends Vista {
         super(controlador, div);
 
         this.hijos = null;
-        this.dias = null;
+        this.diasComedor = null;
         this.festivos = null;
 
         this.listaMeses = [
@@ -248,12 +248,23 @@ export class VistaInicioPadres extends Vista {
         for (let i=0; i<diasMes; i++) {
             const actual = new Date();
             let stringFecha = this.formatearStringFecha(temp);
-            // 1º Comprobar que no sean días ya pasados.
-            // 2º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
-            // 3º Comprobar, que no es un festivo.
-            if (Date.parse(actual) < Date.parse(temp) && 
-                !this.bloquearDiaTomorrow(actual, temp) && 
-                (this.festivos && !this.festivos.includes(stringFecha))) {
+            let diaYaMarcado = false;
+
+            // Comprobar que el hijo no tenga el día actual ya marcado de antes.
+            if (marcado && this.diasComedor && this.diasComedor.length > 0) {
+                for (const diaComedor of this.diasComedor) {
+                    if (diaComedor.idPersona == idHijo && diaComedor.dia == stringFecha) {
+                        diaYaMarcado = true;
+                        break;
+                    }
+                }
+            }
+
+            // 1º Día no está ya previamente marcado.
+            // 2º Comprobar que no sean días ya pasados.
+            // 3º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
+            // 4º Comprobar, que no es un festivo.
+            if (!diaYaMarcado && Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && (this.festivos && !this.festivos.includes(stringFecha))) {
                 // Comprobar que el día no sea fin de semana.
                 if (temp.getDay() != 6 && temp.getDay() != 0) {
                     let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
@@ -430,6 +441,8 @@ export class VistaInicioPadres extends Vista {
     refrescarCalendario() {
         let inicioMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth(), 1);
         let finMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth() + 1, 0);
+        console.log(inicioMes.getDate() + '-' + (inicioMes.getMonth()+1) + '-' + inicioMes.getFullYear())
+        console.log(finMes.getDate() + '-' + (finMes.getMonth()+1) + '-' + finMes.getFullYear())
         this.controlador.obtenerFestivos(inicioMes, finMes);
     }
 
