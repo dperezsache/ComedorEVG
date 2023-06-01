@@ -43,11 +43,10 @@ export class VistaInicioPadres extends Vista {
      */
     obtenerPadre(datos) {
         this.idPadre = datos.id;
-        this.controlador.obtenerFestivos(this.inicioSemana);
     }
 
     /**
-     * Obtener los días festivos que haya en la semana.
+     * Obtener los días festivos que haya en el mes actual.
      * @param {Array} festivos 
      */
     obtenerFestivos(festivos) {
@@ -249,11 +248,12 @@ export class VistaInicioPadres extends Vista {
         for (let i=0; i<diasMes; i++) {
             const actual = new Date();
             let stringFecha = this.formatearStringFecha(temp);
-
             // 1º Comprobar que no sean días ya pasados.
             // 2º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
             // 3º Comprobar, que no es un festivo.
-            if (Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && (this.festivos && !this.festivos.includes(stringFecha))) {
+            if (Date.parse(actual) < Date.parse(temp) && 
+                !this.bloquearDiaTomorrow(actual, temp) && 
+                (this.festivos && !this.festivos.includes(stringFecha))) {
                 // Comprobar que el día no sea fin de semana.
                 if (temp.getDay() != 6 && temp.getDay() != 0) {
                     let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
@@ -270,7 +270,7 @@ export class VistaInicioPadres extends Vista {
      * Comprobar si puede o no interactuar con el día de mañana si hoy son las 14 o más.
      * @param {Date} fechaHoy Fecha actual.
      * @param {Date} fechaDia Fecha mañana.
-     * @returns {Boolean} True si mañana debería ser estar bloqueado, false si no.
+     * @returns {Boolean} True si mañana debería ser bloqueado, false si no.
      */
     bloquearDiaTomorrow(fechaHoy, fechaDia) {
         return fechaDia.getFullYear() === fechaHoy.getFullYear() &&
@@ -291,10 +291,10 @@ export class VistaInicioPadres extends Vista {
             let fechaDia = new Date(fecha);
             fechaDia.setDate(fechaDia.getDate() + i);
 
-            let stringID = '#fecha-' + idHijo + '-';
-            stringID += fechaDia.getFullYear() + '-' + (fechaDia.getMonth()+1) + '-' + fechaDia.getDate();
+            let fechaString = this.formatearStringFecha(fechaDia);
+            let idString = '#fecha-' + idHijo + '-' + fechaString;
 
-            let checkbox = this.tbody.querySelector(stringID);
+            let checkbox = this.tbody.querySelector(idString);
 
             // Marcar solo los que no estén deshabilitados, ni marcados.
             if (checkbox && !checkbox.disabled && checkbox.checked!=marcado) {
@@ -428,7 +428,9 @@ export class VistaInicioPadres extends Vista {
      * Refrescar calendario.
      */
     refrescarCalendario() {
-        this.controlador.obtenerFestivos(this.inicioSemana);
+        let inicioMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth(), 1);
+        let finMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth() + 1, 0);
+        this.controlador.obtenerFestivos(inicioMes, finMes);
     }
 
     mostrar(ver) {

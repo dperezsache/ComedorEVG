@@ -18,7 +18,7 @@
                 die();
             }
 
-            if (count($queryParams) == 2) {
+            if (isset($queryParams['inicio']) && isset($queryParams['final'])) {
                 $fechaInicio = new DateTime($queryParams['inicio']);
                 $fechaInicio = $fechaInicio->format('Y-m-d');
                 

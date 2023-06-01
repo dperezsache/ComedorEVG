@@ -37,14 +37,10 @@ export class Modelo {
      * Realiza el proceso de obtener filas de la tabla festivos.
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
-    obtenerFestivos(inicioSemana) {
-        let fechaFinal = new Date();
-        fechaFinal.setDate(inicioSemana.getDate() + 4);
-
+    obtenerFestivos(inicioMes, finMes) {
         const queryParams = new Map();
-        queryParams.set('inicio', inicioSemana.getDate() + '-' + (inicioSemana.getMonth()+1) + '-' + inicioSemana.getFullYear());
-        queryParams.set('final', fechaFinal.getDate() + '-' + (fechaFinal.getMonth()+1) + '-' + fechaFinal.getFullYear());
-
+        queryParams.set('inicio', inicioMes.getDate() + '-' + (inicioMes.getMonth()+1) + '-' + inicioMes.getFullYear());
+        queryParams.set('final', finMes.getDate() + '-' + (finMes.getMonth()+1) + '-' + finMes.getFullYear());
         return Rest.get('festivos', [], queryParams);
     }
 
