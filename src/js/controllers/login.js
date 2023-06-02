@@ -55,23 +55,13 @@ class Login {
              this.btnAceptar.disabled = false;
              this.divCargando.style.display = 'none';
              sessionStorage.setItem('usuario', JSON.stringify(usuario));
-             this.redireccionar();
+             window.location.href = 'index.html';
          })
          .catch(e => {
              this.btnAceptar.disabled = false;
              this.divCargando.style.display = 'none';
              this.error(e);
          })
-    }
-
-    /**
-     * Asigna rol de padre y redirige.
-     */
-    redireccionar() {
-        let usuario = JSON.parse(sessionStorage.getItem('usuario'));
-        usuario.rol = 'P';  // Poner rol de usuario padre.
-        sessionStorage.setItem('usuario', JSON.stringify(usuario));
-        window.location.href = 'index.html';
     }
 
     /**

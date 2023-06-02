@@ -17,7 +17,6 @@
             );
             
             $resultado = BD::seleccionar($sql, $params);
-            //return $resultado;
             return self::procesarFestivos($resultado);
         }
 

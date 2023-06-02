@@ -441,8 +441,6 @@ export class VistaInicioPadres extends Vista {
     refrescarCalendario() {
         let inicioMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth(), 1);
         let finMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth() + 1, 0);
-        console.log(inicioMes.getDate() + '-' + (inicioMes.getMonth()+1) + '-' + inicioMes.getFullYear())
-        console.log(finMes.getDate() + '-' + (finMes.getMonth()+1) + '-' + finMes.getFullYear())
         this.controlador.obtenerFestivos(inicioMes, finMes);
     }
 

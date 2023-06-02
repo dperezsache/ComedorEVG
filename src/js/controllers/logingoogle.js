@@ -1,10 +1,5 @@
 import { Rest } from "../services/rest.js";
 
-// Direcciones de correo posibles.
-const PILAR = 'dperezsache.guadalupe@alumnado.fundacionloyola.net';   // pvillalon@fundacionloyola.es
-const ALUMNADO = '@alumnado.fundacionloyola.net';
-const PERSONAL = '@fundacionloyola.es';
-
 /**
  * Controlador del login de google.
  */
@@ -45,7 +40,7 @@ class LoginGoogle {
          .then(usuario => {
              sessionStorage.setItem('usuario', JSON.stringify(usuario));
              this.divCargando.style.display = 'none';
-             this.redireccionar(usuario.correo);
+             this.redireccionar();
          })
          .catch(e => {
              this.divCargando.style.display = 'none';
@@ -55,28 +50,17 @@ class LoginGoogle {
 
     /**
      * Redirecciona dependiendo del tipo de usuario que sea.
-     * @param {String} correo Email del usuario.
      */
-    redireccionar(correo) {
+    redireccionar() {
         let usuario = JSON.parse(sessionStorage.getItem('usuario'));
 
         // Secretaría
-        if (correo == PILAR) {
-            usuario.rol = 'S';  // Si es usuario de secretaría, poner rol de secretaría.
-            sessionStorage.setItem('usuario', JSON.stringify(usuario));
+        if (usuario.rol == 'S') {
             window.location.href = 'index_evg.html';        
         }
-        // PAS o trabajadores
-        else if (correo.includes(PERSONAL)) {
-            usuario.rol = 'G';  // Poner rol de usuario de Google.
-            sessionStorage.setItem('usuario', JSON.stringify(usuario));
+        // PAS o profesores
+        else if (usuario.rol == 'G') {
             window.location.href = 'index_personal.html';   
-        }
-        // Alumnado
-        else if (correo.includes(ALUMNADO)) {
-            usuario.rol = 'G';  // Poner rol de usuario de Google.
-            sessionStorage.setItem('usuario', JSON.stringify(usuario));
-            window.location.href = 'index_alumnos.html';    
         }
     }
 
