@@ -110,16 +110,27 @@ export class VistaInicioPadres extends Vista {
         // Semana anterior
         let botonSemanaAnterior = document.createElement('button');
         botonSemanaAnterior.id = 'semanaAnterior';
-        botonSemanaAnterior.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+
+        let iconoSemanaAnterior = document.createElement('img');
+        iconoSemanaAnterior.src = './img/icons/arrow_back.svg';
+        iconoSemanaAnterior.alt = 'Semana anterior';
+
+        botonSemanaAnterior.appendChild(iconoSemanaAnterior);
         botonSemanaAnterior.addEventListener('click', this.semanaAnterior.bind(this));
         tdBotones.appendChild(botonSemanaAnterior);
     
         // Semana siguiente
         let botonSemanaSiguiente = document.createElement('button');
         botonSemanaSiguiente.id = 'semanaSiguiente';
-        botonSemanaSiguiente.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
+
+        let iconoSemanaSiguiente = document.createElement('img');
+        iconoSemanaSiguiente.src = './img/icons/arrow_forward.svg';
+        iconoSemanaSiguiente.alt = 'Semana siguiente';
+
+        botonSemanaSiguiente.appendChild(iconoSemanaSiguiente);
         botonSemanaSiguiente.addEventListener('click', this.semanaSiguiente.bind(this));
         tdBotones.appendChild(botonSemanaSiguiente);
+
         trBotones.appendChild(tdBotones);
 
         // Añadir al cuerpo de la tabla
@@ -350,14 +361,26 @@ export class VistaInicioPadres extends Vista {
 
         let thSemana = document.createElement('th');
         thSemana.id = 'semanaEntera';
-        thSemana.innerHTML = '<i class="fa-sharp fa-solid fa-calendar-week" title="Marcar semana entera"></i>';
+
+        let semanaIcono = document.createElement('img');
+        semanaIcono.src = './img/icons/date_range.svg';
+        semanaIcono.alt = 'Marcar semana entera';
+        semanaIcono.title = 'Marcar semana entera';
+
+        thSemana.appendChild(semanaIcono);
         trHead.appendChild(thSemana);
 
         let thMes = document.createElement('th');
         thMes.id = 'mesEntero';
-        thMes.innerHTML = '<i class="fa-sharp fa-solid fa-calendar-days" title="Marcar mes entero"></i>';
-        trHead.appendChild(thMes);
 
+        let mesIcono = document.createElement('img');
+        mesIcono.src = './img/icons/calendar_month.svg';
+        mesIcono.alt = 'Marcar mes entero';
+        mesIcono.title = 'Marcar mes entero';
+
+        thMes.appendChild(mesIcono);
+        trHead.appendChild(thMes);
+        
         this.thead.appendChild(trHead);
     }
 

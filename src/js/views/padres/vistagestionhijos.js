@@ -89,22 +89,24 @@ export class VistaGestionHijos extends Vista {
                let td2 = document.createElement('td');
                tr.appendChild(td2);
                
-               let i2 = document.createElement('i');
-               td2.appendChild(i2);
-               i2.setAttribute('title', 'Modificar');
-               i2.setAttribute('class', 'fa-solid fa-pen-to-square fa-xl');
-               i2.setAttribute('style', 'color: #014179;')
-               i2.onclick = this.editar.bind(this, hijo);
-   
+               let iconoEditar = document.createElement('img');
+               iconoEditar.setAttribute('src', './img/icons/edit_children.svg');
+               iconoEditar.setAttribute('class', 'iconoBtn');
+               iconoEditar.setAttribute('alt', 'Modificar hijo');
+               iconoEditar.setAttribute('title', 'Modificar hijo');
+               iconoEditar.addEventListener('click', this.editar.bind(this, hijo));
+               td2.appendChild(iconoEditar);
+
                let td3 = document.createElement('td');
                tr.appendChild(td3);
                
-               let i3 = document.createElement('i');
-               td3.appendChild(i3);
-               i3.setAttribute('title', 'Eliminar');
-               i3.setAttribute('class', 'fa-solid fa-user-xmark fa-xl');
-               i3.setAttribute('style', 'color: #014179;');
-               i3.onclick = this.eliminar.bind(this, hijo.id);
+               let iconoEliminar = document.createElement('img');
+               iconoEliminar.setAttribute('src', './img/icons/person_remove.svg');
+               iconoEliminar.setAttribute('class', 'iconoBtn');
+               iconoEliminar.setAttribute('alt', 'Eliminar hijo');
+               iconoEliminar.setAttribute('title', 'Eliminar hijo');
+               iconoEliminar.addEventListener('click', this.eliminar.bind(this, hijo.id));
+               td3.appendChild(iconoEliminar);
            }
            
            let trAnadir = document.createElement('tr');
@@ -115,14 +117,14 @@ export class VistaGestionHijos extends Vista {
            tdAnadir.setAttribute('colspan', '3');
            trAnadir.appendChild(tdAnadir);
 
-           let iAnadir = document.createElement('i');
-           iAnadir.setAttribute('id', 'btnAnadir');
-           iAnadir.setAttribute('title', 'Añadir');
-           iAnadir.setAttribute('class', 'fa-solid fa-circle-plus fa-2xl');
-           iAnadir.setAttribute('style', 'color: #2ae52d;');
-            
-           iAnadir.onclick = this.anadir.bind(this);
-           tdAnadir.appendChild(iAnadir);
+           let iconoInsertar = document.createElement('img');
+           iconoInsertar.setAttribute('id', 'btnAnadir');
+           iconoInsertar.setAttribute('src', './img/icons/add.svg');
+           iconoInsertar.setAttribute('title', 'Añadir nuevo hijo');
+           iconoInsertar.setAttribute('alt', 'Añadir nuevo hijo');
+           iconoInsertar.addEventListener('click', this.anadir.bind(this));
+
+           tdAnadir.appendChild(iconoInsertar);
         }
     }
 
