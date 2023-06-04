@@ -102,6 +102,28 @@
         }
 
         /**
+         * Eliminar padre.
+         * @param int $id ID de la persona padre.
+         * @return boolean True si se hizo el proceso, false si no.
+         */
+        public static function borrarPadre($id) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+
+            $hijos = DAOUsuario::dameHijos($id);
+            
+            if (count($hijos)) {
+                if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
+                return false;
+            }
+            else {
+                DAOUsuario::eliminaPersona($id);
+                if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
+                return true;
+            }
+        }
+
+        /**
          * Obtener filas de la tabla días de las personas cuyos IDs estén en la lista.
          * @param array $idPersonas Lista con los IDs de las personas.
          * @return array Array con los días de todas las personas.
@@ -309,7 +331,6 @@
             $resultado = BD::seleccionar($sql, $params);
             return DAOUsuario::crearRecuperacionClave($resultado);
         }
-
         
         /**
          * Obtiene fila de la tabla recuparacionClaves.
@@ -463,11 +484,13 @@
 			    throw new Exception('No se pudo confirmar la transacción.');
            
             return null;
-           
         }
     
+        /**
+         * Insertar hijo,
+         * @param object $datos Datos hijo.
+         */
         public static function insertarHijo($datos) {
-
             if (!BD::iniciarTransaccion())
                 throw new Exception('No es posible iniciar la transacción.');
 
@@ -525,15 +548,15 @@
         }
 
         /**
-         * Elimina fila de la tabla 'hijos'
+         * Elimina fila de la tabla 'Personas'
          * @param int $id ID de la fila a eliminar.
          */
-        public static function eliminaHijo($id){
+        public static function eliminaPersona($id){
             $sql = 'DELETE FROM Persona';
             $sql .= ' WHERE id = :id';
 
             $params = array('id' => $id);
-            return BD::borrar($sql, $params);
+            BD::borrar($sql, $params);
         }
 
         /**

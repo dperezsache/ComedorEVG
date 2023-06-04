@@ -59,7 +59,7 @@
             }
 
             if (count($pathParams)) {
-                DAOUsuario::eliminaHijo($pathParams[0]);
+                DAOUsuario::eliminaPersona($pathParams[0]);
                 header('HTTP/1.1 200 OK');
                 die();
             }

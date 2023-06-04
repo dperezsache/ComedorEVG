@@ -19,5 +19,32 @@
             header('HTTP/1.1 200 OK');
             die();
         }
+
+        /**
+         * Borrar padre.
+         * @param array $pathParams ID del padre viene aquí.
+         * @param array $queryParams No utilizado.
+         * @param object $usuario Usuario que realiza el proceso.
+         */
+        function delete($pathParams, $queryParams, $usuario) {
+            // Si no existe $usuario, es porque la autorización ha fallado.
+            if (!$usuario) {
+                header('HTTP/1.1 401 Unauthorized');
+                die();
+            }
+
+            if (count($pathParams)) {
+                $resultado = DAOUsuario::borrarPadre($pathParams[0]);
+                sleep(1);
+
+                if ($resultado) header('HTTP/1.1 200 OK');
+                else header('HTTP/1.1 400 Bad Request 1');
+                die();
+            }
+            else {
+                header('HTTP/1.1 400 Bad Request');
+                die();
+            }
+        }
     }
 ?>

@@ -15,10 +15,14 @@ export class VistaModificarPadres extends Vista {
         this.form = this.div.getElementsByTagName('form')[0];
         this.inputs = this.div.getElementsByTagName('input');
         this.btnActualizar = this.div.getElementsByTagName('button')[0];
+        this.btnBorrarCuenta = this.div.getElementsByTagName('button')[1];
         this.divExito = this.div.querySelector('#divExito');
+        this.divErrorBorrado = this.div.querySelector('#divErrorBorrado');
         this.idUsuario = 0;
         this.divCargando = this.div.querySelector('#loadingImg');
+
         this.btnActualizar.addEventListener('click', this.validarFormulario.bind(this));
+        this.btnBorrarCuenta.addEventListener('click', this.confirmacionBorrado.bind(this));
     }
 
     /**
@@ -31,6 +35,39 @@ export class VistaModificarPadres extends Vista {
         this.inputs[2].value = datos.telefono;
         this.inputs[3].value = datos.correo;
         this.idUsuario = datos.id;
+    }
+
+    /**
+     * Confirmar borrado cuenta padre.
+     */
+    confirmacionBorrado() {
+        if (confirm("¿Estas seguro de que desea eliminar su cuenta? Esta operación es irreversible.")) {
+            this.controlador.eliminarCuentaPadre(this.idUsuario);
+            this.btnBorrarCuenta.disabled = true;
+        }
+    }
+
+    /**
+     * Aviso de error de borrado de cuenta al usuario.
+     * @param {Object} e Error.
+     */
+    errorBorrado(e) {
+        this.btnBorrarCuenta.disabled = false;
+        
+        if (e != null) {
+            if (e == 'Error: 400 - Bad Request 1') {
+                this.divErrorBorrado.innerHTML = '<p>No puedes eliminar tu cuenta si tienes hijos asociados.</p>';
+            }
+            else {
+                this.divErrorBorrado.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divErrorBorrado.style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divErrorBorrado.style.display = 'none';
+        }
     }
 
     /**
@@ -77,5 +114,8 @@ export class VistaModificarPadres extends Vista {
 		
         if (this.divExito.style.display == 'block')
             this.exito(false);
+
+        if (this.divErrorBorrado.style.display == 'block')
+            this.divErrorBorrado.style = 'none';
 	}
 }

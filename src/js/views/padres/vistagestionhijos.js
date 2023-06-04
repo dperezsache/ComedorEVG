@@ -242,13 +242,6 @@ export class VistaGestionHijos extends Vista {
     }
 
     /**
-     * Muestra el formulario de alta
-     */
-    anadir() {
-        this.mostrarOcultarCrud(false, true, false);
-    }
-
-    /**
      * Mostrar formulario de edición de hijos.
      * @param {Object} hijo Datos hijo.
      */

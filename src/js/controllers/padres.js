@@ -237,6 +237,17 @@ class ControladorPadres {
              console.error(e)
          })
     }
+
+    eliminarCuentaPadre(id) {
+        this.modelo.borrarCuentaPadre(id)
+         .then(() => {
+             this.cerrarSesion();
+         })
+         .catch(e => {
+             console.error(e);
+             this.vistaModificacion.errorBorrado(e);
+         })
+    }
 }
 
 new ControladorPadres();

@@ -158,4 +158,13 @@ export class Modelo {
     insertarIncidencia(datos) {
         return Rest.put('secretaria', [], datos, false);
     }
+
+    /**
+     * Eliminar padre.
+     * @param {Number} id ID del padre.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    borrarCuentaPadre(id) {
+        return Rest.delete('padres', [id]);
+    }
 }
