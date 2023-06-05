@@ -301,7 +301,7 @@
             $fecha = new DateTime('now');
             $fecha->modify('+1 day');
 
-            $codigo = self::generarUID();
+            $codigo = self::generarUID(8);
 
             $params = array(
                 'id' => $datos->id,
@@ -361,11 +361,12 @@
         }
 
         /**
-         * Genera código único de 16 caracteres.
+         * Genera código único.
+         * @param int $longitud Longitud a generar.
          * @return string Código.
          */
-        public static function generarUID() {
-            return strtoupper(bin2hex(openssl_random_pseudo_bytes(8)));
+        public static function generarUID($longitud) {
+            return strtoupper(bin2hex(openssl_random_pseudo_bytes($longitud)));
         }
 
         /**
@@ -506,11 +507,13 @@
             $id = BD::insertar($sql, $params);  
 
             // Insertar en Hijo
-            $sql = 'INSERT INTO Hijo(id, idCurso)';
-            $sql .= ' VALUES(:id, :idCurso)';
+            $sql = 'INSERT INTO Hijo(id, idPadreAlta, idCurso, pin)';
+            $sql .= ' VALUES(:id, :idPadreAlta, :idCurso, :pin)';
             $params = array(
                 'id' => $id,
-                'idCurso' => $datos->idCurso
+                'idPadreAlta' => $datos->id,
+                'idCurso' => $datos->idCurso,
+                'pin' => self::generarUID(4)
             );
 
             BD::insertar($sql, $params); 
@@ -530,13 +533,47 @@
         }
 
         /**
+         * Añade a un hijo existente relación con un padre.
+         * @param object $datos Datos (ID padre y pin).
+         * @return boolean True si el proceso es exitoso, false si no lo es.
+         */
+        public static function registrarHijoPadre($datos) {
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
+
+            $sql = 'SELECT id, idPadreAlta, idCurso, pin FROM Hijo';
+            $sql .= ' WHERE pin=:pin';
+            $params = array('pin' => $datos->pin);
+
+            $resultado = BD::seleccionar($sql, $params);
+
+            if (!$resultado) {
+                if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
+                else return false;
+            }
+
+            $sql = 'INSERT INTO Hijo_Padre(idPadre, idHijo)';
+            $sql .= ' VALUES(:idPadre, :idHijo)';
+            $params = array(
+                'idPadre' => $datos->id,
+                'idHijo' => $resultado[0]['id']
+            );
+
+            BD::insertar($sql, $params);
+
+            if (!BD::commit())
+                throw new Exception('No se pudo confirmar la transacción.');
+
+            return true;
+        }
+
+        /**
          * Muestra todos los hijos asociados a un padre.
          * @param int $id ID de la Persona.
          * @return object|boolean Devuelve los datos de los hijos asociados al usuario o false si no existe el usuario.
          */
-
         public static function dameHijos($id) {
-            $sql = 'SELECT Persona.id, nombre, apellidos, idCurso FROM Persona';
+            $sql = 'SELECT Persona.id, Hijo.idPadreAlta, Hijo.pin, Persona.nombre, Persona.apellidos, Hijo.idCurso FROM Persona';
             $sql .= ' INNER JOIN Hijo_Padre ON Persona.id = Hijo_Padre.idHijo';
             $sql .= ' INNER JOIN Hijo on Persona.id = Hijo.id';
             $sql .= ' WHERE Hijo_Padre.idPadre = :id';
@@ -545,6 +582,22 @@
             $hijos = BD::seleccionar($sql, $params);
 
             return $hijos;
+        }
+
+        /**
+         * Elimina fila de la tabla 'Hijo_Padre'
+         * @param int $idHijo ID del hijo.
+         * @param int $idPadre ID del padre.
+         */
+        public static function eliminarRelacion($idHijo, $idPadre) {
+            $sql = 'DELETE FROM Hijo_Padre';
+            $sql .= ' WHERE idPadre=:idPadre AND idHijo=:idHijo';
+
+            $params = array(
+                'idPadre' => $idPadre,
+                'idHijo' => $idHijo
+            );
+            BD::borrar($sql, $params);
         }
 
         /**

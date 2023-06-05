@@ -24,8 +24,8 @@
                     &nbsp;Gestión de hijos
                 </li>
                 <li>
-                    <img src="./img/icons/edit.svg" alt="Modificación de datos personales"/>
-                    &nbsp;Modificación datos personales
+                    <img src="./img/icons/edit.svg" alt="Gestión de tu cuenta"/>
+                    &nbsp;Gestión de tu cuenta
                 </li>
                 <li>
                     <img src="./img/icons/logout.svg" alt="Cerrar sesión"/>
@@ -83,6 +83,27 @@
                 <div id="divExitoAlta" class="p-1 w-50 container bg-success text-light text-center">
                     <p>Tu hijo/a ha sido dado de alta correctamente.</p>
                 </div>
+
+                <h3 class="textoHeader">Añade a tu hijo/a mediante PIN</h3>
+                <form method="POST" id="formAltaHijosPin" class="needs-validation" novalidate>
+                    <div class="formItem">
+                        <label for="pinHijo">
+                            PIN de 8 digitos (*) <input type="text" class="form-control" name="pinHijo" maxlength="8" required/>
+                            <div class="invalid-feedback">Por favor, introduzca el PIN.</div>
+                        </label>
+                    </div>
+                    <div class="formItem" id="loadingImgPin">
+                        <img src="./img/loading.gif"/>
+                    </div>
+                    <div class="formItem">
+                        <button type="button" class="btn btn-danger">Cancelar</button>
+                        <button type="button" class="btn btn-success">Añadir</button>
+                    </div>
+                </form>
+                <div id="divExitoAltaPin" class="p-1 w-50 container bg-success text-light text-center">
+                    <p>Tu hijo ha sido añadido correctamente.</p>
+                </div>
+                <div id="divErrorAltaPin" class="w-75 p-1 container alert alert-danger text-center rounded my-2"></div>
             </div>
             
             <div id="divModificacionHijos">
@@ -121,9 +142,7 @@
 
             <div id="divListadoHijos">
                 <table id="tablaHijos">
-                    <thead>
-                        <tr><td colspan="3">Tus hijos</td></tr>
-                    </thead>
+                    <thead></thead>
                     <tbody></tbody>
                 </table>
             </div>
@@ -172,7 +191,7 @@
                 <p>Tus datos han sido actualizados.</p>
             </div>
 
-            <h3 id="textoEliminarPadre">Eliminar cuenta</h3>
+            <h3 class="textoHeader">Eliminar cuenta</h3>
             <div id="divEliminarPadre">
                 Pulsa en el siguiente botón si desea eliminar su cuenta permanentemente.
                 <button type="button" class="btn btn-danger d-block my-1 mx-auto">Eliminar cuenta</button>

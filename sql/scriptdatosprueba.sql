@@ -5,15 +5,13 @@ INSERT INTO `Persona` (`nombre`, `apellidos`, `correo`, `clave`, `telefono`, `dn
 INSERT INTO `Padre` (`id`) VALUES (2);
 
 INSERT INTO `Persona` (`nombre`, `apellidos`) VALUES ('Bob', 'Esponja');
-INSERT INTO `Hijo` (`id`, `idCurso`) VALUES (3, 5);
-INSERT INTO `Hijo_Padre` (`idPadre`, `idHijo`) VALUES (1, 3);
+INSERT INTO `Hijo` (`id`, `idPadreAlta`, `idCurso`, `pin`) VALUES (3, 2, 5, '87654321');
+INSERT INTO `Hijo_Padre` (`idPadre`, `idHijo`) VALUES (2, 3);
 
 INSERT INTO `Persona` (`nombre`, `apellidos`) VALUES ('Patricio', 'Estrella');
-INSERT INTO `Hijo` (`id`, `idCurso`) VALUES (4, 8);
+INSERT INTO `Hijo` (`id`, `idPadreAlta`, `idCurso`, `pin`) VALUES (4, 1, 8, '11223344');
 INSERT INTO `Hijo_Padre` (`idPadre`, `idHijo`) VALUES (1, 4);
-INSERT INTO `Hijo_Padre` (`idPadre`, `idHijo`) VALUES (2, 4);
 
 INSERT INTO `Persona` (`nombre`, `apellidos`) VALUES ('Calamardo', 'Tentáculos');
-INSERT INTO `Hijo` (`id`, `idCurso`) VALUES (5, 11);
-INSERT INTO `Hijo_Padre` (`idPadre`, `idHijo`) VALUES (1, 5);
+INSERT INTO `Hijo` (`id`, `idPadreAlta`, `idCurso`, `pin`) VALUES (5, 2, 11, '10203040');
 INSERT INTO `Hijo_Padre` (`idPadre`, `idHijo`) VALUES (2, 5);

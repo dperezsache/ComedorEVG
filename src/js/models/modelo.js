@@ -21,8 +21,16 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     altaHijo(datos) {
-        let path = 'alta';
-        return Rest.post('hijos', [path], datos, false);
+        return Rest.post('hijos', ['altaHijo'], datos, false);
+    }
+
+    /**
+     * Realiza el proceso de dar de alta un hijo a un padre mediante PIN.
+     * @param {Object} datos Datos.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    registrarHijoPin(datos) {
+        return Rest.post('hijos', ['registrarHijo'], datos, false);
     }
 
     /**
@@ -58,12 +66,24 @@ export class Modelo {
     }
 
     /**
-     * Eliminar fila de las tablas: persona, hijo y padres_hijos.
-     * @param {Array} id ID del hijo.
+     * Eliminar fila de las tablas: Persona, Hijo e Hijo_Padre.
+     * @param {Number} id ID del hijo.
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     eliminarHijo(id) {
-        return Rest.delete('hijos', [id])
+        let datos = ['eliminarHijo', id];
+        return Rest.delete('hijos', datos);
+    }
+
+    /**
+     * Eliminar fila de la tabla Hijo_Padre.
+     * @param {Number} id ID del hijo.
+     * @param {Number} idPadre ID del padre.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    eliminarRelacionHijo(id, idPadre) {
+        let datos = ['eliminarRelacion', id, idPadre];
+        return Rest.delete('hijos', datos);
     }
 
     /**

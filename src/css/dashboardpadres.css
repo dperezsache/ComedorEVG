@@ -26,16 +26,15 @@
 }
 #tablaHijos tbody tr td{
 	padding:20px;
-
+    text-align: center;
 }
 #tablaHijos tbody tr td:nth-child(2), 
-#tablaHijos table tr td:nth-child(3) {
+#tablaHijos table tr td:nth-child(3),
+#tablaHijos table tr td:nth-child(4) {
 	width:20%;
 }
 #tablaHijos tbody tr td:nth-child(1){
-    width:70%;
-    font-size:20px;
-    padding-left:10%;
+    width:40%;
 }
 #añadir {
     text-align:center;
@@ -47,20 +46,49 @@
 #tablaHijos tbody tr:nth-child(odd){
     background-color:rgb(219, 219, 219);
 }
+#tablaHijos tr#trInfo td {
+    background-color:#005eb1;
+    color:white;
+    font-size: initial;
+    padding:10px;
+}
+
+img.iconoBtn {
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+@media screen and (max-width: 400px) {
+    #tablaHijos {
+        font-size: 0.85em;
+    }
+
+    #tablaHijos tbody tr td {
+        padding: 10px;
+    }
+
+    img.iconoBtn {
+        padding: 0;
+    }
+}
 
 /* Al iniciar los div de las vistas no se verán durante la carga de DOM */
 div#inicioPadres,
 div#gestionHijosPadres,
 div#modificacionPadres,
 div#divExitoAlta,
+div#divExitoAltaPin,
+div#divErrorAltaPin,
 div#divExitoModificacion,
 div#loadingImgAlta,
-div#loadingImgModificacion {
+div#loadingImgModificacion,
+div#loadingImgPin {
     display: none;
 }
 
 #loadingImgAlta img,
-#loadingImgModificacion img {
+#loadingImgModificacion img,
+#loadingImgPin img {
     width: 32px;
     height: 32px;
 }
@@ -69,10 +97,6 @@ div#loadingImgModificacion {
 img#btnAnadir {
     width: 40px;
     height: 40px;
-    cursor: pointer;
-}
-
-img.iconoBtn {
     cursor: pointer;
 }
 
@@ -176,7 +200,7 @@ div#divEliminarPadre {
     background-color: aliceblue;
 }
 
-h3#textoEliminarPadre {
+h3.textoHeader {
     text-align: center;
     margin-top: 5rem;
     margin-bottom: 1.5rem;
