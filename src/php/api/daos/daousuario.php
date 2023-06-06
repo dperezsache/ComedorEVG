@@ -14,17 +14,29 @@
          * @return object|boolean Devuelve los datos del usuario o false si no existe el usuario. 
          */
         public static function autenticarLogin($login) {
-            $sql = 'SELECT id, nombre, apellidos, correo, clave, telefono, dni, iban, titular FROM Persona';
-            $sql .= ' WHERE correo = :usuario AND clave = :clave';
+            if (!BD::iniciarTransaccion())
+                throw new Exception('No es posible iniciar la transacción.');
 
-            $params = array('usuario' => $login->usuario, 'clave' => $login->clave);
-            $clave = $login->clave;
+            $sql = 'SELECT id, nombre, apellidos, correo, clave, telefono, dni, iban, titular FROM Persona';
+            $sql .= ' WHERE correo=:correo';
+            $params = array('correo' => $login->usuario);
+            $persona = BD::seleccionar($sql, $params);
+
+            // Chequear si existe o no alguien con ese correo.
+            if (!$persona) {
+                if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
+                else return false;
+            }
+            
             $sql = 'SELECT * FROM Persona';
             $sql .= ' WHERE correo = :usuario';
             $params = array('usuario' => $login->usuario);
             $resultado = BD::seleccionar($sql, $params);
 
-            if (password_verify($clave, $resultado[0]['clave'])){
+            if (!BD::commit()) 
+                throw new Exception('No se pudo confirmar la transacción.');
+
+            if (password_verify($login->clave, $resultado[0]['clave'])) {
                 return DAOUsuario::crearUsuario($resultado);
             }
             else {
@@ -38,19 +50,11 @@
          * @return array Devuelve las incidencias. 
          */
         public static function obtenerIncidenciasPorDia($fecha) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-
             $sql = 'SELECT idPersona, incidencia FROM Dias';
             $sql .= ' WHERE dia=:fecha';
-
             $params = array('fecha' => $fecha);
-            $incidencias = BD::seleccionar($sql, $params);
 
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
-
-            return $incidencias;
+            return BD::seleccionar($sql, $params);
         }
 
         /**
@@ -59,20 +63,13 @@
          * @return array Devuelve las incidencias. 
          */
         public static function obtenerIncidenciasPorMes($mes) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
             //SELECT idPersona, GROUP_CONCAT(incidencia SEPARATOR ', ') AS incidencias_mes FROM Dias WHERE MONTH(dia) = 6 GROUP BY idPersona; 
             $sql = 'SELECT idPersona, GROUP_CONCAT(incidencia SEPARATOR ", ") AS incidencias FROM Dias';
             $sql .= ' WHERE MONTH(dia)=:mes';
             $sql .= ' GROUP BY idPersona';
-            
             $params = array('mes' => $mes);
-            $incidencias = BD::seleccionar($sql, $params);
 
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
-
-            return $incidencias;
+            return BD::seleccionar($sql, $params);
         }
 
         /**
@@ -80,9 +77,6 @@
          * @param object $datos Datos de la incidencia.
          */
         public static function insertarIncidencia($datos) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-
             $sql = 'UPDATE Dias SET incidencia=:incidencia';
             $sql .= ' WHERE dia=:dia AND idPersona=:idPersona';
 
@@ -96,9 +90,6 @@
             );
 
             BD::actualizar($sql, $params);
-
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
         }
 
         /**
@@ -114,12 +105,12 @@
             
             if (count($hijos)) {
                 if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
-                return false;
+                else return false;
             }
             else {
                 DAOUsuario::eliminaPersona($id);
                 if (!BD::commit()) throw new Exception('No se pudo confirmar la transacción.');
-                return true;
+                else return true;
             }
         }
 
@@ -218,9 +209,6 @@
          * @param object $datos Datos del día.
          */
         public static function altaDia($datos) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-
             $sql = 'INSERT INTO Dias(dia, idPersona, idPadre)';
             $sql .= ' VALUES(:dia, :idPersona, :idPadre)';
 
@@ -231,9 +219,6 @@
             );
 
             BD::insertar($sql, $params);
-
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
         }
 
         /**
@@ -292,9 +277,6 @@
          * @return string Devuelve código único de la solicitud.
          */
         public static function insertarRecuperacionClave($datos) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-
             $sql = 'INSERT INTO RecuperacionClaves(id, fechaLimite, codigo)';
             $sql .= ' VALUES(:id, :fechaLimite, :codigo)';
 
@@ -310,10 +292,6 @@
             );
 
             BD::insertar($sql, $params);
-
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
-
             return $codigo;
         }
 
@@ -325,7 +303,6 @@
         public static function obtenerRecuperacionPorCodigo($codigo) {
             $sql = 'SELECT id, fechaLimite, codigo FROM RecuperacionClaves';
             $sql .= ' WHERE codigo=:codigo';
-
             $params = array('codigo' => $codigo);
 
             $resultado = BD::seleccionar($sql, $params);
@@ -340,7 +317,6 @@
         public static function obtenerRecuperacionPorID($datos) {
             $sql = 'SELECT id, fechaLimite, codigo FROM RecuperacionClaves';
             $sql .= ' WHERE id=:id';
-
             $params = array('id' => $datos->id);
 
             $resultado = BD::seleccionar($sql, $params);
@@ -354,7 +330,6 @@
         public static function borrarRecuperacion($datos) {
             $sql = 'DELETE FROM RecuperacionClaves';
             $sql .= ' WHERE id=:id';
-
             $params = array('id' => $datos->id);
 
             BD::borrar($sql, $params);
@@ -375,9 +350,6 @@
          * @return int ID de la fila insertada.
          */
         public static function altaPersona($datos) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-
             $sql = 'INSERT INTO Persona(nombre, apellidos, correo, clave, telefono, dni, iban, titular)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo, :clave, :telefono, :dni, :iban, :titular)';
 
@@ -398,12 +370,8 @@
                 'iban' => $datos->iban,
                 'titular' => $datos->titular
             );
-            $id = BD::insertar($sql, $params);
-           
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
 
-            return $id;
+            return BD::insertar($sql, $params);
         }
 
         /**
@@ -423,12 +391,7 @@
                 'correo' => $datos['email']
             );
 
-            $id = BD::insertar($sql, $params);  
-
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
-
-            return $id;
+            return BD::insertar($sql, $params);  
         }
 
         /**
@@ -467,24 +430,15 @@
         }
 
         /**
-         * Inserta fila en la tabla 'padre'.
-         * @param int $id ID de la Persona.
-         * @return int ID de la inserción.
+         * Inserta fila en la tabla 'Padre'.
+         * @param int $id ID de la persona.
          */
         public static function altaPadre($id) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-                
             $sql = 'INSERT INTO Padre(id)';
             $sql .= ' VALUES(:id)';
             $params = array('id' => $id);
 
             BD::insertar($sql, $params); 
-            
-            if (!BD::commit())
-			    throw new Exception('No se pudo confirmar la transacción.');
-           
-            return null;
         }
     
         /**
@@ -577,11 +531,9 @@
             $sql .= ' INNER JOIN Hijo_Padre ON Persona.id = Hijo_Padre.idHijo';
             $sql .= ' INNER JOIN Hijo on Persona.id = Hijo.id';
             $sql .= ' WHERE Hijo_Padre.idPadre = :id';
-
             $params = array('id' => $id);
-            $hijos = BD::seleccionar($sql, $params);
 
-            return $hijos;
+            return BD::seleccionar($sql, $params);
         }
 
         /**
@@ -592,11 +544,11 @@
         public static function eliminarRelacion($idHijo, $idPadre) {
             $sql = 'DELETE FROM Hijo_Padre';
             $sql .= ' WHERE idPadre=:idPadre AND idHijo=:idHijo';
-
             $params = array(
                 'idPadre' => $idPadre,
                 'idHijo' => $idHijo
             );
+
             BD::borrar($sql, $params);
         }
 
@@ -607,8 +559,8 @@
         public static function eliminaPersona($id){
             $sql = 'DELETE FROM Persona';
             $sql .= ' WHERE id = :id';
-
             $params = array('id' => $id);
+
             BD::borrar($sql, $params);
         }
 
@@ -637,18 +589,11 @@
          * @return int ID de la inserción.
          */
         public static function altaUsuario($id) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-
             $sql = 'INSERT INTO Usuario(id)';
             $sql .= ' VALUES(:id)';
             $params = array('id' => $id);
-            $lastInsertID =  BD::insertar($sql, $params);
 
-            if (!BD::commit())
-                throw new Exception('No se pudo confirmar la transacción.');
-            
-            return $lastInsertID;
+            return BD::insertar($sql, $params);
         }
 
         /**

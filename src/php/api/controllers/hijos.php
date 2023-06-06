@@ -23,12 +23,12 @@
                 switch ($pathParams[0]) {
                     case 'altaHijo':
                         $this->insertarHijo($datos);
-                        sleep(0.5);
+                        sleep(1);
                         break;
 
                     case 'registrarHijo':
                         $this->registrarHijoPin($datos);
-                        sleep(0.5);
+                        sleep(1);
                         break;
 
                     default:
@@ -147,7 +147,7 @@
             }
 
             DAOUsuario::modificarHijo($datos);
-            sleep(0.5);
+            sleep(1);
             header('HTTP/1.1 200 OK');
             die();
         }

@@ -87,9 +87,8 @@ export class VistaGestionHijos extends Vista {
      */
     cargarEncabezado() {
         this.thead.innerHTML = '';
-
+        
         let trTitulo = document.createElement('tr');
-
         let tdTitulo = document.createElement('td');
         tdTitulo.textContent = 'Tus hijos';
         tdTitulo.setAttribute('colspan', '4');
@@ -137,6 +136,7 @@ export class VistaGestionHijos extends Vista {
                 tdPin.textContent = hijo.pin;
 
                 let td2 = document.createElement('td');
+                td2.classList.add('tdOperaciones');
                 td2.setAttribute('colspan', '2');
                 tr.appendChild(td2);
                 
@@ -144,11 +144,10 @@ export class VistaGestionHijos extends Vista {
 
                 let iconoEditar = document.createElement('img');
                 iconoEditar.setAttribute('src', esPadreDeAlta ? './img/icons/edit_children.svg' : './img/icons/edit_children_disabled.svg');
-                iconoEditar.setAttribute('class', 'iconoBtn');
                 iconoEditar.setAttribute('alt', 'Modificar hijo');
+                iconoEditar.setAttribute('title', esPadreDeAlta ? 'Modificar hijo' : 'Solo el otro padre puede modificar los datos');
 
                 if (esPadreDeAlta) {
-                    iconoEditar.setAttribute('title', 'Solo el otro padre puede modificar los datos.');
                     iconoEditar.addEventListener('click', this.editar.bind(this, hijo));
                 }
 
@@ -156,7 +155,6 @@ export class VistaGestionHijos extends Vista {
 
                 let iconoEliminar = document.createElement('img');
                 iconoEliminar.setAttribute('src', './img/icons/person_remove.svg');
-                iconoEliminar.setAttribute('class', 'iconoBtn');
                 iconoEliminar.setAttribute('alt', 'Eliminar hijo');
                 iconoEliminar.setAttribute('title', 'Eliminar hijo');
                 
