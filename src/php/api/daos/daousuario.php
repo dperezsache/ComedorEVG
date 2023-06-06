@@ -380,9 +380,6 @@
          * @return void
          */
         public static function altaUsuarioGoogle($datos) {
-            if (!BD::iniciarTransaccion())
-                throw new Exception('No es posible iniciar la transacción.');
-
             $sql = 'INSERT INTO Persona(nombre, apellidos, correo)';
             $sql .= ' VALUES(:nombre, :apellidos, :correo)';
             $params = array(

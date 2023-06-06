@@ -16,7 +16,8 @@ export class VistaModificarPadres extends Vista {
         this.inputs = this.div.getElementsByTagName('input');
         this.btnActualizar = this.div.getElementsByTagName('button')[0];
         this.btnBorrarCuenta = this.div.getElementsByTagName('button')[1];
-        this.divExito = this.div.querySelector('#divExito');
+        this.divExito = this.div.querySelector('#divExitoModificacion');
+        this.divError = this.div.querySelector('#divErrorModificacion');
         this.divErrorBorrado = this.div.querySelector('#divErrorBorrado');
         this.idUsuario = 0;
         this.divCargando = this.div.querySelector('#loadingImg');
@@ -71,6 +72,30 @@ export class VistaModificarPadres extends Vista {
     }
 
     /**
+     * Aviso de error de modificación de datos al usuario.
+     * @param {Object} e Error.
+     */
+    errorModificacion(e) {
+        this.divCargando.style.display = 'none';
+        this.btnActualizar.disabled = false;
+        
+        if (e != null) {
+            if (e == 'Error: 500 - Internal Server Error 1') {
+                this.divError.innerHTML = '<p>Ya existe una cuenta con esa dirección de correo.</p>';
+            }
+            else {
+                this.divError.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divError.style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divError.style.display = 'none';
+        }
+    }
+
+    /**
      * Valida los campos del formulario y realiza el proceso de modificar.
      */
     validarFormulario() {
@@ -82,6 +107,12 @@ export class VistaModificarPadres extends Vista {
         }
 
         this.form.classList.add('was-validated');
+
+        if (this.divExito.style.display == 'block') 
+            this.exito(false);
+            
+        if (this.divError.style.display == 'block') 
+            this.divError.style.display = 'none'
 
         if (cont == total) {
             const datos = {
@@ -114,6 +145,9 @@ export class VistaModificarPadres extends Vista {
 		
         if (this.divExito.style.display == 'block')
             this.exito(false);
+
+        if (this.divError.style.display == 'block')
+            this.divError.style.display = 'none'
 
         if (this.divErrorBorrado.style.display == 'block')
             this.divErrorBorrado.style = 'none';

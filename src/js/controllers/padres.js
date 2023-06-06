@@ -236,6 +236,7 @@ class ControladorPadres {
              sessionStorage.setItem('usuario', JSON.stringify(datos));
          })
          .catch(e => {
+             this.vistaModificacion.errorModificacion(e);
              console.error(e);
          }) 
     }
