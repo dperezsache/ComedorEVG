@@ -49,8 +49,16 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     altaHijo(datos) {
-        let path = 'alta';
-        return Rest.post('hijos', [path], datos, false);
+        return Rest.post('hijos', ['altaHijo'], datos, false);
+    }
+
+    /**
+     * Realiza el proceso de dar de alta un hijo a un padre mediante PIN.
+     * @param {Object} datos Datos.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    registrarHijoPin(datos) {
+        return Rest.post('hijos', ['registrarHijo'], datos, false);
     }
 
     /**
@@ -63,16 +71,14 @@ export class Modelo {
 
     /**
      * Realiza el proceso de obtener filas de la tabla festivos.
+     * @param {Date} inicioMes Primer día del mes.
+     * @param {Date} finMes Último día del mes.
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
-    obtenerFestivos(inicioSemana) {
-        let fechaFinal = new Date();
-        fechaFinal.setDate(inicioSemana.getDate() + 4);
-
+    obtenerFestivos(inicioMes, finMes) {
         const queryParams = new Map();
-        queryParams.set('inicio', inicioSemana.getDate() + '-' + (inicioSemana.getMonth()+1) + '-' + inicioSemana.getFullYear());
-        queryParams.set('final', fechaFinal.getDate() + '-' + (fechaFinal.getMonth()+1) + '-' + fechaFinal.getFullYear());
-
+        queryParams.set('inicio', inicioMes.getDate() + '-' + (inicioMes.getMonth()+1) + '-' + inicioMes.getFullYear());
+        queryParams.set('final', finMes.getDate() + '-' + (finMes.getMonth()+1) + '-' + finMes.getFullYear());
         return Rest.get('festivos', [], queryParams);
     }
 
@@ -88,12 +94,24 @@ export class Modelo {
     }
 
     /**
-     * Eliminar fila de las tablas: persona, hijo y padres_hijos.
-     * @param {Array} id ID del hijo.
+     * Eliminar fila de las tablas: Persona, Hijo e Hijo_Padre.
+     * @param {Number} id ID del hijo.
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     eliminarHijo(id) {
-        return Rest.delete('hijos', [id])
+        let datos = ['eliminarHijo', id];
+        return Rest.delete('hijos', datos);
+    }
+
+    /**
+     * Eliminar fila de la tabla Hijo_Padre.
+     * @param {Number} id ID del hijo.
+     * @param {Number} idPadre ID del padre.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    eliminarRelacionHijo(id, idPadre) {
+        let datos = ['eliminarRelacion', id, idPadre];
+        return Rest.delete('hijos', datos);
     }
 
     /**
@@ -186,7 +204,29 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     insertarIncidencia(datos) {
-        return Rest.put('secretaria', [], datos, false);
+        return Rest.put('secretaria', ['incidencia'], datos, false);
+    }
+
+    obtenerListadoPadres(busqueda){
+        const queryParams = new Map();
+
+        queryParams.set('proceso', 'padres');
+        queryParams.set('busqueda', busqueda);
+
+        return Rest.get('secretaria', [], queryParams);
+    }
+
+    modificarPadreSecretaria(datos) {
+        return Rest.put('secretaria', ['modificarPadre'], datos);
+    }
+
+    /**
+     * Eliminar padre.
+     * @param {Number} id ID del padre.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    borrarCuentaPadre(id) {
+        return Rest.delete('padres', [id]);
     }
 }</code></pre>
         </article>
@@ -198,13 +238,13 @@ export class Modelo {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ControladorPadres.html">ControladorPadres</a></li><li><a href="ControladorSecretaria.html">ControladorSecretaria</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginGoogle.html">LoginGoogle</a></li><li><a href="Modelo.html">Modelo</a></li><li><a href="Recuperar.html">Recuperar</a></li><li><a href="Registro.html">Registro</a></li><li><a href="Rest.html">Rest</a></li><li><a href="Restaurar.html">Restaurar</a></li><li><a href="Vista.html">Vista</a></li><li><a href="VistaGestionDiaria.html">VistaGestionDiaria</a></li><li><a href="VistaGestionHijos.html">VistaGestionHijos</a></li><li><a href="VistaGestionMensual.html">VistaGestionMensual</a></li><li><a href="VistaInicioPadres.html">VistaInicioPadres</a></li><li><a href="VistaMenuPadres.html">VistaMenuPadres</a></li><li><a href="VistaMenuSecretaria.html">VistaMenuSecretaria</a></li><li><a href="VistaModificarPadres.html">VistaModificarPadres</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ControladorPadres.html">ControladorPadres</a></li><li><a href="ControladorSecretaria.html">ControladorSecretaria</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginGoogle.html">LoginGoogle</a></li><li><a href="Modelo.html">Modelo</a></li><li><a href="Recuperar.html">Recuperar</a></li><li><a href="Registro.html">Registro</a></li><li><a href="Rest.html">Rest</a></li><li><a href="Restaurar.html">Restaurar</a></li><li><a href="Vista.html">Vista</a></li><li><a href="VistaGestionDiaria.html">VistaGestionDiaria</a></li><li><a href="VistaGestionHijos.html">VistaGestionHijos</a></li><li><a href="VistaGestionMensual.html">VistaGestionMensual</a></li><li><a href="VistaGestionPadres.html">VistaGestionPadres</a></li><li><a href="VistaInicioPadres.html">VistaInicioPadres</a></li><li><a href="VistaMenuPadres.html">VistaMenuPadres</a></li><li><a href="VistaMenuSecretaria.html">VistaMenuSecretaria</a></li><li><a href="VistaModificarPadres.html">VistaModificarPadres</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed May 31 2023 18:51:58 GMT+0200 (hora de verano de Europa central)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Jun 07 2023 20:59:39 GMT+0200 (hora de verano de Europa central)
 </footer>
 
 <script> prettyPrint(); </script>

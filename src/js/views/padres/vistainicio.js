@@ -295,9 +295,9 @@ export class VistaInicioPadres extends Vista {
             // 2º Comprobar que no sean días ya pasados.
             // 3º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
             // 4º Comprobar, que no es un festivo.
-            if (!diaYaMarcado && Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && (this.festivos && !this.festivos.includes(stringFecha))) {
+            if (!diaYaMarcado && Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && !this.esDiaFestivo(stringFecha)) {
                 // Comprobar que el día no sea fin de semana.
-                if (temp.getDay() != 6 && temp.getDay() != 0) {
+                if (temp.getDay() != 6 || temp.getDay() != 0) {
                     let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
                     this.marcarDesmarcarDia(marcado, idHijo, this.idPadre, false, fechaFormateada);
                 }
@@ -306,6 +306,15 @@ export class VistaInicioPadres extends Vista {
         }
 
         this.refrescarCalendario();
+    }
+
+    /**
+     * Comprobar si una fecha es festiva o no.
+     * @param {String} stringFecha String de la fecha.
+     * @returns {Boolean} True si el día es festivo, false si no lo es.
+     */
+    esDiaFestivo(stringFecha) {
+        return (this.festivos && this.festivos.includes(stringFecha));
     }
 
     /**

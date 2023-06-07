@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: VistaGestionMensual</title>
+    <title>JSDoc: Class: VistaGestionPadres</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: VistaGestionMensual</h1>
+    <h1 class="page-title">Class: VistaGestionPadres</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>VistaGestionMensual<span class="signature">(controlador, div)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>VistaGestionPadres<span class="signature">(controlador, div)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Contiene la vista de gestión mensual de secretaría.</div>
+            <div class="class-description">Contiene la vista de gestión de padres de secretaría</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="VistaGestionMensual"><span class="type-signature"></span>new VistaGestionMensual<span class="signature">(controlador, div)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="VistaGestionPadres"><span class="type-signature"></span>new VistaGestionPadres<span class="signature">(controlador, div)</span><span class="type-signature"></span></h4>
     
 
     
@@ -169,7 +169,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line6">line 6</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line5">line 5</a>
     </li></ul></dd>
     
 
@@ -210,7 +210,7 @@
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="VistaGestionMensual.html">VistaGestionMensual</a></dt>
+            <dt><a href="VistaGestionPadres.html">VistaGestionPadres</a></dt>
             <dd></dd>
         </dl>
     
@@ -232,7 +232,7 @@
     
 
     
-    <h4 class="name" id="cargarIncidencias"><span class="type-signature"></span>cargarIncidencias<span class="signature">(usuarios)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="bloquearBotones"><span class="type-signature"></span>bloquearBotones<span class="signature">(bloquear)</span><span class="type-signature"></span></h4>
     
 
     
@@ -240,7 +240,7 @@
 
 
 <div class="description">
-    Obtener listado de usuarios que van al comedor, y cargar incidencias.
+    Bloquear/desbloquear botones.
 </div>
 
 
@@ -276,13 +276,13 @@
 
         <tr>
             
-                <td class="name"><code>usuarios</code></td>
+                <td class="name"><code>bloquear</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type">Boolean</span>
 
 
             
@@ -292,7 +292,7 @@
 
             
 
-            <td class="description last">Array con los apuntados del día actual.</td>
+            <td class="description last">Bloquear o no.</td>
         </tr>
 
     
@@ -333,7 +333,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line64">line 64</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line223">line 223</a>
     </li></ul></dd>
     
 
@@ -369,7 +369,7 @@
     
 
     
-    <h4 class="name" id="cargarListado"><span class="type-signature"></span>cargarListado<span class="signature">(incidencias)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="buscar"><span class="type-signature"></span>buscar<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -377,7 +377,7 @@
 
 
 <div class="description">
-    Obtener incidencias y empezar a generar la tabla.
+    Realizar búsqueda de padres.
 </div>
 
 
@@ -386,55 +386,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>incidencias</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Incidencias de los usuarios del mes actual.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -470,7 +421,95 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line74">line 74</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="cancelarModificacion"><span class="type-signature"></span>cancelarModificacion<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Limpia los campos del formulario modificación.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -558,7 +597,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line120">line 120</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -646,7 +685,418 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line90">line 90</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line84">line 84</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="editar"><span class="type-signature"></span>editar<span class="signature">(padre)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Poner datos actuaales en los campos del formulario de modificación.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>padre</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Objeto con los datos.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line159">line 159</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="errorModificacion"><span class="type-signature"></span>errorModificacion<span class="signature">(e)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Aviso de error de modificación de datos al usuario.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Error.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line198">line 198</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="exitoModificacion"><span class="type-signature"></span>exitoModificacion<span class="signature">(activar)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Informar al usuario de la modificación exitosa.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>activar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Activa o no mensaje éxito.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -734,7 +1184,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line36">line 36</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -822,7 +1272,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line82">line 82</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -858,7 +1308,7 @@
     
 
     
-    <h4 class="name" id="mesAnterior"><span class="type-signature"></span>mesAnterior<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mostrarOcultarCrud"><span class="type-signature"></span>mostrarOcultarCrud<span class="signature">(listado, modificacion)</span><span class="type-signature"></span></h4>
     
 
     
@@ -866,293 +1316,7 @@
 
 
 <div class="description">
-    Retroceder un mes.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line209">line 209</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="mesSiguiente"><span class="type-signature"></span>mesSiguiente<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Avanzar un mes.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line222">line 222</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="obtenerMes"><span class="type-signature"></span>obtenerMes<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Devuelve el mes en texto.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line200">line 200</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    String del mes.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="obtenerMesActualEnLetras"><span class="type-signature"></span>obtenerMesActualEnLetras<span class="signature">(mes)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Devuelve el nombre del mes pasado.
+    Mostrar/Ocultar crud padres.
 </div>
 
 
@@ -1188,13 +1352,13 @@
 
         <tr>
             
-                <td class="name"><code>mes</code></td>
+                <td class="name"><code>listado</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">integer</span>
+<span class="param-type">Boolean</span>
 
 
             
@@ -1204,7 +1368,30 @@
 
             
 
-            <td class="description last">Mes en forma numerica</td>
+            <td class="description last">Mostrar o no listado de padres.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>modificacion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mostrar o no modificación de padres.</td>
         </tr>
 
     
@@ -1245,7 +1432,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line46">line 46</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -1270,16 +1457,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    El mes en español correspondiente a la posicion
-</div>
-
-
-
-    
 
 
 
@@ -1291,7 +1468,7 @@
     
 
     
-    <h4 class="name" id="obtenerTipo"><span class="type-signature"></span>obtenerTipo<span class="signature">(correo)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id="validarFormulario"><span class="type-signature"></span>validarFormulario<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -1299,7 +1476,7 @@
 
 
 <div class="description">
-    Devuelve el tipo de cuenta que tiene el usuario.
+    Valida los campos del formulario y realiza el proceso de modificar.
 </div>
 
 
@@ -1308,55 +1485,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>correo</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Correo del usuario.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -1392,7 +1520,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="views_secretaria_vistagestionmensual.js.html">views/secretaria/vistagestionmensual.js</a>, <a href="views_secretaria_vistagestionmensual.js.html#line182">line 182</a>
+        <a href="views_secretaria_vistagestionpadres.js.html">views/secretaria/vistagestionpadres.js</a>, <a href="views_secretaria_vistagestionpadres.js.html#line231">line 231</a>
     </li></ul></dd>
     
 
@@ -1417,28 +1545,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Tipo de cuenta.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
