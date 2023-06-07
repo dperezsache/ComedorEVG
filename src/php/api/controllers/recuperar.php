@@ -59,11 +59,11 @@
             $para = $datos->correo;
             $titulo = 'Crear nueva contraseña Comedor EVG';
 
-            // En local usar: localhost/ComedorEVG/src/restaurar.html?codigo=' . $codigo
+            // En local no usar acortador URL y poner: localhost/ComedorEVG/src/restaurar.html?codigo=' . $codigo
             $enlaceRestauracion = 'https://guadalupe.fundacionloyola.net/appcomedor/restaurar.html?codigo=' . $codigo;
 
             $mensaje = $datos->nombre . ', pulse en el siguiente enlace para crear una ';
-            $mensaje .= ' <a href="' . $enlaceRestauracion . '">contraseña nueva</a>.';
+            $mensaje .= ' <a href="' .  $this->obtenerUrlAcortada($enlaceRestauracion) . '">contraseña nueva</a>.';
             $mensaje .= '<br/>Este enlace solo le permitirá cambiar la contraseña hasta en un máximo de 24 horas contando desde el momento de la solicitud. ';
             $mensaje .= 'Si supera ese plazo deberá generar una nueva solicitud de cambio de contraseña.';
 
@@ -72,6 +72,27 @@
             $headers .= 'From: Comedor Escuela Virgen de Guadalupe <noreply@comedorevg.es>' . "\r\n";
 
             return mail($para, $titulo, $mensaje, $headers);
+        }
+
+        /**
+         * Acorta URL para que pueda ser enviada por email.
+         * @param string $url URL.
+         * @return string URL acortada.
+         */
+        private function obtenerUrlAcortada($url) {
+            $api_url = 'https://tinyurl.com/api-create.php?url=' . $url;
+
+            $curl = curl_init();
+            $timeout = 10;
+
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_URL, $api_url);
+
+            $urlNueva = curl_exec($curl);
+            curl_close($curl);
+
+            return $urlNueva;
         }
     }
 ?>
