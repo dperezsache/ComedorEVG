@@ -176,7 +176,20 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     insertarIncidencia(datos) {
-        return Rest.put('secretaria', [], datos, false);
+        return Rest.put('secretaria', ['incidencia'], datos, false);
+    }
+
+    obtenerListadoPadres(busqueda){
+        const queryParams = new Map();
+
+        queryParams.set('proceso', 'padres');
+        queryParams.set('busqueda', busqueda);
+
+        return Rest.get('secretaria', [], queryParams);
+    }
+
+    modificarPadreSecretaria(datos) {
+        return Rest.put('secretaria', ['modificarPadre'], datos);
     }
 
     /**

@@ -122,7 +122,12 @@ export class VistaGestionDiaria extends Vista {
             let tr = document.createElement('tr');
 
             let tdNombre = document.createElement('td');
-            tdNombre.textContent = usuario.nombre;
+            tdNombre.textContent = usuario.nombre + " " + usuario.apellidos;
+
+            if(tdNombre.textContent.length > 40){
+                tdNombre.textContent = usuario.nombre + "(...)";
+                tdNombre.setAttribute('title', usuario.nombre + " " + usuario.apellidos)
+            }
 
             let tdCurso = document.createElement('td');
             tdCurso.textContent = this.obtenerTipo(usuario.correo);
@@ -131,6 +136,7 @@ export class VistaGestionDiaria extends Vista {
             tdIncidencia.classList.add('small-cell');
 
             let textarea = document.createElement('textarea');
+            textarea.setAttribute('rows', '1');
             textarea.maxLength = 500;
             if (this.incidencias) {
                 for (const incidencia of this.incidencias) {

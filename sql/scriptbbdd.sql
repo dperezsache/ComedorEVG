@@ -10,9 +10,12 @@ CREATE TABLE Persona(
     dni CHAR(9) NULL,
     iban CHAR(24) NULL,
     titular VARCHAR(120) NULL,
-
+	fechaFirmaMandato DATE NULL,
+	referenciaUnicaMandato VARCHAR(35) NULL,
+	
     CONSTRAINT PK_idPersona PRIMARY KEY (id),
     CONSTRAINT UQ_correoPersona UNIQUE (correo),
+	CONSTRAINT UQ_referenciaUnicaMandato UNIQUE(referenciaUnicaMandato),
     CONSTRAINT UQ_dniPersona UNIQUE (dni)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

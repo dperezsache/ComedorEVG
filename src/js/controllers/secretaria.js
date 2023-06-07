@@ -2,6 +2,7 @@ import { Modelo } from "../models/modelo.js";
 import { VistaMenuSecretaria } from "../views/secretaria/vistamenusecretaria.js";
 import { VistaGestionDiaria } from "../views/secretaria/vistagestiondiaria.js";
 import { VistaGestionMensual } from "../views/secretaria/vistagestionmensual.js";
+import { VistaGestionPadres } from "../views/secretaria/vistagestionpadres.js";
 import { Rest } from "../services/rest.js";
 
 /**
@@ -35,8 +36,24 @@ class ControladorSecretaria {
         this.vistaMenu = new VistaMenuSecretaria(this, document.getElementById('menuSecretaria'));
         this.vistaGestionDiaria = new VistaGestionDiaria(this, document.getElementById('gestionDiaria'));
         this.vistaGestionMensual = new VistaGestionMensual(this, document.getElementById('gestionMensual'));
+        this.vistaGestionPadres = new VistaGestionPadres(this, document.getElementById('gestionPadres'));
    
         this.verVistaGestionDiaria();
+    }
+
+    /**
+     * Realizar proceso de modificación de padre desde secretaría.
+     * @param {Object} padre Datos del padre.
+     */
+    modificarPadre(padre) {
+        this.modelo.modificarPadreSecretaria(padre)
+         .then(() => {
+             this.vistaGestionPadres.exitoModificacion(true); 
+         })
+         .catch(e => {
+             this.vistaGestionPadres.errorModificacion(e);
+             console.error(e);
+         }) 
     }
 
     /**
@@ -117,6 +134,7 @@ class ControladorSecretaria {
     verVistaGestionDiaria() {
         this.vistaGestionDiaria.mostrar(true);
         this.vistaGestionMensual.mostrar(false);
+        this.vistaGestionPadres.mostrar(false);
     }
 
     /**
@@ -125,6 +143,16 @@ class ControladorSecretaria {
     verVistaGestionMensual() {
         this.vistaGestionDiaria.mostrar(false);
         this.vistaGestionMensual.mostrar(true);
+        this.vistaGestionPadres.mostrar(false);
+    }
+
+    /**
+     * Muestra la vista de gestión mensual.
+     */
+    verVistaGestionPadres() {
+        this.vistaGestionDiaria.mostrar(false);
+        this.vistaGestionMensual.mostrar(false);
+        this.vistaGestionPadres.mostrar(true);
     }
 
     /**
@@ -135,6 +163,20 @@ class ControladorSecretaria {
         sessionStorage.removeItem('usuario');
         Rest.setAutorizacion(null);
         window.location.href = 'login_google.html';
+    }
+
+    /**
+     * Buscar padres.
+     * @param {String} busqueda String búsqueda.
+     */
+    obtenerListadoPadres(busqueda){
+        this.modelo.obtenerListadoPadres(busqueda)
+         .then(padres => {
+             this.vistaGestionPadres.iniciarTabla(padres);
+         })
+         .catch(e => {
+             console.error(e);
+         })
     }
 }
 

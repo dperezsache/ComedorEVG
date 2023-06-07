@@ -19,8 +19,27 @@
                 die();
             }
 
-            DAOUsuario::insertarIncidencia($datos);
-            header('HTTP/1.1 200 OK');
+            if (count($pathParams)) {
+                switch ($pathParams[0]) {
+                    case 'modificarPadre':
+                        DAOUsuario::modificarPadreSecretaria($datos);
+                        header('HTTP/1.1 200 OK');
+                        break;
+
+                    case 'incidencia':
+                        DAOUsuario::insertarIncidencia($datos);
+                        header('HTTP/1.1 200 OK');
+                        break;
+
+                    default:
+                        header('HTTP/1.1 501 Not Implemented');
+                        break;
+                }
+            }
+            else {
+                header('HTTP/1.1 400 Bad Request');
+            }
+
             die();
         }
 
@@ -53,6 +72,9 @@
 
                     case 'incidenciasMes':
                         $this->obtenerIncidenciasMes($queryParams['mes']);
+                        break;
+                    case 'padres':
+                        $this->obtenerListadoPadres($queryParams['busqueda']);
                         break;
                 }
             }
@@ -117,6 +139,18 @@
             header('Content-type: application/json; charset=utf-8');
             header('HTTP/1.1 200 OK');
             echo json_encode($incidencias);
+            die();
+        }
+          /**
+         * Obtener padres.
+         * @param string $busqueda Busqueda.
+         */
+        function obtenerListadoPadres($busqueda) {
+            $padres = DAOUsuario::obtenerListadoPadres($busqueda);
+
+            header('Content-type: application/json; charset=utf-8');
+            header('HTTP/1.1 200 OK');
+            echo json_encode($padres);
             die();
         }
     }
