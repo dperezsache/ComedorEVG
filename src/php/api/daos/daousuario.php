@@ -643,5 +643,58 @@
 
             return $recuperacion;
         }
+        /**
+         * Obtener las incidencias de una fecha.
+         * @param String $busqueda busqueda.
+         * @return array Devuelve las incidencias. 
+         */
+        public static function obtenerListadoPadres($busqueda) {
+            
+            if ($busqueda == "null"){
+
+                $sql = 'SELECT Persona.id, nombre, apellidos, correo, telefono, dni, iban, titular, fechaFirmaMandato, referenciaUnicaMandato FROM Persona';
+                $sql .= ' INNER JOIN Padre ON Persona.id = Padre.id';
+                $padres = BD::seleccionar($sql, null);
+
+            }
+            else{
+                $sql = 'SELECT Persona.id, nombre, apellidos, correo, telefono, dni, iban, titular, fechaFirmaMandato, referenciaUnicaMandato FROM Persona';
+                $sql .= ' INNER JOIN Padre ON Persona.id = Padre.id';
+                $sql .= ' WHERE nombre LIKE :busqueda';
+                $sql .= ' OR apellidos LIKE :busqueda';
+                $sql .= ' OR correo LIKE :busqueda';
+               
+                $params = array('busqueda' => '%'.$busqueda);
+                $padres = BD::seleccionar($sql, $params);
+            }
+           
+   
+            return $padres;
+        }
+
+        public static function modificarPadreSecretaria($datos) {
+            
+            $sql = 'UPDATE Persona';
+            $sql .= ' SET nombre=:nombre, apellidos=:apellidos, correo=:correo, telefono=:telefono, dni=:dni, iban=:iban, titular=:titular';
+            $sql .= ' , fechaFirmaMandato=:fechaMandato, referenciaUnicaMandato=:mandatoUnico WHERE id=:id';
+          
+            $params = array(
+                'nombre' => $datos->nombre,
+                'apellidos' => $datos->apellidos,
+                'correo' => $datos->correo,
+                'telefono' => $datos->telefono,
+                'id' => $datos->id,
+                'dni' => $datos->dni,
+                'iban' => $datos->iban,
+                'titular' => $datos->titular,
+                'fechaMandato' => $datos->fechaMandato,
+                'mandatoUnico' => $datos->mandatoUnico
+            );
+
+            BD::actualizar($sql, $params);
+
+        }
+
     }
+     
 ?>

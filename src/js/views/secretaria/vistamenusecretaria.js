@@ -9,11 +9,13 @@ export class VistaMenuSecretaria {
         this.liHamburger = this.nav.getElementsByTagName('li')[0];
         this.liGestionDiaria = this.nav.getElementsByTagName('li')[1];
         this.liGestionMensual = this.nav.getElementsByTagName('li')[2];
-        this.liCerrarSesion = this.nav.getElementsByTagName('li')[3];
+        this.liGestionPadres = this.nav.getElementsByTagName('li')[3];
+        this.liCerrarSesion = this.nav.getElementsByTagName('li')[4];
         
         this.liHamburger.onclick = this.toggleMenu.bind(this);
         this.liGestionDiaria.onclick = this.gestionDiaria.bind(this);
         this.liGestionMensual.onclick = this.gestionMensual.bind(this);
+        this.liGestionPadres.onclick = this.gestionPadres.bind(this);
         this.liCerrarSesion.onclick = this.cerrarSesion.bind(this);
     }
 
@@ -32,6 +34,7 @@ export class VistaMenuSecretaria {
 
         this.liGestionDiaria.classList.add('active');
         this.liGestionMensual.classList.remove('active');
+        this.liGestionPadres.classList.remove('active');
     }
 
     /**
@@ -42,6 +45,19 @@ export class VistaMenuSecretaria {
 
         this.liGestionDiaria.classList.remove('active');
         this.liGestionMensual.classList.add('active');
+        this.liGestionPadres.classList.remove('active');
+
+    }
+      /**
+     * Atención al evento de mostrar vista de gestión padres.
+     */
+      gestionPadres() {
+        this.controlador.verVistaGestionPadres();
+
+        this.liGestionDiaria.classList.remove('active');
+        this.liGestionMensual.classList.remove('active');
+        this.liGestionPadres.classList.add('active');
+
     }
 
     /**

@@ -160,4 +160,19 @@ export class Modelo {
     insertarIncidencia(datos) {
         return Rest.put('secretaria', [], datos, false);
     }
+
+    obtenerListadoPadres(busqueda){
+        const queryParams = new Map();
+
+        queryParams.set('proceso', 'padres');
+        queryParams.set('busqueda', busqueda);
+
+        return Rest.get('secretaria', [], queryParams);
+    }
+
+    modificarPadreSecretaria(datos) {
+       
+        return Rest.put('secretaria', ['modificarPadre'], datos);
+    }
+
 }
