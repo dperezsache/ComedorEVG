@@ -13,7 +13,7 @@ export class VistaInicioPadres extends Vista {
         super(controlador, div);
 
         this.hijos = null;
-        this.dias = null;
+        this.diasComedor = null;
         this.festivos = null;
 
         this.listaMeses = [
@@ -43,11 +43,10 @@ export class VistaInicioPadres extends Vista {
      */
     obtenerPadre(datos) {
         this.idPadre = datos.id;
-        this.controlador.obtenerFestivos(this.inicioSemana);
     }
 
     /**
-     * Obtener los días festivos que haya en la semana.
+     * Obtener los días festivos que haya en el mes actual.
      * @param {Array} festivos 
      */
     obtenerFestivos(festivos) {
@@ -111,16 +110,27 @@ export class VistaInicioPadres extends Vista {
         // Semana anterior
         let botonSemanaAnterior = document.createElement('button');
         botonSemanaAnterior.id = 'semanaAnterior';
-        botonSemanaAnterior.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+
+        let iconoSemanaAnterior = document.createElement('img');
+        iconoSemanaAnterior.src = './img/icons/arrow_back.svg';
+        iconoSemanaAnterior.alt = 'Semana anterior';
+
+        botonSemanaAnterior.appendChild(iconoSemanaAnterior);
         botonSemanaAnterior.addEventListener('click', this.semanaAnterior.bind(this));
         tdBotones.appendChild(botonSemanaAnterior);
     
         // Semana siguiente
         let botonSemanaSiguiente = document.createElement('button');
         botonSemanaSiguiente.id = 'semanaSiguiente';
-        botonSemanaSiguiente.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
+
+        let iconoSemanaSiguiente = document.createElement('img');
+        iconoSemanaSiguiente.src = './img/icons/arrow_forward.svg';
+        iconoSemanaSiguiente.alt = 'Semana siguiente';
+
+        botonSemanaSiguiente.appendChild(iconoSemanaSiguiente);
         botonSemanaSiguiente.addEventListener('click', this.semanaSiguiente.bind(this));
         tdBotones.appendChild(botonSemanaSiguiente);
+
         trBotones.appendChild(tdBotones);
 
         // Añadir al cuerpo de la tabla
@@ -157,20 +167,26 @@ export class VistaInicioPadres extends Vista {
                 checkbox.id = idString;
                 checkbox.addEventListener('click', () => this.marcarDesmarcarDia(checkbox.checked, hijo.id, this.idPadre, true, checkbox.id));
 
-                // Comprobaciones fecha:
+                // Comprobaciones:
                 const fechaActual = new Date();
 
-                // 1- Días festivos.
+                // 1- Que el padre actual sea el que le ha dado de alta al hijo.
+                if (hijo.idPadreAlta != this.idPadre) {
+                    checkbox.disabled = true;
+                    checkbox.title = 'Los días solo pueden ser controlados por el otro padre.';
+                }
+
+                // 2- Días festivos.
                 if (this.festivos && this.festivos.includes(fechaString)) {
                     checkbox.disabled = true;
                 }
 
-                // 2- No poder interactuar con el día de mañana si hoy son las 14 o más.
+                // 3- No poder interactuar con el día de mañana si hoy son las 14 o más.
                 if (!checkbox.disabled && this.bloquearDiaTomorrow(fechaActual, fechaDia)) {
                     checkbox.disabled = true;
                 }
 
-                // 3- Desactivar el poder interactuar con días ya pasados.
+                // 4- Desactivar el poder interactuar con días ya pasados.
                 if (!checkbox.disabled && Date.parse(fechaActual) > Date.parse(fechaDia)) {
                     checkbox.disabled = true;
                 }
@@ -201,7 +217,14 @@ export class VistaInicioPadres extends Vista {
 
             let checkboxSemanaEntera = document.createElement('input');
             checkboxSemanaEntera.type = 'checkbox';
-            checkboxSemanaEntera.addEventListener('click', () => this.marcarDesmarcarSemana(checkboxSemanaEntera.checked, this.inicioSemana, hijo.id));
+
+            if (hijo.idPadreAlta == this.idPadre) {
+                checkboxSemanaEntera.addEventListener('click', () => this.marcarDesmarcarSemana(checkboxSemanaEntera.checked, this.inicioSemana, hijo.id));
+            }
+            else {
+                checkboxSemanaEntera.disabled = true;
+            }
+            
             tdSemanaEntera.appendChild(checkboxSemanaEntera);
             trBody.appendChild(tdSemanaEntera);
 
@@ -213,7 +236,14 @@ export class VistaInicioPadres extends Vista {
             let checkboxMesEntero = document.createElement('input');
             checkboxMesEntero.type = 'checkbox';
             checkboxMesEntero.id = 'mes-' + this.inicioSemana.getMonth();
-            checkboxMesEntero.addEventListener('click', () => this.marcarDesmarcarMes(checkboxMesEntero.checked, checkboxMesEntero.id, hijo.id));
+
+            if (hijo.idPadreAlta == this.idPadre) {
+                checkboxMesEntero.addEventListener('click', () => this.marcarDesmarcarMes(checkboxMesEntero.checked, checkboxMesEntero.id, hijo.id));
+            }
+            else {
+                checkboxMesEntero.disabled = true;
+            }
+
             tdMesEntero.appendChild(checkboxMesEntero);
             trBody.appendChild(tdMesEntero);
             
@@ -249,11 +279,23 @@ export class VistaInicioPadres extends Vista {
         for (let i=0; i<diasMes; i++) {
             const actual = new Date();
             let stringFecha = this.formatearStringFecha(temp);
+            let diaYaMarcado = false;
 
-            // 1º Comprobar que no sean días ya pasados.
-            // 2º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
-            // 3º Comprobar, que no es un festivo.
-            if (Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && (this.festivos && !this.festivos.includes(stringFecha))) {
+            // Comprobar que el hijo no tenga el día actual ya marcado de antes.
+            if (marcado && this.diasComedor && this.diasComedor.length > 0) {
+                for (const diaComedor of this.diasComedor) {
+                    if (diaComedor.idPersona == idHijo && diaComedor.dia == stringFecha) {
+                        diaYaMarcado = true;
+                        break;
+                    }
+                }
+            }
+
+            // 1º Día no está ya previamente marcado.
+            // 2º Comprobar que no sean días ya pasados.
+            // 3º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
+            // 4º Comprobar, que no es un festivo.
+            if (!diaYaMarcado && Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && (this.festivos && !this.festivos.includes(stringFecha))) {
                 // Comprobar que el día no sea fin de semana.
                 if (temp.getDay() != 6 && temp.getDay() != 0) {
                     let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
@@ -270,7 +312,7 @@ export class VistaInicioPadres extends Vista {
      * Comprobar si puede o no interactuar con el día de mañana si hoy son las 14 o más.
      * @param {Date} fechaHoy Fecha actual.
      * @param {Date} fechaDia Fecha mañana.
-     * @returns {Boolean} True si mañana debería ser estar bloqueado, false si no.
+     * @returns {Boolean} True si mañana debería ser bloqueado, false si no.
      */
     bloquearDiaTomorrow(fechaHoy, fechaDia) {
         return fechaDia.getFullYear() === fechaHoy.getFullYear() &&
@@ -291,10 +333,10 @@ export class VistaInicioPadres extends Vista {
             let fechaDia = new Date(fecha);
             fechaDia.setDate(fechaDia.getDate() + i);
 
-            let stringID = '#fecha-' + idHijo + '-';
-            stringID += fechaDia.getFullYear() + '-' + (fechaDia.getMonth()+1) + '-' + fechaDia.getDate();
+            let fechaString = this.formatearStringFecha(fechaDia);
+            let idString = '#fecha-' + idHijo + '-' + fechaString;
 
-            let checkbox = this.tbody.querySelector(stringID);
+            let checkbox = this.tbody.querySelector(idString);
 
             // Marcar solo los que no estén deshabilitados, ni marcados.
             if (checkbox && !checkbox.disabled && checkbox.checked!=marcado) {
@@ -339,14 +381,26 @@ export class VistaInicioPadres extends Vista {
 
         let thSemana = document.createElement('th');
         thSemana.id = 'semanaEntera';
-        thSemana.innerHTML = '<i class="fa-sharp fa-solid fa-calendar-week" title="Marcar semana entera"></i>';
+
+        let semanaIcono = document.createElement('img');
+        semanaIcono.src = './img/icons/date_range.svg';
+        semanaIcono.alt = 'Marcar semana entera';
+        semanaIcono.title = 'Marcar semana entera';
+
+        thSemana.appendChild(semanaIcono);
         trHead.appendChild(thSemana);
 
         let thMes = document.createElement('th');
         thMes.id = 'mesEntero';
-        thMes.innerHTML = '<i class="fa-sharp fa-solid fa-calendar-days" title="Marcar mes entero"></i>';
-        trHead.appendChild(thMes);
 
+        let mesIcono = document.createElement('img');
+        mesIcono.src = './img/icons/calendar_month.svg';
+        mesIcono.alt = 'Marcar mes entero';
+        mesIcono.title = 'Marcar mes entero';
+
+        thMes.appendChild(mesIcono);
+        trHead.appendChild(thMes);
+        
         this.thead.appendChild(trHead);
     }
 
@@ -428,7 +482,9 @@ export class VistaInicioPadres extends Vista {
      * Refrescar calendario.
      */
     refrescarCalendario() {
-        this.controlador.obtenerFestivos(this.inicioSemana);
+        let inicioMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth(), 1);
+        let finMes = new Date(this.inicioSemana.getFullYear(), this.inicioSemana.getMonth() + 1, 0);
+        this.controlador.obtenerFestivos(inicioMes, finMes);
     }
 
     mostrar(ver) {

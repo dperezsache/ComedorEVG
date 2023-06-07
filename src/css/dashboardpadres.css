@@ -18,25 +18,17 @@
     padding:10px;
     
 }
-#tablaHijos thead{	
-	width:100%;
-}
-#tablaHijos tbody{
-	width:100%;
-}
-#tablaHijos tbody tr td{
-	padding:20px;
 
+#tablaHijos tbody tr td{
+	padding: 20px 0;
+    text-align: center;
 }
-#tablaHijos tbody tr td:nth-child(2), 
-#tablaHijos table tr td:nth-child(3) {
-	width:20%;
+
+td.tdOperaciones img {
+	padding: 0 5px !important;
+    cursor: pointer;
 }
-#tablaHijos tbody tr td:nth-child(1){
-    width:70%;
-    font-size:20px;
-    padding-left:10%;
-}
+
 #añadir {
     text-align:center;
 	background-color:white;
@@ -47,25 +39,43 @@
 #tablaHijos tbody tr:nth-child(odd){
     background-color:rgb(219, 219, 219);
 }
+#tablaHijos tr#trInfo td {
+    background-color:#006EA4;
+    color:white;
+    font-size: initial;
+    padding:10px;
+}
+
 
 /* Al iniciar los div de las vistas no se verán durante la carga de DOM */
 div#inicioPadres,
 div#gestionHijosPadres,
 div#modificacionPadres,
 div#divExitoAlta,
+div#divExitoAltaPin,
+div#divErrorAltaPin,
 div#divExitoModificacion,
+div#divErrorModificacion,
 div#loadingImgAlta,
-div#loadingImgModificacion {
+div#loadingImgModificacion,
+div#loadingImgPin {
     display: none;
 }
 
 #loadingImgAlta img,
-#loadingImgModificacion img {
+#loadingImgModificacion img,
+#loadingImgPin img {
     width: 32px;
     height: 32px;
 }
 
 /* ----- CALENDARIO HIJOS ----- */
+img#btnAnadir {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
 table#menuHijos {
 	margin: 50px auto;
 	width: 60%;
@@ -145,9 +155,49 @@ table#menuHijos {
     background-color: #459ce9;
 }
 
-@media screen and (max-width: 400px) {
+
+/* MODIFICACIÓN PADRE */
+div#divEliminarPadre {
+    width: 25%;
+    min-width: 398px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-bottom: 1.5rem;
+    padding: 10px;
+    text-align: center;
+    color: #014179;
+    background-color: aliceblue;
+}
+
+h3.textoHeader {
+    text-align: center;
+    margin-top: 5rem;
+    margin-bottom: 1.5rem;
+}
+
+div#divErrorBorrado {
+    display: none;
+}
+
+@media (max-width:576px) {
+    div#divEliminarPadre {
+        width: 82.8%;
+        padding: 3.4%;
+        min-width: 250px;
+        font-size: 0.9em;
+    }
+
     #menuHijos th,
     #menuHijos td {
         font-size: 0.75em;
+    }
+
+    td.tdOperaciones {
+        padding: 20px 0px !important;
+    }
+
+    #tablaHijos {
+        font-size: 0.85em;
     }
 }

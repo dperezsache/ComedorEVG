@@ -19,12 +19,49 @@
                 die();
             }
 
-            DAOUSuario::insertarHijo($datos);
-            sleep(1);
-            header('HTTP/1.1 200 OK');
+            if (count($pathParams)) {
+                switch ($pathParams[0]) {
+                    case 'altaHijo':
+                        $this->insertarHijo($datos);
+                        sleep(1);
+                        break;
+
+                    case 'registrarHijo':
+                        $this->registrarHijoPin($datos);
+                        sleep(1);
+                        break;
+
+                    default:
+                        header('HTTP/1.1 501 Not Implemented');
+                        break;
+                }
+            }
+            else {
+                header('HTTP/1.1 400 Bad Request');
+            }
+
             die();
         }
         
+        /**
+         * Insertar hijo.
+         * @param object $datos Datos del hijo.
+         */
+        function insertarHijo($datos) {
+            DAOUSuario::insertarHijo($datos);
+            header('HTTP/1.1 200 OK');
+        }
+
+        /**
+         * Registrar hijo a un padre.
+         * @param object $datos Datos.
+         */
+        function registrarHijoPin($datos) {
+            $resultado = DAOUSuario::registrarHijoPadre($datos);
+            if ($resultado) header('HTTP/1.1 200 OK');
+            else header('HTTP/1.1 400 Bad Request 1');
+        }
+
         /**
          * Devuelve los hijos de un padre.
          * @param array $pathParams No utilizado.
@@ -59,13 +96,40 @@
             }
 
             if (count($pathParams)) {
-                DAOUsuario::eliminaHijo($pathParams[0]);
-                header('HTTP/1.1 200 OK');
-                die();
-            }
+                switch ($pathParams[0]) {
+                    case 'eliminarHijo':
+                        $this->eliminarHijo($pathParams[1]);
+                        break;
 
-            header('HTTP/1.1 404 Not Found');
+                    case 'eliminarRelacion':
+                        $this->eliminarRelacion($pathParams[1], $pathParams[2]);
+                        break;
+                }
+            }
+            else {
+                header('HTTP/1.1 400 Bad Request');
+            }
+            
             die();
+        }
+
+        /**
+         * Eliminar relación padre-hijo :(
+         * @param int $idHijo ID del hijo.
+         * @param int $idPadre ID del padre.
+         */
+        function eliminarRelacion($idHijo, $idPadre) {
+            DAOUsuario::eliminarRelacion($idHijo, $idPadre);
+            header('HTTP/1.1 200 OK');
+        }
+
+        /**
+         * Eliminar hijo.
+         * @param int $id ID del hijo.
+         */
+        function eliminarHijo($id) {
+            DAOUsuario::eliminaPersona($id);
+            header('HTTP/1.1 200 OK');
         }
         
         /**

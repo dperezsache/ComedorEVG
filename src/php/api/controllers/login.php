@@ -2,7 +2,7 @@
     require_once(dirname(__DIR__) . '/daos/daousuario.php');
 
     /**
-     * Controlador de autenticación.
+     * Controlador de autenticación de padres.
      */
     class Login {
         // Se configura por inyección de dependencias.
@@ -28,7 +28,8 @@
 
             // Completamos los datos del usuario
             $usuario->autorizacion = openssl_encrypt(json_encode($usuario), self::$algoritmo_encriptacion, self::$clave, 0, self::$iv);
-            
+            $usuario->rol = 'P';    // Poner rol usuario padre.
+
             header('Content-type: application/json; charset=utf-8');
             header('HTTP/1.1 200 OK');
             echo json_encode($usuario);

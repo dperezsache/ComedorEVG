@@ -15,10 +15,15 @@ export class VistaModificarPadres extends Vista {
         this.form = this.div.getElementsByTagName('form')[0];
         this.inputs = this.div.getElementsByTagName('input');
         this.btnActualizar = this.div.getElementsByTagName('button')[0];
-        this.divExito = this.div.querySelector('#divExito');
+        this.btnBorrarCuenta = this.div.getElementsByTagName('button')[1];
+        this.divExito = this.div.querySelector('#divExitoModificacion');
+        this.divError = this.div.querySelector('#divErrorModificacion');
+        this.divErrorBorrado = this.div.querySelector('#divErrorBorrado');
         this.idUsuario = 0;
         this.divCargando = this.div.querySelector('#loadingImg');
+
         this.btnActualizar.addEventListener('click', this.validarFormulario.bind(this));
+        this.btnBorrarCuenta.addEventListener('click', this.confirmacionBorrado.bind(this));
     }
 
     /**
@@ -34,6 +39,63 @@ export class VistaModificarPadres extends Vista {
     }
 
     /**
+     * Confirmar borrado cuenta padre.
+     */
+    confirmacionBorrado() {
+        if (confirm("¿Estas seguro de que desea eliminar su cuenta? Esta operación es irreversible.")) {
+            this.controlador.eliminarCuentaPadre(this.idUsuario);
+            this.btnBorrarCuenta.disabled = true;
+        }
+    }
+
+    /**
+     * Aviso de error de borrado de cuenta al usuario.
+     * @param {Object} e Error.
+     */
+    errorBorrado(e) {
+        this.btnBorrarCuenta.disabled = false;
+        
+        if (e != null) {
+            if (e == 'Error: 400 - Bad Request 1') {
+                this.divErrorBorrado.innerHTML = '<p>No puedes eliminar tu cuenta si tienes hijos asociados.</p>';
+            }
+            else {
+                this.divErrorBorrado.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divErrorBorrado.style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divErrorBorrado.style.display = 'none';
+        }
+    }
+
+    /**
+     * Aviso de error de modificación de datos al usuario.
+     * @param {Object} e Error.
+     */
+    errorModificacion(e) {
+        this.divCargando.style.display = 'none';
+        this.btnActualizar.disabled = false;
+        
+        if (e != null) {
+            if (e == 'Error: 500 - Internal Server Error 1') {
+                this.divError.innerHTML = '<p>Ya existe una cuenta con esa dirección de correo.</p>';
+            }
+            else {
+                this.divError.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divError.style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divError.style.display = 'none';
+        }
+    }
+
+    /**
      * Valida los campos del formulario y realiza el proceso de modificar.
      */
     validarFormulario() {
@@ -45,6 +107,12 @@ export class VistaModificarPadres extends Vista {
         }
 
         this.form.classList.add('was-validated');
+
+        if (this.divExito.style.display == 'block') 
+            this.exito(false);
+            
+        if (this.divError.style.display == 'block') 
+            this.divError.style.display = 'none'
 
         if (cont == total) {
             const datos = {
@@ -77,5 +145,11 @@ export class VistaModificarPadres extends Vista {
 		
         if (this.divExito.style.display == 'block')
             this.exito(false);
+
+        if (this.divError.style.display == 'block')
+            this.divError.style.display = 'none'
+
+        if (this.divErrorBorrado.style.display == 'block')
+            this.divErrorBorrado.style = 'none';
 	}
 }

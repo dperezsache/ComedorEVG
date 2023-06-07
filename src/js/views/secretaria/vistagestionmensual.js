@@ -55,7 +55,7 @@ export class VistaGestionMensual extends Vista {
         let mesEnLetras = meses[mesIndex];
         
         return mesEnLetras;
-      }
+    }
 
     /**
      * Obtener listado de usuarios que van al comedor, y cargar incidencias.

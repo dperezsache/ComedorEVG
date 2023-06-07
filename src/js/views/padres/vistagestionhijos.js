@@ -20,23 +20,35 @@ export class VistaGestionHijos extends Vista {
         this.divModificacionHijos = this.div.querySelector('#divModificacionHijos');
 
         // Listado
+        this.thead = this.div.getElementsByTagName('thead')[0];
         this.tbody = this.div.getElementsByTagName('tbody')[0];
 
         // Alta
         this.formAlta = this.div.querySelector('#formAltaHijos');
         this.inputsAlta = this.formAlta.getElementsByTagName('input');
-        this.btnCancelarAlta = this.div.getElementsByTagName('button')[0];
-        this.btnRegistrar = this.div.getElementsByTagName('button')[1];
+        this.btnCancelarAlta = this.formAlta.getElementsByTagName('button')[0];
+        this.btnRegistrar = this.formAlta.getElementsByTagName('button')[1];
         this.divExitoAlta = this.div.querySelector('#divExitoAlta');
         this.divCargandoAlta = this.div.querySelector('#loadingImgAlta');
         this.btnRegistrar.addEventListener('click', this.validarFormularioAlta.bind(this));
         this.btnCancelarAlta.addEventListener('click', this.cancelarAlta.bind(this));
 
+        // Alta con PIN
+        this.formAltaPin = this.div.querySelector('#formAltaHijosPin');
+        this.inputPin = this.formAltaPin.getElementsByTagName('input')[0];
+        this.btnCancelarAltaPin = this.formAltaPin.getElementsByTagName('button')[0];
+        this.btnRegistrarPin = this.formAltaPin.getElementsByTagName('button')[1];
+        this.divExitoAltaPin = this.div.querySelector('#divExitoAltaPin');
+        this.divErrorAltaPin = this.div.querySelector('#divErrorAltaPin');
+        this.divCargandoPin = this.div.querySelector('#loadingImgPin');
+        this.btnRegistrarPin.addEventListener('click', this.validarFormularioAltaPin.bind(this));
+        this.btnCancelarAltaPin.addEventListener('click', this.cancelarAltaPin.bind(this));
+
         // Modificar
         this.formModificar = this.div.querySelector('#formModificacionHijos');
         this.inputsModificar = this.formModificar.getElementsByTagName('input');
-        this.btnCancelarMod = this.div.getElementsByTagName('button')[2];
-        this.btnActualizar = this.div.getElementsByTagName('button')[3];
+        this.btnCancelarMod = this.formModificar.getElementsByTagName('button')[0];
+        this.btnActualizar = this.formModificar.getElementsByTagName('button')[1];
         this.divExitoModificar = this.div.querySelector('#divExitoModificacion');
         this.divCargandoModificar = this.div.querySelector('#loadingImgModificacion');
         this.btnActualizar.addEventListener('click', this.validarFormularioModificacion.bind(this));
@@ -71,59 +83,109 @@ export class VistaGestionHijos extends Vista {
     }
 
     /**
+     * Cargar thead tabla hijos.
+     */
+    cargarEncabezado() {
+        this.thead.innerHTML = '';
+        
+        let trTitulo = document.createElement('tr');
+        let tdTitulo = document.createElement('td');
+        tdTitulo.textContent = 'Tus hijos';
+        tdTitulo.setAttribute('colspan', '4');
+        trTitulo.appendChild(tdTitulo);
+
+        let trHeadInfo = document.createElement('tr');
+        trHeadInfo.setAttribute('id', 'trInfo');
+
+        let tdNombre = document.createElement('td');
+        tdNombre.textContent = 'Nombre';
+        trHeadInfo.appendChild(tdNombre);
+
+        let tdPin = document.createElement('td');
+        tdPin.textContent = 'PIN';
+        trHeadInfo.appendChild(tdPin);
+
+        let tdOpciones = document.createElement('td');
+        tdOpciones.textContent = 'Opciones';
+        tdOpciones.setAttribute('colspan', '2');
+        trHeadInfo.appendChild(tdOpciones);
+
+        this.thead.appendChild(trTitulo);
+        this.thead.appendChild(trHeadInfo);
+    }
+
+    /**
      * Carga tabla con los hijos.
      * @param {Array} hijos Listado de hijos.
      */
     cargarListado(hijos) {
+        this.cargarEncabezado();
         this.tbody.innerHTML = '';  // Limpiar tabla para sustituirla con nuevos datos.
 
         if (hijos != null) {
-            for (let hijo of hijos) {
-               let tr = document.createElement('tr');
-               this.tbody.appendChild(tr);
-               
-               let td1 = document.createElement('td');
-               tr.appendChild(td1);
-               td1.textContent = hijo.nombre
-   
-               let td2 = document.createElement('td');
-               tr.appendChild(td2);
-               
-               let i2 = document.createElement('i');
-               td2.appendChild(i2);
-               i2.setAttribute('title', 'Modificar');
-               i2.setAttribute('class', 'fa-solid fa-pen-to-square fa-xl');
-               i2.setAttribute('style', 'color: #014179;')
-               i2.onclick = this.editar.bind(this, hijo);
-   
-               let td3 = document.createElement('td');
-               tr.appendChild(td3);
-               
-               let i3 = document.createElement('i');
-               td3.appendChild(i3);
-               i3.setAttribute('title', 'Eliminar');
-               i3.setAttribute('class', 'fa-solid fa-user-xmark fa-xl');
-               i3.setAttribute('style', 'color: #014179;');
-               i3.onclick = this.eliminar.bind(this, hijo.id);
-           }
-           
-           let trAnadir = document.createElement('tr');
-           this.tbody.appendChild(trAnadir);
+            for (const hijo of hijos) {
+                let tr = document.createElement('tr');
+                this.tbody.appendChild(tr);
+                
+                let td1 = document.createElement('td');
+                tr.appendChild(td1);
+                td1.textContent = hijo.nombre;
 
-           let tdAnadir = document.createElement('td');
-           tdAnadir.setAttribute('id', 'añadir');
-           tdAnadir.setAttribute('colspan', '3');
-           trAnadir.appendChild(tdAnadir);
+                let tdPin = document.createElement('td');
+                tr.appendChild(tdPin);
+                tdPin.textContent = hijo.pin;
 
-           let iAnadir = document.createElement('i');
-           iAnadir.setAttribute('id', 'btnAnadir');
-           iAnadir.setAttribute('title', 'Añadir');
-           iAnadir.setAttribute('class', 'fa-solid fa-circle-plus fa-2xl');
-           iAnadir.setAttribute('style', 'color: #2ae52d;');
+                let td2 = document.createElement('td');
+                td2.classList.add('tdOperaciones');
+                td2.setAttribute('colspan', '2');
+                tr.appendChild(td2);
+                
+                let esPadreDeAlta = hijo.idPadreAlta == this.idUsuario;
+
+                let iconoEditar = document.createElement('img');
+                iconoEditar.setAttribute('src', esPadreDeAlta ? './img/icons/edit_children.svg' : './img/icons/edit_children_disabled.svg');
+                iconoEditar.setAttribute('alt', 'Modificar hijo');
+                iconoEditar.setAttribute('title', esPadreDeAlta ? 'Modificar hijo' : 'Solo el otro padre puede modificar los datos');
+
+                if (esPadreDeAlta) {
+                    iconoEditar.addEventListener('click', this.editar.bind(this, hijo));
+                }
+
+                td2.appendChild(iconoEditar);
+
+                let iconoEliminar = document.createElement('img');
+                iconoEliminar.setAttribute('src', './img/icons/person_remove.svg');
+                iconoEliminar.setAttribute('alt', 'Eliminar hijo');
+                iconoEliminar.setAttribute('title', 'Eliminar hijo');
+                
+                if (esPadreDeAlta) {
+                    iconoEliminar.addEventListener('click', this.eliminar.bind(this, hijo.id));
+                }
+                else {
+                    iconoEliminar.addEventListener('click', this.eliminarRelacion.bind(this, hijo.id));
+                }
+                
+                td2.appendChild(iconoEliminar);
+            }
+
             
-           iAnadir.onclick = this.anadir.bind(this);
-           tdAnadir.appendChild(iAnadir);
-        }
+            let trAnadir = document.createElement('tr');
+            this.tbody.appendChild(trAnadir);
+
+            let tdAnadir = document.createElement('td');
+            tdAnadir.setAttribute('id', 'añadir');
+            tdAnadir.setAttribute('colspan', '4');
+            trAnadir.appendChild(tdAnadir);
+
+            let iconoInsertar = document.createElement('img');
+            iconoInsertar.setAttribute('id', 'btnAnadir');
+            iconoInsertar.setAttribute('src', './img/icons/add.svg');
+            iconoInsertar.setAttribute('title', 'Añadir nuevo hijo');
+            iconoInsertar.setAttribute('alt', 'Añadir nuevo hijo');
+            iconoInsertar.addEventListener('click', this.anadir.bind(this));
+
+            tdAnadir.appendChild(iconoInsertar);
+        } 
     }
 
     /**
@@ -148,6 +210,18 @@ export class VistaGestionHijos extends Vista {
     }
 
     /**
+     * Bloquear o no botones formularios de alta.
+     * @param {Boolean} bloquear True bloquear, false desbloquear.
+     */
+    bloquearBotonesAlta(bloquear) {
+        this.btnCancelarAlta.disabled = bloquear;
+        this.btnRegistrar.disabled = bloquear;
+
+        this.btnCancelarAltaPin.disabled = bloquear;
+        this.btnRegistrarPin.disabled = bloquear;
+    }
+
+    /**
      * Valida formulario y realiza proceso en caso de que las validaciones se cumplan.
      */
     validarFormularioAlta() {
@@ -163,9 +237,9 @@ export class VistaGestionHijos extends Vista {
                     'idCurso': parseInt(this.selectAlta.value)
                 };
     
-                this.btnCancelarAlta.disabled = true;
-                this.btnRegistrar.disabled = true;
+                this.bloquearBotonesAlta(true);
                 this.divCargandoAlta.style.display = 'block';
+
                 this.controlador.altaHijo(datos);
             }
         }
@@ -214,6 +288,71 @@ export class VistaGestionHijos extends Vista {
     }
 
     /**
+     * Validar campo de PIN.
+     */
+    validarFormularioAltaPin() {
+        this.formAltaPin.classList.add('was-validated');
+        
+        if (this.inputPin.checkValidity()) {
+            const datos = {
+                'id': this.idUsuario,
+                'pin': this.inputPin.value
+            };
+
+            this.bloquearBotonesAlta(true);
+            this.divCargandoPin.style.display = 'block';
+
+            this.controlador.registrarHijoPin(datos);
+        }
+    }
+
+    /**
+     * Limpia el campo del formulario de alta con PIN.
+     */
+    cancelarAltaPin() {
+        this.inputPin.value = '';
+        this.mostrarOcultarCrud(true, false, false);
+    }
+
+    /**
+     * Aviso de errores al usuario del alta con PIN.
+     * @param {Object} e Error.
+     */
+    errorAltaPin(e) {
+        this.divCargandoPin.style.display = 'none';
+
+        if (e != null) {
+            if (e == 'Error: 400 - Bad Request 1') {
+                this.divErrorAltaPin.innerHTML = '<p>No existe un hijo con ese PIN.</p>';
+            }
+            else if (e == 'Error: 500 - Internal Server Error 1') {
+                this.divErrorAltaPin.innerHTML = '<p>Ya tienes añadido un hijo con ese PIN asociado.</p>';
+            }
+            else {
+                this.divErrorAltaPin.innerHTML = '<p>' + e + '</p>';
+            }
+
+            this.divErrorAltaPin.style.display = 'block';
+            this.formAltaPin.classList.remove('was-validated');
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+        else {
+            this.divErrorAltaPin.style.display = 'none';
+        }
+    }
+
+    /**
+     * Informar al usuario del alta mediante PIN exitosa.
+     * @param {Boolean} activar Activa o no mensaje éxito.
+     */
+    exitoAltaPin(activar) {
+        this.formAltaPin.classList.remove('was-validated');
+        this.formAltaPin.reset();
+        this.divCargandoPin.style.display = 'none';
+        this.divExitoAltaPin.style.display = activar ? 'block' : 'none';
+    }
+
+    /**
      * Muestra el formulario de alta
      */
     anadir() {
@@ -240,13 +379,6 @@ export class VistaGestionHijos extends Vista {
     }
 
     /**
-     * Muestra el formulario de alta
-     */
-    anadir() {
-        this.mostrarOcultarCrud(false, true, false);
-    }
-
-    /**
      * Mostrar formulario de edición de hijos.
      * @param {Object} hijo Datos hijo.
      */
@@ -261,10 +393,21 @@ export class VistaGestionHijos extends Vista {
 
     /**
      * Elimina un hijo de la lista.
+     * @param {Number} id ID del hijo.
      */
     eliminar(id) {
-        if (confirm("¿Estas seguro de que deseas eliminar a tu hijo/a?")) {
+        if (confirm("¿Estas seguro de que deseas eliminar a tu hijo/a? Esta acción es irreversible.")) {
             this.controlador.eliminarHijo(id);
+        }
+    }
+
+    /**
+     * Elimina relación con hijo.
+     * @param {Number} id ID del hijo.
+     */
+    eliminarRelacion(id) {
+        if (confirm("¿Estas seguro de que deseas eliminar a tu hijo/a? Podrás añadirlo/a de vuelta usando su PIN.")) {
+            this.controlador.eliminarRelacionHijo(id);
         }
     }
 
@@ -296,6 +439,9 @@ export class VistaGestionHijos extends Vista {
 
         if (this.divExitoAlta.style.display == 'block')
             this.exitoAlta(false);
+
+        if (this.divExitoAltaPin.style.display == 'block')
+            this.exitoAltaPin(false);
 
         if (this.divExitoModificar.style.display == 'block')
             this.exitoModificacion(false);

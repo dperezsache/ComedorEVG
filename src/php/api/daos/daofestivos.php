@@ -15,7 +15,7 @@
                 'inicio' => $fechaInicio,
                 'final' => $fechaFinal
             );
-
+            
             $resultado = BD::seleccionar($sql, $params);
             return self::procesarFestivos($resultado);
         }
@@ -27,10 +27,11 @@
          */
         public static function procesarFestivos($listaFestivos) {
             $festivos = array();
-
+            
             if (count($listaFestivos) > 0) {
-                for ($i=0; $i<count($listaFestivos); $i++) 
+                for ($i=0; $i<count($listaFestivos); $i++) {
                     $festivos[] = $listaFestivos[$i]['diaFestivo'];
+                }
 
                 return $festivos;
             }

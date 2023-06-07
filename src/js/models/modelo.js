@@ -21,8 +21,16 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     altaHijo(datos) {
-        let path = 'alta';
-        return Rest.post('hijos', [path], datos, false);
+        return Rest.post('hijos', ['altaHijo'], datos, false);
+    }
+
+    /**
+     * Realiza el proceso de dar de alta un hijo a un padre mediante PIN.
+     * @param {Object} datos Datos.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    registrarHijoPin(datos) {
+        return Rest.post('hijos', ['registrarHijo'], datos, false);
     }
 
     /**
@@ -35,16 +43,14 @@ export class Modelo {
 
     /**
      * Realiza el proceso de obtener filas de la tabla festivos.
+     * @param {Date} inicioMes Primer día del mes.
+     * @param {Date} finMes Último día del mes.
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
-    obtenerFestivos(inicioSemana) {
-        let fechaFinal = new Date();
-        fechaFinal.setDate(inicioSemana.getDate() + 4);
-
+    obtenerFestivos(inicioMes, finMes) {
         const queryParams = new Map();
-        queryParams.set('inicio', inicioSemana.getDate() + '-' + (inicioSemana.getMonth()+1) + '-' + inicioSemana.getFullYear());
-        queryParams.set('final', fechaFinal.getDate() + '-' + (fechaFinal.getMonth()+1) + '-' + fechaFinal.getFullYear());
-
+        queryParams.set('inicio', inicioMes.getDate() + '-' + (inicioMes.getMonth()+1) + '-' + inicioMes.getFullYear());
+        queryParams.set('final', finMes.getDate() + '-' + (finMes.getMonth()+1) + '-' + finMes.getFullYear());
         return Rest.get('festivos', [], queryParams);
     }
 
@@ -60,12 +66,24 @@ export class Modelo {
     }
 
     /**
-     * Eliminar fila de las tablas: persona, hijo y padres_hijos.
-     * @param {Array} id ID del hijo.
+     * Eliminar fila de las tablas: Persona, Hijo e Hijo_Padre.
+     * @param {Number} id ID del hijo.
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     eliminarHijo(id) {
-        return Rest.delete('hijos', [id])
+        let datos = ['eliminarHijo', id];
+        return Rest.delete('hijos', datos);
+    }
+
+    /**
+     * Eliminar fila de la tabla Hijo_Padre.
+     * @param {Number} id ID del hijo.
+     * @param {Number} idPadre ID del padre.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    eliminarRelacionHijo(id, idPadre) {
+        let datos = ['eliminarRelacion', id, idPadre];
+        return Rest.delete('hijos', datos);
     }
 
     /**
@@ -158,7 +176,29 @@ export class Modelo {
      * @returns {Promise} Devuelve la promesa asociada a la petición.
      */
     insertarIncidencia(datos) {
-        return Rest.put('secretaria', [], datos, false);
+        return Rest.put('secretaria', ['incidencia'], datos, false);
+    }
+
+    obtenerListadoPadres(busqueda){
+        const queryParams = new Map();
+
+        queryParams.set('proceso', 'padres');
+        queryParams.set('busqueda', busqueda);
+
+        return Rest.get('secretaria', [], queryParams);
+    }
+
+    modificarPadreSecretaria(datos) {
+        return Rest.put('secretaria', ['modificarPadre'], datos);
+    }
+
+    /**
+     * Eliminar padre.
+     * @param {Number} id ID del padre.
+     * @returns {Promise} Devuelve la promesa asociada a la petición.
+     */
+    borrarCuentaPadre(id) {
+        return Rest.delete('padres', [id]);
     }
 
     obtenerListadoPadres(busqueda){

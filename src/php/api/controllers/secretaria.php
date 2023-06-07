@@ -19,22 +19,28 @@
                 die();
             }
     
-           
-            if ($pathParams[0] == "modificarPadre"){
-               
-                DAOUsuario::modificarPadreSecretaria($datos);
-                header('HTTP/1.1 200 OK');
-                die();
+            if (count($pathParams)) {
+                switch ($pathParams[0]) {
+                    case 'modificarPadre':
+                        DAOUsuario::modificarPadreSecretaria($datos);
+                        header('HTTP/1.1 200 OK');
+                        break;
 
+                    case 'incidencia':
+                        DAOUsuario::insertarIncidencia($datos);
+                        header('HTTP/1.1 200 OK');
+                        break;
+
+                    default:
+                        header('HTTP/1.1 501 Not Implemented');
+                        break;
+                }
             }
-            else
-            {
-                DAOUsuario::insertarIncidencia($datos);
-                header('HTTP/1.1 200 OK');
-                die();
+            else {
+                header('HTTP/1.1 400 Bad Request');
             }
 
-         
+            die();
         }
 
         /**

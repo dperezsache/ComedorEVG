@@ -47,8 +47,8 @@ class ControladorPadres {
     /**
      * Devuelve array de días festivos a vista de gestión de hijos.
      */
-    obtenerFestivos(inicioSemana) {
-        this.modelo.obtenerFestivos(inicioSemana)
+    obtenerFestivos(inicioMes, finMes) {
+        this.modelo.obtenerFestivos(inicioMes, finMes)
          .then(festivos => {
              this.vistaInicio.obtenerFestivos(festivos);
          })
@@ -98,20 +98,36 @@ class ControladorPadres {
     }
 
     /**
+     * Registra un hijo existente a un padre mediante un PIN.
+     * @param {Object} datos Datos.
+     */
+    registrarHijoPin(datos) {
+        this.modelo.registrarHijoPin(datos)
+         .then(() => {
+             this.vistaGestionHijos.bloquearBotonesAlta(false);
+             this.vistaGestionHijos.exitoAltaPin(true);
+             this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
+         })
+         .catch(e => {
+             this.vistaGestionHijos.bloquearBotonesAlta(false);
+             this.vistaGestionHijos.errorAltaPin(e);
+             console.error(e);
+         })
+    }
+
+    /**
      * Realiza el proceso de dar de alta a un hijo.
      * @param {Object} datos Datos del hijo.
      */
     altaHijo(datos) {
         this.modelo.altaHijo(datos)
          .then(() => {
-             this.vistaGestionHijos.btnCancelarAlta.disabled = false;
-             this.vistaGestionHijos.btnRegistrar.disabled = false;
+             this.vistaGestionHijos.bloquearBotonesAlta(false);
              this.vistaGestionHijos.exitoAlta(true);
              this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
          })
          .catch(e => {
-             this.vistaGestionHijos.btnCancelarAlta.disabled = false;
-             this.vistaGestionHijos.btnRegistrar.disabled = false;
+             this.vistaGestionHijos.bloquearBotonesAlta(false);
              console.error(e);
          })
     }
@@ -136,8 +152,22 @@ class ControladorPadres {
     }
 
     /**
-     * Realiza la eliminacion del registro de un 
-     * @param {int} id Identificador del hijo
+     * Elimina relación padre-hijo.
+     * @param {Number} id ID del hijo.
+     */
+    eliminarRelacionHijo(id) {
+        this.modelo.eliminarRelacionHijo(id, this.#usuario.id)
+         .then(() => {
+             this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
+         })
+         .catch(e => {
+             console.error(e);
+         })
+    }
+
+    /**
+     * Realizar la eliminación de un hijo.
+     * @param {Number} id ID del hijo.
      */
     eliminarHijo(id){
         this.modelo.eliminarHijo(id)
@@ -206,6 +236,7 @@ class ControladorPadres {
              sessionStorage.setItem('usuario', JSON.stringify(datos));
          })
          .catch(e => {
+             this.vistaModificacion.errorModificacion(e);
              console.error(e);
          }) 
     }
@@ -235,6 +266,21 @@ class ControladorPadres {
          })
          .catch(e => {
              console.error(e)
+         })
+    }
+
+    /**
+     * Elimina cuenta de un padre.
+     * @param {Number} id ID padre.
+     */
+    eliminarCuentaPadre(id) {
+        this.modelo.borrarCuentaPadre(id)
+         .then(() => {
+             this.cerrarSesion();
+         })
+         .catch(e => {
+             console.error(e);
+             this.vistaModificacion.errorBorrado(e);
          })
     }
 }

@@ -4,32 +4,34 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="./img/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon/favicon-16x16.png">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
         <link rel="stylesheet" href="./css/styles.css"/>
         <link rel="stylesheet" href="./css/dashboardpadres.css"/>
-        <script src="https://kit.fontawesome.com/d3a22cc0b3.js" crossorigin="anonymous"></script>
         <title>Panel de gestión</title>
     </head>
     <body>
         <nav id="menuPadres" class="topnav">
             <ul>
                 <li class="icon">
-                    <i class="fa-solid fa-bars"></i>
+                    <img src="./img/icons/menu.svg" alt="Menú"/>
                 </li>
                 <li class="active">
-                    <i class="fa-solid fa-house"></i>
+                    <img src="./img/icons/home.svg" alt="Inicio"/>
                     &nbsp;Inicio
                 </li>
                 <li>
-                    <i class="fa-solid fa-child"></i>
+                    <img src="./img/icons/person.svg" alt="Gestión de hijos"/>
                     &nbsp;Gestión de hijos
                 </li>
                 <li>
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    &nbsp;Modificación datos personales
+                    <img src="./img/icons/edit.svg" alt="Gestión de tu cuenta"/>
+                    &nbsp;Gestión de tu cuenta
                 </li>
                 <li>
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <img src="./img/icons/logout.svg" alt="Cerrar sesión"/>
                     &nbsp;Cerrar sesión
                 </li>
             </ul>
@@ -84,6 +86,27 @@
                 <div id="divExitoAlta" class="p-1 w-50 container bg-success text-light text-center">
                     <p>Tu hijo/a ha sido dado de alta correctamente.</p>
                 </div>
+
+                <h3 class="textoHeader">Añade a tu hijo/a mediante PIN</h3>
+                <form method="POST" id="formAltaHijosPin" class="needs-validation" novalidate>
+                    <div class="formItem">
+                        <label for="pinHijo">
+                            PIN de 8 digitos (*) <input type="text" class="form-control" name="pinHijo" maxlength="8" required/>
+                            <div class="invalid-feedback">Por favor, introduzca el PIN.</div>
+                        </label>
+                    </div>
+                    <div class="formItem" id="loadingImgPin">
+                        <img src="./img/loading.gif"/>
+                    </div>
+                    <div class="formItem">
+                        <button type="button" class="btn btn-danger">Cancelar</button>
+                        <button type="button" class="btn btn-success">Añadir</button>
+                    </div>
+                </form>
+                <div id="divExitoAltaPin" class="p-1 w-50 container bg-success text-light text-center">
+                    <p>Tu hijo ha sido añadido correctamente.</p>
+                </div>
+                <div id="divErrorAltaPin" class="w-75 p-1 container alert alert-danger text-center rounded my-2"></div>
             </div>
             
             <div id="divModificacionHijos">
@@ -122,9 +145,7 @@
 
             <div id="divListadoHijos">
                 <table id="tablaHijos">
-                    <thead>
-                        <tr><td colspan="3">Tus hijos</td></tr>
-                    </thead>
+                    <thead></thead>
                     <tbody></tbody>
                 </table>
             </div>
@@ -169,9 +190,17 @@
                     <button type="button" class="btn btn-success">Actualizar datos</button>
                 </div>
             </form>
-            <div id="divExito" class="w-50 p-1 container alert alert-success text-center my-2">
+            <div id="divExitoModificacion" class="w-50 p-1 container alert alert-success text-center my-2">
                 <p>Tus datos han sido actualizados.</p>
             </div>
+            <div id="divErrorModificacion" class="w-75 p-1 container alert alert-danger text-center rounded my-2"></div>
+
+            <h3 class="textoHeader">Eliminar cuenta</h3>
+            <div id="divEliminarPadre">
+                Pulsa en el siguiente botón si desea eliminar su cuenta permanentemente.
+                <button type="button" class="btn btn-danger d-block my-1 mx-auto">Eliminar cuenta</button>
+            </div>
+            <div id="divErrorBorrado" class="w-75 p-1 container alert alert-danger text-center rounded my-2"></div>
         </div>
 
         <script type="module" src="./js/controllers/padres.js"></script>

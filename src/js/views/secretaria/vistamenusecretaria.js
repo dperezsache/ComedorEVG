@@ -46,18 +46,17 @@ export class VistaMenuSecretaria {
         this.liGestionDiaria.classList.remove('active');
         this.liGestionMensual.classList.add('active');
         this.liGestionPadres.classList.remove('active');
-
     }
-      /**
+
+    /**
      * Atención al evento de mostrar vista de gestión padres.
      */
-      gestionPadres() {
+    gestionPadres() {
         this.controlador.verVistaGestionPadres();
 
         this.liGestionDiaria.classList.remove('active');
         this.liGestionMensual.classList.remove('active');
         this.liGestionPadres.classList.add('active');
-
     }
 
     /**

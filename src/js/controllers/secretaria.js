@@ -57,6 +57,21 @@ class ControladorSecretaria {
     }
 
     /**
+     * Realizar proceso de modificación de padre desde secretaría.
+     * @param {Object} padre Datos del padre.
+     */
+    modificarPadre(padre) {
+        this.modelo.modificarPadreSecretaria(padre)
+         .then(() => {
+             this.vistaGestionPadres.exitoModificacion(true); 
+         })
+         .catch(e => {
+             this.vistaGestionPadres.errorModificacion(e);
+             console.error(e);
+         }) 
+    }
+
+    /**
      * Obtiene las incidencias de una fecha.
      * @param {String} fecha String de la fecha.
      */
@@ -146,10 +161,10 @@ class ControladorSecretaria {
         this.vistaGestionPadres.mostrar(false);
     }
 
-       /**
+    /**
      * Muestra la vista de gestión mensual.
      */
-       verVistaGestionPadres() {
+    verVistaGestionPadres() {
         this.vistaGestionDiaria.mostrar(false);
         this.vistaGestionMensual.mostrar(false);
         this.vistaGestionPadres.mostrar(true);
@@ -165,15 +180,18 @@ class ControladorSecretaria {
         window.location.href = 'login_google.html';
     }
 
+    /**
+     * Buscar padres.
+     * @param {String} busqueda String búsqueda.
+     */
     obtenerListadoPadres(busqueda){
         this.modelo.obtenerListadoPadres(busqueda)
-        .then(padres => {
-            console.log(padres)
-            this.vistaGestionPadres.iniciarTabla(padres);
-        })
-        .catch(e => {
-            console.error(e);
-        })
+         .then(padres => {
+             this.vistaGestionPadres.iniciarTabla(padres);
+         })
+         .catch(e => {
+             console.error(e);
+         })
     }
 }
 
