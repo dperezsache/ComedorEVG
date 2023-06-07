@@ -296,7 +296,7 @@ export class VistaInicioPadres extends Vista {
             // 3º Comprobar si el próximo día a hoy es mañana y hoy son las 14 o más.
             // 4º Comprobar, que no es un festivo.
             if (!diaYaMarcado && Date.parse(actual) < Date.parse(temp) && !this.bloquearDiaTomorrow(actual, temp) && !this.esDiaFestivo(stringFecha)) {
-                // Comprobar que el día no sea fin de semana.
+                // 5º Comprobar que el día no sea fin de semana.
                 if (temp.getDay() != 6 || temp.getDay() != 0) {
                     let fechaFormateada = temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
                     this.marcarDesmarcarDia(marcado, idHijo, this.idPadre, false, fechaFormateada);

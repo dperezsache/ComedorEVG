@@ -73,9 +73,14 @@
                     case 'incidenciasMes':
                         $this->obtenerIncidenciasMes($queryParams['mes']);
                         break;
+
                     case 'padres':
                         $this->obtenerListadoPadres($queryParams['busqueda']);
                         break;
+
+                    default:
+                        header('HTTP/1.1 501 Not Implemented');
+                        die();
                 }
             }
             else {
