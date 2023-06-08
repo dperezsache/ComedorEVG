@@ -37,18 +37,27 @@ class Registro {
         }
         
         this.inputs[4].setCustomValidity('');
+        this.inputs[7].setCustomValidity('');
         this.form.classList.add('was-validated');
 
         if (cont == total) {
+            // Check de contraseñas
             if (this.inputs[3].value === this.inputs[4].value) {
-                this.divCargando.style.display = 'block';
+                // Check de IBAN
+                if (this.inputs[7].value.match(/^ES\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}|ES\d{22}$/)) {
+                    this.divCargando.style.display = 'block';
                 
-                if (this.divError.style.display == 'block')
-                    this.divError.style.display = 'none';
-
-                this.btnRegistrar.disabled = true;
-                this.btnCancelar.disabled = true;
-                this.insertarPersona();
+                    if (this.divError.style.display == 'block')
+                        this.divError.style.display = 'none';
+    
+                    this.btnRegistrar.disabled = true;
+                    this.btnCancelar.disabled = true;
+                    this.insertarPersona();
+                }
+                else {
+                    this.inputs[7].setCustomValidity('El IBAN introducido no es válido.');
+                    this.inputs[7].reportValidity();
+                }
             }
             else {
                 this.inputs[4].setCustomValidity('Las contraseñas no coindicen.');
