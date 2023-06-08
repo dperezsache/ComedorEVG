@@ -76,7 +76,10 @@ class Recuperar {
         this.divCargando.style.display = 'none';
 
         if (e != null) {
-            if (e == 'Error: 403 - Forbidden') {
+            if (e == 'Error: 400 - Bad Request 1') {
+                this.divError.innerHTML = '<p>Tu cuenta no puede solicitar una recuperación de contraseña.</p>';
+            }
+            else if (e == 'Error: 403 - Forbidden') {
                 this.divError.innerHTML = '<p>No se pudo realizar el proceso.</p>';
             }
             else if (e == 'Error: 404 - Not Found') {

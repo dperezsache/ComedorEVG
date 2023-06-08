@@ -661,6 +661,7 @@
 
             return $recuperacion;
         }
+
         /**
          * Obtener las incidencias de una fecha.
          * @param String $busqueda busqueda.
@@ -676,17 +677,21 @@
             else {
                 $sql = 'SELECT Persona.id, nombre, apellidos, correo, telefono, dni, iban, titular, fechaFirmaMandato, referenciaUnicaMandato FROM Persona';
                 $sql .= ' INNER JOIN Padre ON Persona.id = Padre.id';
-                $sql .= ' WHERE nombre LIKE :busqueda';
+                $sql .= ' WHERE UPPER(nombre) LIKE UPPER(:busqueda)';
                 $sql .= ' OR apellidos LIKE :busqueda';
                 $sql .= ' OR correo LIKE :busqueda';
                
-                $params = array('busqueda' => '%'.$busqueda);
+                $params = array('busqueda' => '%' . $busqueda . '%');
                 $padres = BD::seleccionar($sql, $params);
             }
            
             return $padres;
         }
 
+        /**
+         * Modificar datos padre.
+         * @param object $datos Datos del padre.
+         */
         public static function modificarPadreSecretaria($datos) {
             $sql = 'UPDATE Persona';
             $sql .= ' SET nombre=:nombre, apellidos=:apellidos, correo=:correo, telefono=:telefono, dni=:dni, iban=:iban, titular=:titular';

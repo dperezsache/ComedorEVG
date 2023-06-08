@@ -79,6 +79,7 @@ export class VistaInicioPadres extends Vista {
      */
     montarCalendario(dias) {
         this.diasComedor = dias;
+        console.log(this.diasComedor)
         this.iniciarCalendario();
     }
 
@@ -170,23 +171,17 @@ export class VistaInicioPadres extends Vista {
                 // Comprobaciones:
                 const fechaActual = new Date();
 
-                // 1- Que el padre actual sea el que le ha dado de alta al hijo.
-                if (hijo.idPadreAlta != this.idPadre) {
-                    checkbox.disabled = true;
-                    checkbox.title = 'Los días solo pueden ser controlados por el otro padre.';
-                }
-
-                // 2- Días festivos.
+                // 1- Días festivos.
                 if (this.festivos && this.festivos.includes(fechaString)) {
                     checkbox.disabled = true;
                 }
 
-                // 3- No poder interactuar con el día de mañana si hoy son las 14 o más.
+                // 2- No poder interactuar con el día de mañana si hoy son las 14 o más.
                 if (!checkbox.disabled && this.bloquearDiaTomorrow(fechaActual, fechaDia)) {
                     checkbox.disabled = true;
                 }
 
-                // 4- Desactivar el poder interactuar con días ya pasados.
+                // 3- Desactivar el poder interactuar con días ya pasados.
                 if (!checkbox.disabled && Date.parse(fechaActual) > Date.parse(fechaDia)) {
                     checkbox.disabled = true;
                 }
@@ -203,6 +198,7 @@ export class VistaInicioPadres extends Vista {
                             // Si ese día no ha sido asignado por el padre actual, desactivar checkbox
                             if (!checkbox.disabled && diaComedor.idPadre != this.idPadre) {
                                 checkbox.disabled = true;
+                                checkbox.title = 'Este día a sido asignado por otro progenitor.';
                             }
                         }
                     }
@@ -217,13 +213,7 @@ export class VistaInicioPadres extends Vista {
 
             let checkboxSemanaEntera = document.createElement('input');
             checkboxSemanaEntera.type = 'checkbox';
-
-            if (hijo.idPadreAlta == this.idPadre) {
-                checkboxSemanaEntera.addEventListener('click', () => this.marcarDesmarcarSemana(checkboxSemanaEntera.checked, this.inicioSemana, hijo.id));
-            }
-            else {
-                checkboxSemanaEntera.disabled = true;
-            }
+            checkboxSemanaEntera.addEventListener('click', () => this.marcarDesmarcarSemana(checkboxSemanaEntera.checked, this.inicioSemana, hijo.id));
             
             tdSemanaEntera.appendChild(checkboxSemanaEntera);
             trBody.appendChild(tdSemanaEntera);
@@ -236,13 +226,7 @@ export class VistaInicioPadres extends Vista {
             let checkboxMesEntero = document.createElement('input');
             checkboxMesEntero.type = 'checkbox';
             checkboxMesEntero.id = 'mes-' + this.inicioSemana.getMonth();
-
-            if (hijo.idPadreAlta == this.idPadre) {
-                checkboxMesEntero.addEventListener('click', () => this.marcarDesmarcarMes(checkboxMesEntero.checked, checkboxMesEntero.id, hijo.id));
-            }
-            else {
-                checkboxMesEntero.disabled = true;
-            }
+            checkboxMesEntero.addEventListener('click', () => this.marcarDesmarcarMes(checkboxMesEntero.checked, checkboxMesEntero.id, hijo.id));
 
             tdMesEntero.appendChild(checkboxMesEntero);
             trBody.appendChild(tdMesEntero);

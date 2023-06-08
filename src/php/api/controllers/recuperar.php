@@ -19,6 +19,10 @@
                 header('HTTP/1.1 404 Not Found');
                 die();
             }
+            else if (!$usuario->clave) {
+                header('HTTP/1.1 400 Bad Request 1');
+                die();
+            } 
 
             $recuperacion = DAOUsuario::obtenerRecuperacionPorID($usuario);
 

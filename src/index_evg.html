@@ -70,6 +70,9 @@
                     <input name="busqueda" type="text" placeholder="Buscar por nombre, apellidos o correo electrónico">
                     <button>Buscar</button>
                 </div>
+                <div id="divExitoModificacion" class="w-50 p-1 container alert alert-success text-center rounded">
+                    <p>Los datos han sido actualizados.</p>
+                </div>
                 <table id="tablaGestionPadres">
                     <thead></thead>
                     <tbody></tbody>
@@ -121,14 +124,14 @@
                     </div>
                     <div class="formItem">
                         <label for="fechaMandato">
-                            Fecha Mandato<input type="date" class="form-control" name="fechaMandato"/>
-                            <div class="invalid-feedback">Por favor, indique su IBAN.</div>
+                            Fecha del mandato<input type="date" class="form-control" name="fechaMandato"/>
+                            <div class="invalid-feedback">Por favor, indique fecha de mandato.</div>
                         </label>
                     </div>
                     <div class="formItem">
                         <label for="referenciaMandato">
-                            Codigo del mandato<input type="text" name="referenciaMandato" class="form-control" maxlength="35"/>
-                            <div class="invalid-feedback">Por favor, indique el titular de la cuenta.</div>
+                            Código del mandato<input type="text" name="referenciaMandato" class="form-control" maxlength="35"/>
+                            <div class="invalid-feedback">Por favor, indique código de mandato.</div>
                         </label>
                     </div>
                     <div class="formItem" id="loadingImgModificacion">
@@ -139,9 +142,6 @@
                         <button type="button" class="btn btn-success">Actualizar</button>
                     </div>
                 </form>
-                <div id="divExitoModificacion" class="w-75 p-1 container alert alert-success text-center rounded my-2">
-                    <p>Los datos han sido actualizados.</p>
-                </div>
                 <div id="divErrorModificacion" class="w-75 p-1 container alert alert-danger text-center rounded my-2"></div>
             </div>
         </div>

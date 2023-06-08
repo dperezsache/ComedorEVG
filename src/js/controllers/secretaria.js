@@ -48,7 +48,7 @@ class ControladorSecretaria {
     modificarPadre(padre) {
         this.modelo.modificarPadreSecretaria(padre)
          .then(() => {
-             this.vistaGestionPadres.exitoModificacion(true); 
+             this.vistaGestionPadres.exitoModificacion(); 
          })
          .catch(e => {
              this.vistaGestionPadres.errorModificacion(e);

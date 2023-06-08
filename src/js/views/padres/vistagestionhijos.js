@@ -145,7 +145,7 @@ export class VistaGestionHijos extends Vista {
                 let iconoEditar = document.createElement('img');
                 iconoEditar.setAttribute('src', esPadreDeAlta ? './img/icons/edit_children.svg' : './img/icons/edit_children_disabled.svg');
                 iconoEditar.setAttribute('alt', 'Modificar hijo');
-                iconoEditar.setAttribute('title', esPadreDeAlta ? 'Modificar hijo' : 'Solo el otro padre puede modificar los datos');
+                iconoEditar.setAttribute('title', esPadreDeAlta ? 'Modificar hijo' : 'Solo el otro progenitor puede modificar los datos');
 
                 if (esPadreDeAlta) {
                     iconoEditar.addEventListener('click', this.editar.bind(this, hijo));

@@ -110,7 +110,7 @@ export class VistaGestionPadres extends Vista {
                 let tr = document.createElement('tr');
     
                 let tdNombre = document.createElement('td');
-
+                tdNombre.classList.add('nombrePadre');
                 tdNombre.textContent = padre.nombre + " " + padre.apellidos;
                 
                 if (tdNombre.textContent.length > 40) {
@@ -118,7 +118,6 @@ export class VistaGestionPadres extends Vista {
                     tdNombre.setAttribute('title', padre.nombre + " " + padre.apellidos)
                 }
 
-                tdNombre.style.cursor = "pointer";
                 tdNombre.onclick = this.editar.bind(this, padre)
             
                 let tdEmail = document.createElement('td');
@@ -136,7 +135,6 @@ export class VistaGestionPadres extends Vista {
 
                 tr.appendChild(tdNombre);
                 tr.appendChild(tdEmail);
-
                 this.tbody.appendChild(tr);
             }
         }
@@ -153,7 +151,7 @@ export class VistaGestionPadres extends Vista {
     }
 
     /**
-     * Poner datos actuaales en los campos del formulario de modificación.
+     * Poner datos actuales en los campos del formulario de modificación.
      * @param {Object} padre Objeto con los datos.
      */
     editar(padre) {
@@ -177,18 +175,34 @@ export class VistaGestionPadres extends Vista {
         for (let input of this.inputsModificar)
             input.value = '';
 
+        if (this.divErrorModificar.style.display == 'block')
+            this.divErrorModificar.style.display = 'none';
+
         this.mostrarOcultarCrud(true, false);
     }
 
     /**
      * Informar al usuario de la modificación exitosa.
-     * @param {Boolean} activar Activa o no mensaje éxito.
      */
-    exitoModificacion(activar) {
+    exitoModificacion() {
         this.bloquearBotones(false);
         this.formModificar.classList.remove('was-validated');
         this.divCargandoModificar.style.display = 'none';
-        this.divExitoModificar.style.display = activar ? 'block' : 'none';
+
+        this.mostrarOcultarCrud(true, false);
+        this.divExitoModificar.style.display = 'block';
+        this.temporizadorAviso();
+    }
+
+    /**
+     * Ocultar aviso de éxito a los 5 segundos.
+     */
+    temporizadorAviso() {
+        setTimeout(() => {
+            if (this.divExitoModificar.style.display != 'none') {
+                this.divExitoModificar.style.display = 'none';
+            } 
+        }, 5000);
     }
 
     /**
@@ -264,7 +278,11 @@ export class VistaGestionPadres extends Vista {
 
     mostrar(ver) {
         super.mostrar(ver);
-        if (ver) this.inicializar();    // Al volver a mostrar la vista, refrescar listado.
+
+        if (ver) {
+            this.mostrarOcultarCrud(true, false);
+            this.inicializar();    // Al volver a mostrar la vista, refrescar listado.
+        }
 
         if (this.divExitoModificar.style.display == 'block')
             this.divExitoModificar.style.display = 'none';
