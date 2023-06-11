@@ -4,7 +4,7 @@
     require_once(dirname(__DIR__) . '/models/usuario.php');
 
     // Constantes de tipos de usuario
-    define('SECRETARIA', 'dperezsache.guadalupe@alumnado.fundacionloyola.net'); // pvillalon@fundacionloyola.es
+    define('SECRETARIA', 'sergioriverasalgado.guadalupe@alumnado.fundacionloyola.net'); // pvillalon@fundacionloyola.es
     define('ALUMNADO', '@alumnado.fundacionloyola.net');
     define('PERSONAL', '@fundacionloyola.es');
 

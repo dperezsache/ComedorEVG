@@ -132,8 +132,12 @@ export class VistaGestionHijos extends Vista {
                 td1.textContent = hijo.nombre;
 
                 let tdPin = document.createElement('td');
+                let spanPin = document.createElement('span');
+                spanPin.classList.add('spanPin');
+                spanPin.textContent = hijo.pin;
+                spanPin.addEventListener('click', this.copiarPin.bind(this, spanPin.innerText));
+                tdPin.appendChild(spanPin);
                 tr.appendChild(tdPin);
-                tdPin.textContent = hijo.pin;
 
                 let td2 = document.createElement('td');
                 td2.classList.add('tdOperaciones');
@@ -186,6 +190,14 @@ export class VistaGestionHijos extends Vista {
 
             tdAnadir.appendChild(iconoInsertar);
         } 
+    }
+
+    /**
+     * Copiar PIN de hijo al clipboard.
+     * @param {String} pin Código PIN del hijo.
+     */
+    copiarPin(pin) {
+        navigator.clipboard.writeText(pin);
     }
 
     /**

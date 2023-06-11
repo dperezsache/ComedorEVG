@@ -46,6 +46,10 @@ td.tdOperaciones img {
     padding:10px;
 }
 
+span.spanPin:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 /* Al iniciar los div de las vistas no se verán durante la carga de DOM */
 div#inicioPadres,

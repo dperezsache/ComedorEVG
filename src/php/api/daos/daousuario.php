@@ -63,8 +63,9 @@
          * @return array Devuelve las incidencias. 
          */
         public static function obtenerIncidenciasPorMes($mes) {
-            //SELECT idPersona, GROUP_CONCAT(incidencia SEPARATOR ', ') AS incidencias_mes FROM Dias WHERE MONTH(dia) = 6 GROUP BY idPersona; 
-            $sql = 'SELECT idPersona, GROUP_CONCAT(incidencia SEPARATOR ", ") AS incidencias FROM Dias';
+            //SELECT idPersona, GROUP_CONCAT(CONCAT(DATE_FORMAT(dia, '%d/%m/%Y'), ' - ', incidencia) SEPARATOR ', ') AS incidencias_mes FROM Dias WHERE MONTH(dia) = 6 GROUP BY idPersona; 
+           
+            $sql = 'SELECT idPersona, GROUP_CONCAT(CONCAT(DATE_FORMAT(dia, "%d/%m/%Y"), " - ",  incidencia) SEPARATOR "\n ") AS incidencias FROM Dias';
             $sql .= ' WHERE MONTH(dia)=:mes';
             $sql .= ' GROUP BY idPersona';
             $params = array('mes' => $mes);
