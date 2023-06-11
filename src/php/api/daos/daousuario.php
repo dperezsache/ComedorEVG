@@ -567,15 +567,15 @@
          * @param object $datos Datos de la Persona.
          * @return void
          */
-        public static function modificarHijo($datos){
+        public static function modificarHijo($datos) {
             //UPDATE Persona inner join hijo on Persona.id = Hijo.id set nombre = 'Prueba', apellidos = 'Prueba2', idCurso = 4;
             $sql = 'UPDATE Persona INNER JOIN Hijo on Persona.id = Hijo.id';
             $sql .= ' SET nombre=:nombre, apellidos=:apellidos, idCurso=:idCurso WHERE Persona.id=:id';
             $params = array(
                 'nombre' => $datos->nombre,
                 'apellidos' => $datos->apellidos,
-                'id' => $datos->id,
-                'idCurso' => $datos->idCurso
+                'idCurso' => $datos->idCurso,
+                'id' => $datos->id
             );
 
             BD::actualizar($sql, $params);

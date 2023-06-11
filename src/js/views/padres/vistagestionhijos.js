@@ -384,6 +384,9 @@ export class VistaGestionHijos extends Vista {
      * Limpia los campos del formulario modificación.
      */
     cancelarModificacion() {
+        if (this.divExitoModificar.style.display == 'block')
+            this.divExitoModificar.style.display = 'none';
+
         for (let input of this.inputsModificar)
             input.value = '';
 

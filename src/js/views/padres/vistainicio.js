@@ -79,7 +79,6 @@ export class VistaInicioPadres extends Vista {
      */
     montarCalendario(dias) {
         this.diasComedor = dias;
-        console.log(this.diasComedor)
         this.iniciarCalendario();
     }
 

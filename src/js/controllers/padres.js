@@ -142,7 +142,7 @@ class ControladorPadres {
              this.vistaGestionHijos.btnActualizar.disabled = false;
              this.vistaGestionHijos.btnCancelarMod.disabled = false;
              this.vistaGestionHijos.exitoModificacion(true);
-             this.dameHijos(this.#usuario.id); // Actualizar listado hijos.
+             this.vistaGestionHijos.actualizar(this.#usuario); // Actualizar listado hijos.
          })
          .catch(e => {
              this.vistaGestionHijos.btnActualizar.disabled = false;
