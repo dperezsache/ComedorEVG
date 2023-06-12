@@ -1,10 +1,10 @@
-INSERT INTO `Persona` (`nombre`, `apellidos`, `correo`, `clave`, `telefono`, `dni`, `iban`, `titular`, `fechaFirmaMandato`, `referenciaUnicaMandato`) VALUES ('Padre', 'Prueba', 'email@gmail.com', '$2y$15$.LtfOiAtM44kRXnPP3AbQODd00CdEWL0/dwcZwmj890ebBFXo0LG6', '609040501', '82307805R', 'ES9420805801101234567891', 'Padre', NULL, NULL);
+INSERT INTO `Persona` (`nombre`, `apellidos`, `correo`, `clave`, `telefono`, `dni`, `iban`, `titular`, `fechaFirmaMandato`, `referenciaUnicaMandato`) VALUES ('Padre', 'Prueba', 'email1@gmail.com', '$2y$15$.LtfOiAtM44kRXnPP3AbQODd00CdEWL0/dwcZwmj890ebBFXo0LG6', '609040501', '82307805R', 'ES9420805801101234567891', 'Padre', NULL, NULL);
 INSERT INTO `Padre` (`id`) VALUES (1);
 
-INSERT INTO `Persona` (`nombre`, `apellidos`, `correo`, `clave`, `telefono`, `dni`, `iban`, `titular`, `fechaFirmaMandato`, `referenciaUnicaMandato`) VALUES ('Madre', 'Prueba', 'email1@gmail.com', '$2y$15$.LtfOiAtM44kRXnPP3AbQODd00CdEWL0/dwcZwmj890ebBFXo0LG6', '601044401', '98303205F', 'ES9420805801101234567891', 'Madre', NULL, NULL);
+INSERT INTO `Persona` (`nombre`, `apellidos`, `correo`, `clave`, `telefono`, `dni`, `iban`, `titular`, `fechaFirmaMandato`, `referenciaUnicaMandato`) VALUES ('Madre', 'Prueba', 'email2@gmail.com', '$2y$15$.LtfOiAtM44kRXnPP3AbQODd00CdEWL0/dwcZwmj890ebBFXo0LG6', '601044401', '98303205F', 'ES9420805801101234567891', 'Madre', NULL, NULL);
 INSERT INTO `Padre` (`id`) VALUES (2);
 
-INSERT INTO `Persona` (`nombre`, `apellidos`, `correo`, `clave`, `telefono`, `dni`, `iban`, `titular`, `fechaFirmaMandato`, `referenciaUnicaMandato`) VALUES ('Padre', 'Login', 'email2@gmail.com', '$2y$15$.LtfOiAtM44kRXnPP3AbQODd00CdEWL0/dwcZwmj890ebBFXo0LG6', '605678411', '76143305G', 'ES9420805801101234567891', 'Padre', NULL, NULL);
+INSERT INTO `Persona` (`nombre`, `apellidos`, `correo`, `clave`, `telefono`, `dni`, `iban`, `titular`, `fechaFirmaMandato`, `referenciaUnicaMandato`) VALUES ('Padre', 'Login', 'padre@gmail.com', '$2y$15$.LtfOiAtM44kRXnPP3AbQODd00CdEWL0/dwcZwmj890ebBFXo0LG6', '605678411', '76143305G', 'ES9420805801101234567891', 'Padre', NULL, NULL);
 INSERT INTO `Padre` (`id`) VALUES (3);
 
 INSERT INTO `Persona` (`nombre`, `apellidos`) VALUES ('Bart', 'Simpson');
